@@ -46,7 +46,7 @@ const Header = () => {
   let monthName = months[new Date().getMonth()];
   if (isSmall) monthName = monthName.slice(0, 4) + '.'; 
   return (
-    <header className="max-container flex justify-between items-center w-full gap-12 padding-x py-3 lg:py-6 bg-white">
+    <header className="max-container flex justify-between max-lg:border-b max-lg:border-gray-200 items-center w-full gap-12 padding-x py-3 lg:py-6 bg-white max-lg:fixed top-0 left-0">
         <h1 className="text-xl font-bold lg:text-4xl">{monthName} {new Date().getFullYear()}</h1>
 
         <div className="flex gap-3">
