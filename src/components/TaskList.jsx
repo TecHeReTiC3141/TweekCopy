@@ -1,7 +1,7 @@
 import React from 'react'
 import Task from './Task';
 
-const TaskList = ({date, active, last, maxTasks, changeMaxTasks}) => {
+const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData}) => {
 
     const getDate = date => {
         let day = date.getDate().toString(), month = (date.getMonth() + 1).toString();
@@ -17,7 +17,7 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks}) => {
 
     const tasks = [];
     for (let i = 0; i < (last ? maxTasks / 2 : maxTasks); ++i) {
-        tasks.push(<Task key={i} />);
+        tasks.push(<Task key={i} data={i < tasksData.length && tasksData[i]}/>);
     }
     return (
         <div className="flex flex-col last:col-start-6 last:col-end-7">
