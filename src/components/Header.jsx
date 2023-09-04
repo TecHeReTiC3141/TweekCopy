@@ -3,6 +3,9 @@ import HeaderBtn from "./HeaderBtn"
 
 const Header = () => {
 
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+
   const HeaderBtns = [
     {
       textColor: "black",
@@ -26,9 +29,25 @@ const Header = () => {
     },
   ]
 
+  const [isSmall, setIsSmall] = React.useState(window.innerWidth < 1024);
+
+  const handleResize = () => {
+    setIsSmall(window.innerWidth < 1024);
+
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("resize",  handleResize)
+    return () => {
+      window.removeEventListener("resize",  handleResize)
+    }
+  })
+
+  let monthName = months[new Date().getMonth()];
+  if (isSmall) monthName = monthName.slice(0, 4) + '.'; 
   return (
     <header className="max-container flex justify-between items-center w-full gap-12 padding-x py-3 lg:py-6 bg-white">
-        <h1 className="text-xl font-bold lg:text-4xl">Some header</h1>
+        <h1 className="text-xl font-bold lg:text-4xl">{monthName} {new Date().getFullYear()}</h1>
 
         <div className="flex gap-3">
             {
