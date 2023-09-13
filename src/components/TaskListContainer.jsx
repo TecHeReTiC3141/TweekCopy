@@ -32,7 +32,7 @@ const TaskListContainer = () => {
 
 
     return (
-        <div className="max-container padding-x flex flex-col lg:grid lg:grid-cols-6 lg:place-content-start gap-6 py-4 max-lg:mt-10">
+        <div className="max-container padding-x flex flex-col lg:grid lg:grid-cols-6 gap-6 py-4 max-lg:mt-10">
             {
                 dates.map((date, index) => (
                     <TaskList date={date} key={index} active={curDate.getDate() === date.getDate()} last={index > 4} maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
