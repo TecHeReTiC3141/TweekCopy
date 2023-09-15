@@ -60,17 +60,6 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
         }
     }, [tasks])
 
-
-    React.useEffect(() => {
-        const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
-        thisTaskList.addEventListener('click', handleClick);
-        thisTaskList.addEventListener('keydown', handleKeyDown);
-        return () => {
-            thisTaskList.removeEventListener('click', handleClick);
-            thisTaskList.removeEventListener('keydown', handleKeyDown);
-        }
-    }, []);
-
     const tasksComponents = [];
     for (let i = 0; i < (last ? maxTasks / 2 : maxTasks); ++i) {
         tasksComponents.push(<Task key={i} data={i < tasks.length && tasks[i]}
@@ -90,7 +79,7 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
     }
 
     return (
-        <div className="task-list flex flex-col last:col-start-6 last:col-end-7 " data-date={date.getDate()}>
+        <div className="task-list flex flex-col last:col-start-6 last:col-end-7 " data-date={date.getDate()} onClick={handleClick} onKeyDown={handleKeyDown}>
             <div className={`flex justify-between items-center py-4 border-b-2 ${active ? "border-blue-600" : "border-black"}`}>
                 <h2 className={`text-lg lg:text-2xl font-bold  ${active ? "text-blue-600" : "text-gray-600"}`}>{getDate(date)}</h2>
                 <h3 className="text-lg lg:text-2xl text-gray-300">{day.slice(0, 3)}</h3>

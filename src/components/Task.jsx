@@ -14,19 +14,10 @@ const Task = ({taskListInd, ind, data, setTask}) => {
         });
     }
 
-    useEffect(() => {
-        if (!data) return;
-
-        const taskList = document.querySelector(`.task-list:nth-child(${taskListInd + 1})`);
-        const curTask = taskList.querySelector(`.task[data-ind="${ind}"]`);
-        const toggleBtn = curTask.querySelector('.toggle-done');
-        if (!toggleBtn) return;
-        toggleBtn.addEventListener('click', handleToggleDone);
-        return () => {
-            toggleBtn.removeEventListener('click', handleToggleDone);
-        }
-
-    }, );
+    function openTaskMenu() {
+        const taskMenuBg = document.querySelector('.task-menu-bg');
+        taskMenuBg.classList.add('active');
+    }
 
     return (
         <div className={`task w-full border-b border-gray-200 hover:border-gray-500 hover:border-b-0 group`} data-ind={ind}>
@@ -34,8 +25,8 @@ const Task = ({taskListInd, ind, data, setTask}) => {
                             className="focus:outline-none  focus:shadow-md w-full py-2 indent-4 rounded-md focus:border border-gray-200 focus:z-10 disabled:bg-white"
                             disabled/>
                 : <div className="flex justify-between items-center py-2 px-3 cursor-grab">
-                    <h5 className={(data.done && "line-through opacity-40") || ''}>{data?.task}</h5>
-                    <button className="toggle-done hidden group-hover:block max-lg:block">
+                    <h5 className={"task-title" + (data.done && "line-through opacity-40") || ''} onClick={openTaskMenu}>{data?.task}</h5>
+                    <button className="toggle-done hidden group-hover:block max-lg:block" onClick={handleToggleDone}>
                         <i className={`fa-${data?.done ? "solid" : "regular"} fa-circle-check`}></i>
                     </button>
                 </div>

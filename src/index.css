@@ -8,6 +8,14 @@
         margin: 0 auto;
     }
 
+    .task-menu-bg.active {
+        @apply fixed;
+    }
+
+    .task-menu-bg:not(.active) {
+        @apply hidden;
+    }
+
 }
 
 @layer utilities {
