@@ -1,7 +1,7 @@
 import React from 'react'
 import Task from './Task';
 
-const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData}) => {
+const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}) => {
 
     const getDate = date => {
         let day = date.getDate().toString(), month = (date.getMonth() + 1).toString();
@@ -13,10 +13,10 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData}) => 
     const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     const day = days[ date.getDay() ];
-    const month = months[ date.getMonth() ];
 
     const [tasks, setTasks] = React.useState(tasksData);
 
+    console.log('reload', tasks);
 
     function handleClick(ev) {
         if (ev.target.tagName !== 'INPUT') return; 
@@ -53,10 +53,8 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData}) => 
 
     React.useEffect(() => {
         const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
-        console.log(thisTaskList);
         const firstInput = thisTaskList.querySelector('input:first-of-type');
         if (firstInput) {
-            console.log(firstInput);
             firstInput.removeAttribute('disabled');
             firstInput.focus();
         }
@@ -64,8 +62,6 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData}) => 
 
 
     React.useEffect(() => {
-
-
         const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
         thisTaskList.addEventListener('click', handleClick);
         thisTaskList.addEventListener('keydown', handleKeyDown);
@@ -77,10 +73,21 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData}) => 
 
     const tasksComponents = [];
     for (let i = 0; i < (last ? maxTasks / 2 : maxTasks); ++i) {
-        console.log(i, tasks[i])
-        tasksComponents.push(<Task key={i} data={i < tasks.length && tasks[i]}/>);
+        tasksComponents.push(<Task key={i} data={i < tasks.length && tasks[i]}
+                    taskListInd={ind}
+        setTask={newValue => setTasks(prevTasks => {
+            console.log([
+                ...prevTasks.slice(0, i),
+                newValue,
+                ...prevTasks.slice(i + 1),
+            ])
+            return [
+                ...prevTasks.slice(0, i),
+                newValue,
+                ...prevTasks.slice(i + 1),
+            ]
+        })} ind={i}/>);
     }
-
 
     return (
         <div className="task-list flex flex-col last:col-start-6 last:col-end-7 " data-date={date.getDate()}>
