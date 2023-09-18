@@ -13,6 +13,7 @@ export default {
     "bg-blue-200",
     "bg-black",
     "text-white",
+      "flex-1",
   ]
 }
 

@@ -17,6 +17,7 @@ const TaskListContainer = () => {
             tasksData[newDate.getDate()].push({
                 task: `Task ${j}`,
                 done: Boolean(Math.round(Math.random())),
+                date: newDate,
             })
         }
     }
