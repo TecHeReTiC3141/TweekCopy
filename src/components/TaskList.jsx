@@ -79,10 +79,10 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
     }
 
     return (
-        <div className="task-list flex flex-col last:col-start-6 last:col-end-7 " data-date={date.getDate()} onClick={handleClick} onKeyDown={handleKeyDown}>
-            <div className={`flex justify-between items-center py-4 border-b-2 ${active ? "border-blue-600" : "border-black"}`}>
-                <h2 className={`text-lg lg:text-2xl font-bold  ${active ? "text-blue-600" : "text-gray-600"}`}>{getDate(date)}</h2>
-                <h3 className="text-lg lg:text-2xl text-gray-300">{day.slice(0, 3)}</h3>
+        <div className="task-list flex flex-1 flex-col" data-date={date.getDate()} onClick={handleClick} onKeyDown={handleKeyDown}>
+            <div className={`flex justify-between items-center py-3 border-b-2 ${active ? "border-blue-600" : "border-black"}`}>
+                <h2 className={`text-lg lg:text-xl font-bold  ${active ? "text-blue-600" : "text-gray-600"}`}>{getDate(date)}</h2>
+                <h3 className={`text-lg lg:text-xl ${active ? "text-blue-300" : "text-gray-300"}`}>{day.slice(0, 3)}</h3>
             </div>
 
             <div>

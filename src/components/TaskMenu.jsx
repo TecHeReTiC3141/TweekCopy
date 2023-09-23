@@ -20,8 +20,10 @@ const TaskMenu = ({date, task, done}) => {
 
     return (
         <div className="task-menu-bg bg-white bg-opacity-70 fixed top-0 left-0 h-full w-full z-10
-        transition-all duration-300 ease-linear cursor-default" onClick={handleTaskMenuClose} >
-            <div className="task-menu fixed top-20 left-1/2 -translate-x-[50%] bg-blue-300 rounded-xl p-4 w-1/3 max-w-screen-md z-20" onClick={ev => ev.stopPropagation()}>
+        transition-all duration-300 ease-linear cursor-default flex justify-center items-start" onClick={handleTaskMenuClose} >
+            <div className="task-menu relative top-26 bg-[#DDE1FB] rounded-xl p-4 w-1/3
+            max-w-screen-md z-20 text-gray-600 transition-all duration-500 ease-linear"
+                 onClick={ev => ev.stopPropagation()}>
                 <div className="w-full flex justify-between text-sm">
                     <div className="flex gap-2 items-center">
                         <i className="fa-regular fa-calendar-days"></i>
@@ -29,20 +31,26 @@ const TaskMenu = ({date, task, done}) => {
                     </div>
 
                     <div className="flex gap-3 items-center ">
-                        <i className="fa-solid fa-trash-can"></i>
-                        <i className="fa-solid fa-rotate"></i>
-                        <div className="inline p-1.5 rounded-full border border-transparent hover:border-gray-400" >
+                        <i className="fa-solid fa-trash-can cursor-pointer"></i>
+                        <i className="fa-solid fa-rotate cursor-pointer"></i>
+                        <div className="inline p-1.5 rounded-full border border-transparent hover:border-gray-400 cursor-pointer" >
                             <div className="rounded-full w-3 h-3 bg-amber-500"></div>
                         </div>
-                        <i className="fa-regular fa-bell"></i>
+                        <i className="fa-regular fa-bell cursor-pointer"></i>
                     </div>
                 </div>
 
                 <div className="my-12">
                     <div className="relative w-full">
-                        <input type="text" value={task} className="w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent" />
-                        <i className={`absolute top-1/2 -translate-y-[50%] right-4 fa-${done ? "solid" : "regular"} fa-circle-check fa-xl `}></i>
+                        <input type="text" id="task-name" name="tast-name" value={task} className="w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none" />
+                        <button className="absolute top-1/2 -translate-y-[50%] right-4">
+                            <i className={`fa-${done ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
+
+                        </button>
                     </div>
+                </div>
+                <div className="w-full">
+                    <textarea name="task-description" id="task-description" cols="30" rows="1" className="w-full focus:outline-none bg-transparent resize-none overflow-visible" placeholder="Write additional notes"></textarea>
                 </div>
             </div>
         </div>

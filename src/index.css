@@ -16,6 +16,14 @@
         @apply hidden;
     }
 
+    .task-menu-bg.active > .task-menu {
+        @apply top-10;
+    }
+
+    .task-menu-bg:not(.active) > .task-menu {
+        @apply top-24;
+    }
+
 }
 
 @layer utilities {
