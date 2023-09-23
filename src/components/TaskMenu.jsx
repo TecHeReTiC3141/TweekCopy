@@ -1,4 +1,5 @@
 import React from "react";
+import Blur from "./Blur.jsx";
 
 const TaskMenu = ({date, task, done}) => {
 
@@ -12,15 +13,8 @@ const TaskMenu = ({date, task, done}) => {
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     const day = days[ date.getDay() ];
 
-    function handleTaskMenuClose(ev) {
-        ev.stopPropagation();
-        ev.target.classList.remove('active');
-        document.body.style.overflowY = 'auto';
-    }
-
     return (
-        <div className="task-menu-bg bg-white bg-opacity-70 fixed top-0 left-0 h-full w-full z-10
-        transition-all duration-300 ease-linear cursor-default flex justify-center items-start" onClick={handleTaskMenuClose} >
+        <Blur>
             <div className="task-menu relative top-26 bg-[#DDE1FB] rounded-xl p-4 w-1/3
             max-w-screen-md z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => ev.stopPropagation()}>
@@ -53,7 +47,7 @@ const TaskMenu = ({date, task, done}) => {
                     <textarea name="task-description" id="task-description" cols="30" rows="1" className="w-full focus:outline-none bg-transparent resize-none overflow-visible" placeholder="Write additional notes"></textarea>
                 </div>
             </div>
-        </div>
+        </Blur>
     )
 }
 

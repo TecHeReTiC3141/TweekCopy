@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import TaskList from './TaskList'
+import LoginForm from "./forms/LoginForm.jsx";
 
 const TaskListContainer = () => {
 
@@ -25,28 +26,31 @@ const TaskListContainer = () => {
 
 
     const changeMaxTasks = (newTasks) => {
-        if (newTasks > maxTasks) setMaxTasks(newTasks); 
+        if (newTasks > maxTasks) setMaxTasks(newTasks);
     }
 
 
     return (
-        <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10">
-            {
-                dates.slice(0, 5).map((date, index) => (
-                    <TaskList date={date} key={index} ind={index} active={curDate.getDate() === date.getDate()} last={false}
-                              maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
-                ))
-            }
-            <div className="flex-1 ">
+        <>
+            <LoginForm />
+            <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10">
                 {
-                    dates.slice(5).map((date, index) => (
-                        <TaskList date={date} key={index} ind={index} active={curDate.getDate() === date.getDate()} last={true}
+                    dates.slice(0, 5).map((date, index) => (
+                        <TaskList date={date} key={index} ind={index} active={curDate.getDate() === date.getDate()} last={false}
                                   maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
                     ))
                 }
-            </div>
+                <div className="flex-1 ">
+                    {
+                        dates.slice(5).map((date, index) => (
+                            <TaskList date={date} key={index} ind={index} active={curDate.getDate() === date.getDate()} last={true}
+                                      maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
+                        ))
+                    }
+                </div>
 
-        </div>
+            </div>
+        </>
     )
 }
 
