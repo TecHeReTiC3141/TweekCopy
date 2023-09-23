@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .max-container {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    .task-menu-bg.active {
+        @apply fixed;
+    }
+
+    .task-menu-bg:not(.active) {
+        @apply hidden;
+    }
+
+    .task-menu-bg.active > .task-menu {
+        @apply top-10;
+    }
+
+    .task-menu-bg:not(.active) > .task-menu {
+        @apply top-24;
+    }
+
+}
+
+@layer utilities {
+    .padding-x {
+        @apply px-2 sm:px-4 lg:px-6;
+    }
+}
