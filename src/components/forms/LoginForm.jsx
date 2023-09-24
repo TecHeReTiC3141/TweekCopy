@@ -14,9 +14,9 @@ export default function LoginForm() {
                         ">Sign Up</button>
                     </div>
                     <Form method="POST" action="/login" className="relative">
-                        <input type="email" id="email" name="email"
+                        <input type="email" id="email" name="email" required
                                className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>
-                        <input type="password" id="password" name="password"
+                        <input type="password" id="password" name="password" required
                                className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>
                         <button className="text-gray-400 w-full text-right"onClick={ev => ev.preventDefault()}>Forgot password?</button>
 

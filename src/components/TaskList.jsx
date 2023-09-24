@@ -16,12 +16,15 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
 
     const [tasks, setTasks] = React.useState(tasksData);
 
-    console.log('reload', tasks);
+    // console.log('reload', tasks);
 
     function handleClick(ev) {
-        if (ev.target.tagName !== 'INPUT') return; 
+        if (ev.target.tagName !== "INPUT") return;
+        console.log('click', ev.target);
         const thisTaskList = ev.target.parentElement.parentElement;
-        const firstInput = thisTaskList.querySelector('input:first-of-type');
+        console.log(thisTaskList, thisTaskList.querySelector('.add-task'))
+        const firstInput = thisTaskList.querySelector('.add-task input');
+        firstInput.removeAttribute("readOnly");
         firstInput.focus();
     }
 
@@ -42,7 +45,8 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                         return [...prevTasks, 
                         {
                             task: newTask,
-                            done: false
+                            done: false,
+                            date,
                         }]}
                     );
                 }

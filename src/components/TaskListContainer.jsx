@@ -8,15 +8,7 @@ const TaskListContainer = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [curDate, setCurDate] = useState(new Date());
-    // if (searchParams.has("weekShift")) {
-    //     const shift = +searchParams.get("weekShift") * 7;
-    //     setCurDate((prevCurDate) => {
-    //         const newDate = new Date(+prevCurDate);
-    //         newDate.setDate(newDate.getDate() + shift);
-    //         return newDate;
-    //     })
-    // }
-    //
+
     useEffect(() => {
         if (searchParams.has("weekShift")) {
             const shift = +searchParams.get("weekShift") * 7;
@@ -60,14 +52,16 @@ const TaskListContainer = () => {
             <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10">
                 {
                     dates.slice(0, 5).map((date, index) => (
-                        <TaskList date={date} key={index} ind={index} active={curDate.getDate() === date.getDate()} last={false}
+                        <TaskList date={date} key={index} ind={index} active={new Date().getDate() === date.getDate()
+                            && new Date().getMonth() === date.getMonth()} last={false}
                                   maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
                     ))
                 }
                 <div className="flex-1 ">
                     {
                         dates.slice(5).map((date, index) => (
-                            <TaskList date={date} key={index} ind={index} active={curDate.getDate() === date.getDate()} last={true}
+                            <TaskList date={date} key={index} ind={index} active={new Date().getDate() === date.getDate()
+                                && new Date().getMonth() === date.getMonth()} last={true}
                                       maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
                         ))
                     }
