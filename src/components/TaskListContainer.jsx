@@ -1,17 +1,41 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import TaskList from './TaskList'
 import LoginForm from "./forms/LoginForm.jsx";
+import { useSearchParams } from "react-router-dom";
 
 const TaskListContainer = () => {
 
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const [curDate, setCurDate] = useState(new Date());
+    // if (searchParams.has("weekShift")) {
+    //     const shift = +searchParams.get("weekShift") * 7;
+    //     setCurDate((prevCurDate) => {
+    //         const newDate = new Date(+prevCurDate);
+    //         newDate.setDate(newDate.getDate() + shift);
+    //         return newDate;
+    //     })
+    // }
+    //
+    useEffect(() => {
+        if (searchParams.has("weekShift")) {
+            const shift = +searchParams.get("weekShift") * 7;
+            console.log(shift);
+            setCurDate((prevCurDate) => {
+                const newDate = new Date();
+                newDate.setDate(newDate.getDate() + shift);
+                return newDate;
+            })
+        }
+
+    }, [searchParams.get("weekShift")])
 
     const [maxTasks, setMaxTasks] = React.useState(10);
     const dayOfWeek = (curDate.getDay() - 1) % 7;
     const dates = [];
-    const tasksData = {}
+    const tasksData = {};
     for (let i = -dayOfWeek; i < -dayOfWeek + 7; ++i) {
-        const newDate = new Date();
+        const newDate = new Date(+curDate);
         newDate.setDate(newDate.getDate() + i);
         dates.push(newDate);
         tasksData[newDate.getDate()] = [];
