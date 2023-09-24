@@ -5,12 +5,17 @@ const Header = () => {
 
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
+  function openLoginForm() {
+    const loginFormBlur = document.querySelector('[data-id="login-form"]')
+    loginFormBlur.classList.add("active")
+  }
 
   const HeaderBtns = [
     {
       textColor: "black",
       bgColor: "blue-200",
       icon: "fa-regular fa-user",
+      onClick: openLoginForm,
     },
     {
       textColor: "black",

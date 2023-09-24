@@ -16,8 +16,8 @@ const Task = ({taskListInd, ind, data, setTask}) => {
     }
 
     function openTaskMenu(ev) {
-        if (document.querySelector('.task-menu-bg.active')) return;
-        const taskMenuBg = ev.target.parentElement.querySelector('.task-menu-bg');
+        if (document.querySelector('.blur-bg.active')) return;
+        const taskMenuBg = ev.target.parentElement.querySelector('.blur-bg');
         taskMenuBg.classList.add('active');
         document.body.style.overflowY = "hidden";
     }

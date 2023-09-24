@@ -8,19 +8,19 @@
         margin: 0 auto;
     }
 
-    .task-menu-bg.active {
+    .blur-bg.active {
         @apply fixed;
     }
 
-    .task-menu-bg:not(.active) {
+    .blur-bg:not(.active) {
         @apply hidden;
     }
 
-    .task-menu-bg.active > .task-menu {
+    .blur-bg.active > .task-menu {
         @apply top-10;
     }
 
-    .task-menu-bg:not(.active) > .task-menu {
+    .blur-bg:not(.active) > .task-menu {
         @apply top-24;
     }
 
