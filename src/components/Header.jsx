@@ -1,6 +1,7 @@
 import React from "react"
 import HeaderBtn from "./HeaderBtn"
 import { useSearchParams } from "react-router-dom";
+import {useAuth} from "../contexts/AuthContext.jsx";
 
 const Header = () => {
 
@@ -26,6 +27,9 @@ const Header = () => {
       return prevSearchParams;
     })
   }
+
+  const { currentUser } = useAuth();
+  console.log(currentUser);
 
   const HeaderBtns = [
     {

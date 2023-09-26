@@ -36,7 +36,8 @@ const TaskMenu = ({date, task, done}) => {
 
                 <div className="my-12">
                     <div className="relative w-full">
-                        <input type="text" id="task-name" name="tast-name" value={task} className="w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none" />
+                        <input type="text" id="task-name" name="tast-name" defaultValue={task}
+                               className="w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none" />
                         <button className="absolute top-1/2 -translate-y-[50%] right-4">
                             <i className={`fa-${done ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
 

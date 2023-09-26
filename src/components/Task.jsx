@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import TaskMenu from "./TaskMenu.jsx";
 
 const Task = ({taskListInd, ind, data, setTask}) => {
-    if (data) console.log('in task', data);
     function handleToggleDone() {
         // console.log('in toggle done task', data, {
         //     ...data,
@@ -29,7 +28,6 @@ const Task = ({taskListInd, ind, data, setTask}) => {
                             readOnly={true}
                             onClick={ev => {
                                 ev.preventDefault();
-                                console.log("clicked", ev.target)
                             }}/>
                 :
                 <div className="task flex justify-between items-center py-2 px-3 cursor-grab">

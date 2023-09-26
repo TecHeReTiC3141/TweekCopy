@@ -1,7 +1,9 @@
-import { Form } from "react-router-dom";
+import {Form, useActionData} from "react-router-dom";
 import Blur from "../Blur.jsx";
 
 export default function SignUpForm() {
+
+    const errorMessage = useActionData();
 
     function toLoginForm(ev) {
         const loginBlur = document.querySelector('.blur-bg[data-id="login-form"]');
@@ -20,6 +22,9 @@ export default function SignUpForm() {
                     <button className="border rounded-full border-gray-700 px-3 py-1 font-bold text-sm"
                     onClick={toLoginForm}>Log in</button>
                 </div>
+                { errorMessage && <h3
+                    className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
+                    {errorMessage}</h3>}
                 <Form method="POST" className="relative">
                     <input type="text" defaultValue="signup-form" name="form-id" id="form-id" className="hidden" />
                     <input type="text" id="name" name="name" required placeholder="Name"

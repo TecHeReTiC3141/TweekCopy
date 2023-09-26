@@ -25,11 +25,11 @@ function AuthProvider({ children }) {
         })
     }, []);
 
-    async function signup({ email, password, name, age }) {
+    async function signup(email, password) {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             // await createUser(auth.currentUser.uid, {email, name, age});
-            return redirect('/profile');
+            return redirect('/');
         } catch (err) {
             return err.message;
         }

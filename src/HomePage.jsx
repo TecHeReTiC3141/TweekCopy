@@ -5,7 +5,6 @@ import LoginForm from "./components/forms/LoginForm.jsx";
 import SignUpForm from "./components/forms/SignUpForm.jsx";
 
 export const action = (AuthContext) => async ({ request }) => {
-    console.log(AuthContext);
     const formData = await request.formData();
     const formId = formData.get("form-id");
     if (formId === "login-form") {
@@ -14,10 +13,16 @@ export const action = (AuthContext) => async ({ request }) => {
             password = formData.get("password");
         console.log(email, password, request.url);
         return await login(email, password);
+
     } else if (formId === "signup-form") {
         const { signup } = AuthContext;
-        const email = formData.get("email"),
+        const name = formData.get("name"),
+            email = formData.get("email"),
+            passwordConfirm = formData.get("confirmPassword"),
             password = formData.get("password");
+        if (passwordConfirm !== password) {
+            return "Passwords don't match";
+        }
         console.log(email, password, request.url);
         return await signup(email, password);
     }
