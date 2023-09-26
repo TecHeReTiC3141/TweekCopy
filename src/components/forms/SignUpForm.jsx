@@ -12,8 +12,7 @@ export default function SignUpForm() {
 
     return (
         <Blur type="signup-form">
-            <div className="task-menu relative top-26 bg-[#f8e8e2] rounded-xl p-4 md:w-1/2
-            max-md:w-2/3 min-w-24 max-w-screen-sm
+            <div className="task-menu relative top-26 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem] max-w-screen-sm
             z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => ev.stopPropagation()}>
                 <div className="w-full flex justify-between items-center mb-12">
@@ -21,7 +20,8 @@ export default function SignUpForm() {
                     <button className="border rounded-full border-gray-700 px-3 py-1 font-bold text-sm"
                     onClick={toLoginForm}>Log in</button>
                 </div>
-                <Form method="POST" action="/signup" className="relative">
+                <Form method="POST" className="relative">
+                    <input type="text" value="signup-form" name="form-id" id="form-id" className="hidden" />
                     <input type="text" id="name" name="name" required placeholder="Name"
                            className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>
                     <input type="email" id="email" name="email" required placeholder="Email"

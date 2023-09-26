@@ -4,6 +4,26 @@ import TaskListContainer from './components/TaskListContainer'
 import LoginForm from "./components/forms/LoginForm.jsx";
 import SignUpForm from "./components/forms/SignUpForm.jsx";
 
+export const action = (AuthContext) => async ({ request }) => {
+    console.log(AuthContext);
+    const formData = await request.formData();
+    const formId = formData.get("form-id");
+    if (formId === "login-form") {
+        const { login } = AuthContext;
+        const email = formData.get("email"),
+            password = formData.get("password");
+        console.log(email, password, request.url);
+        return await login(email, password);
+    } else if (formId === "signup-form") {
+        const { signup } = AuthContext;
+        const email = formData.get("email"),
+            password = formData.get("password");
+        console.log(email, password, request.url);
+        return await signup(email, password);
+    }
+    return null;
+
+}
 function HomePage() {
 
     return (

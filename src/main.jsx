@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import HomePage from './HomePage.jsx'
+import HomePage, { action as homeAction } from './HomePage.jsx'
 import NotFound from "./components/NotFound.jsx";
 import './index.css'
 import  { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
-import loginAction from "./components/actions/LoginAction.jsx";
-import { useAuth } from "./contexts/AuthContext.jsx";
+import AuthProvider, { useAuth } from "./contexts/AuthContext";
 
 function App() {
 
@@ -13,9 +12,8 @@ function App() {
 
     const router = createBrowserRouter(createRoutesFromElements(
         <>
-            <Route path="/" element={<HomePage />}/>
+            <Route path="/" element={<HomePage />} action={homeAction(authContext)}/>
             <Route path="*" element={<NotFound />} />
-            <Route path="/login" action={loginAction}/>
         </>
     ))
 
@@ -27,6 +25,8 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
   </React.StrictMode>,
 )
