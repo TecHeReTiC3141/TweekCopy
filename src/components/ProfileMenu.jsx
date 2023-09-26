@@ -1,0 +1,38 @@
+import {useAuth} from "../contexts/AuthContext.jsx";
+import {useEffect} from "react";
+
+export default function ProfileMenu() {
+
+    const { currentUser, logout } = useAuth();
+
+    console.log(currentUser);
+
+    useEffect(() => {
+        window.addEventListener("click", () => {
+            const profileMenu = document.querySelector(".profile-menu");
+            profileMenu.classList.remove("active");
+        })
+
+        window.addEventListener("scroll", () => {
+            const profileMenu = document.querySelector(".profile-menu");
+            profileMenu.classList.remove("active");
+        })
+    }, [])
+
+    return (
+        <div className="profile-menu bg-white border border-black rounded-md w-28 lg:w-40 p-4 -translate-x-[50%] text-center"
+             onClick={ev => ev.stopPropagation()}>
+            <div>
+
+            </div>
+
+            <h4>{currentUser?.email}</h4>
+
+            <div className="w-full flex justify-between text-xs border-t border-gray-400 mt-2 py-1">
+                <button><i className="fa-solid fa-user-gear text-xs"></i> Account</button>
+                <button onClick={async () => await logout()}>
+                    <i className="fa-solid fa-arrow-right-from-bracket text-xs"></i> Log out</button>
+            </div>
+        </div>
+    )
+}
