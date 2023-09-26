@@ -2,6 +2,7 @@ import React from "react"
 import HeaderBtn from "./HeaderBtn"
 import { useSearchParams } from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
+import * as querystring from "querystring";
 
 const Header = () => {
 
@@ -10,6 +11,10 @@ const Header = () => {
   function openLoginForm() {
     const loginFormBlur = document.querySelector('[data-id="login-form"]')
     loginFormBlur.classList.add("active")
+  }
+
+  function openProfileMenu() {
+
   }
 
   function toPrevWeek() {
@@ -35,8 +40,9 @@ const Header = () => {
     {
       textColor: "black",
       bgColor: "blue-200",
-      icon: "fa-regular fa-user",
+      icon: `fa-${currentUser ? "solid" : "regular"} fa-user`,
       onClick: openLoginForm,
+      tooltip: currentUser ? "Profile" : "Login",
     },
     {
       textColor: "black",
