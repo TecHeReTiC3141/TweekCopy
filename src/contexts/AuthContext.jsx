@@ -29,7 +29,7 @@ function AuthProvider({ children }) {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             // await createUser(auth.currentUser.uid, {email, name, age});
-            return redirect('/');
+            return window.location.reload();
         } catch (err) {
             return err.message;
         }
@@ -38,7 +38,7 @@ function AuthProvider({ children }) {
     async function login(email, password) {
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            return redirect("/");
+            return window.location.reload();
         } catch (err) {
             console.log(err);
             return err.message;
@@ -46,7 +46,9 @@ function AuthProvider({ children }) {
     }
 
     async function logout() {
-        return await signOut(auth);
+        console.log('logout');
+        await signOut(auth);
+        return window.location.reload();
     }
 
     // async function updateUser(email, password, data) {

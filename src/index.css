@@ -24,6 +24,15 @@
         @apply top-24;
     }
 
+
+    .profile-menu.active {
+        @apply fixed;
+    }
+
+    .profile-menu:not(.active) {
+        @apply hidden;
+    }
+
 }
 
 @layer utilities {
