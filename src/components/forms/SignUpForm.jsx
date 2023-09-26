@@ -21,7 +21,7 @@ export default function SignUpForm() {
                     onClick={toLoginForm}>Log in</button>
                 </div>
                 <Form method="POST" className="relative">
-                    <input type="text" value="signup-form" name="form-id" id="form-id" className="hidden" />
+                    <input type="text" defaultValue="signup-form" name="form-id" id="form-id" className="hidden" />
                     <input type="text" id="name" name="name" required placeholder="Name"
                            className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>
                     <input type="email" id="email" name="email" required placeholder="Email"

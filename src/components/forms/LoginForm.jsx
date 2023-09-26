@@ -27,7 +27,7 @@ export default function LoginForm() {
                         className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                         {errorMessage}</h3>}
                     <Form method="POST" className="relative">
-                        <input type="text" value="login-form" name="form-id" id="form-id" className="hidden" />
+                        <input type="text" defaultValue="login-form" name="form-id" id="form-id" className="hidden" />
                         <input type="email" id="email" name="email" required placeholder="Email"
                                className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>
                         <input type="password" id="password" name="password" required placeholder="Password"
