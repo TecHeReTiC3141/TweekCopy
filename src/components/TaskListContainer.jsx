@@ -6,6 +6,10 @@ import { onSnapshot, collection, query, where } from "firebase/firestore";
 import { db } from "../scripts/firebase";
 import { useAuth } from "../contexts/AuthContext";
 
+function formDate(date) {
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+}
+
 const TaskListContainer = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -13,21 +17,22 @@ const TaskListContainer = () => {
     const [curDate, setCurDate] = useState(new Date());
 
     const [tasks, setTasks] = useState([]);
-    console.log(tasks);
+
     const { currentUser } = useAuth();
-    console.log(currentUser);
+
     useEffect(() => {
 
         const taskColRef = collection(db, "Task");
         const q = query(taskColRef,
-            where("uid", "==", currentUser?.uid));
+            where("uid", "==", currentUser?.uid || "null"));
         return onSnapshot(q, snapshot => {
             setTasks(snapshot.docs.map(doc => ({
                 ...doc.data(),
                 id: doc.id,
+                date: new Date(doc.data().date),
             })))
         })
-    }, []);
+    }, [currentUser]);
 
     useEffect(() => {
         if (searchParams.has("weekShift")) {
@@ -51,15 +56,16 @@ const TaskListContainer = () => {
         const newDate = new Date(+curDate);
         newDate.setDate(newDate.getDate() + i);
         dates.push(newDate);
-        tasksData[newDate.getDate()] = [];
-        for (let j = 0; j < Math.round(6 * Math.random()); ++j) {
-            tasksData[newDate.getDate()].push({
-                task: `Task ${j}`,
-                done: Boolean(Math.round(Math.random())),
-                date: newDate,
-            })
-        }
+        tasksData[formDate(newDate)] = tasks.filter(task => formDate(task.date) === formDate(newDate));
+        // for (let j = 0; j < Math.round(6 * Math.random()); ++j) {
+        //     tasksData[newDate.getDate()].push({
+        //         task: `Task ${j}`,
+        //         done: Boolean(Math.round(Math.random())),
+        //         date: newDate,
+        //     })
+        // }
     }
+    // console.log(tasksData);
 
 
     const changeMaxTasks = (newTasks) => {
@@ -71,17 +77,17 @@ const TaskListContainer = () => {
         <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10">
             {
                 dates.slice(0, 5).map((date, index) => (
-                    <TaskList date={date} key={index} ind={index} active={new Date().getDate() === date.getDate()
-                        && new Date().getMonth() === date.getMonth()} last={false}
-                              maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
+                    <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
+                              last={false}
+                              maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
                 ))
             }
             <div className="flex-1 ">
                 {
                     dates.slice(5).map((date, index) => (
-                        <TaskList date={date} key={index} ind={index} active={new Date().getDate() === date.getDate()
-                            && new Date().getMonth() === date.getMonth()} last={true}
-                                  maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[date.getDate()]}/>
+                        <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
+                                  last={true}
+                                  maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
                     ))
                 }
             </div>
