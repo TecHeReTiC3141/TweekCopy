@@ -7,6 +7,9 @@ import SignUpForm from "./components/forms/SignUpForm.jsx";
 export const action = (AuthContext) => async ({ request }) => {
     const formData = await request.formData();
     const formId = formData.get("form-id");
+    console.log(request.body, request);
+    console.log(formData);
+
     if (formId === "login-form") {
         const { login } = AuthContext;
         const email = formData.get("email"),
@@ -25,7 +28,10 @@ export const action = (AuthContext) => async ({ request }) => {
         }
         console.log(email, password, request.url);
         return await signup(email, password);
+    } else if (formId === "add-task-form") {
+        console.log(formData);
     }
+
     return null;
 
 }

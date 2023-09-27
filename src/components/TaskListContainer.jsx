@@ -20,7 +20,8 @@ const TaskListContainer = () => {
             })
         }
 
-    }, [searchParams.get("weekShift")])
+    }, [searchParams.get("weekShift")]);
+
 
     const [maxTasks, setMaxTasks] = React.useState(10);
     const dayOfWeek = (curDate.getDay() - 1) % 7;
