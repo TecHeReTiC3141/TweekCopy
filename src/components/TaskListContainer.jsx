@@ -2,12 +2,32 @@ import React, {useEffect, useState} from 'react'
 import TaskList from './TaskList'
 import LoginForm from "./forms/LoginForm.jsx";
 import { useSearchParams } from "react-router-dom";
+import { onSnapshot, collection, query, where } from "firebase/firestore";
+import { db } from "../scripts/firebase";
+import { useAuth } from "../contexts/AuthContext";
 
 const TaskListContainer = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [curDate, setCurDate] = useState(new Date());
+
+    const [tasks, setTasks] = useState([]);
+    console.log(tasks);
+    const { currentUser } = useAuth();
+    console.log(currentUser);
+    useEffect(() => {
+
+        const taskColRef = collection(db, "Task");
+        const q = query(taskColRef,
+            where("uid", "==", currentUser?.uid));
+        return onSnapshot(q, snapshot => {
+            setTasks(snapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id,
+            })))
+        })
+    }, []);
 
     useEffect(() => {
         if (searchParams.has("weekShift")) {
