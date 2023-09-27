@@ -40,13 +40,11 @@ function AuthProvider({ children }) {
             await signInWithEmailAndPassword(auth, email, password);
             return window.location.reload();
         } catch (err) {
-            console.log(err);
             return err.message;
         }
     }
 
     async function logout() {
-        console.log('logout');
         await signOut(auth);
         return window.location.reload();
     }

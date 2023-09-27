@@ -40,7 +40,6 @@ const Header = () => {
     }
 
     const {currentUser} = useAuth();
-    console.log(currentUser);
 
     const HeaderBtns = [
         {

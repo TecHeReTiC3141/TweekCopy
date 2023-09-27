@@ -41,16 +41,7 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
             if (curInput.value) {
                 if (currentUser) {
                     const form = curInput.parentElement;
-                    console.log(form);
                     submit(form);
-                    // submit({
-                    //         name: curInput.value,
-                    //         formId: "add-task-form",
-                    //     },
-                    //     {
-                    //         method: "get",
-                    //         action: "/",
-                    //     });
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;
                     if (thisTaskList.dataset.date == date.getDate()) {
