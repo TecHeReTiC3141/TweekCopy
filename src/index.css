@@ -8,14 +8,6 @@
         margin: 0 auto;
     }
 
-    .blur-bg.active {
-        @apply fixed;
-    }
-
-    .blur-bg:not(.active) {
-        @apply hidden;
-    }
-
     .blur-bg.active > .task-menu {
         @apply top-10;
     }
@@ -25,11 +17,11 @@
     }
 
 
-    .profile-menu.active {
+    .profile-menu.active, .task-menu-color-picker.active, .blur-bg.active {
         @apply fixed;
     }
 
-    .profile-menu:not(.active) {
+    .profile-menu:not(.active), .task-menu-color-picker:not(.active), .blur-bg:not(.active) {
         @apply hidden;
     }
 

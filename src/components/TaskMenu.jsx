@@ -1,12 +1,37 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Blur from "./Blur.jsx";
 import TaskMenuBtn from "./TaskMenuBtn.jsx";
+import {TaskMenuColorPicker} from "./TaskMenuColorPicker.jsx";
 
 const TaskMenu = ({date, name, done}) => {
 
+    function openColorPicker(ev) {
+        ev.stopPropagation();
+        let taskMenuColorPicker = ev.target.parentElement.parentElement.parentElement
+            .querySelector(".task-menu-color-picker");
+        if (!taskMenuColorPicker) {
+            let taskMenuColorPicker = ev.target.parentElement.parentElement
+                .querySelector(".task-menu-color-picker");
+        }
+        console.log(ev.target.parentElement.parentElement);
+        taskMenuColorPicker.classList.add("active");
+        const buttonPos = ev.target.getBoundingClientRect();
+        taskMenuColorPicker.style.left = `${Math.round(buttonPos.left + buttonPos.width / 2)}px`;
+        taskMenuColorPicker.style.top = `${Math.round(buttonPos.bottom) + 12}px`;
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", () => {
+            const taskMenuColorPicker = document.querySelector(".task-menu-color-picker.active");
+            if (taskMenuColorPicker) {
+                taskMenuColorPicker.classList.remove("active");
+            }
+        })
+    }, [])
+
     const taskMenuBtns = [
         {
-            icon: "fa-solid fa-trash-can cursor-pointer",
+            icon: "fa-regular fa-trash-can cursor-pointer",
             onClick: () => {},
             disabled: false,
             tooltip: "Delete",
@@ -19,9 +44,9 @@ const TaskMenu = ({date, name, done}) => {
         },
         {
             icon: "cursor-pointer inline-block rounded-full w-3 h-3 bg-amber-500",
-            onClick: () => {},
-            disabled: true,
-            tooltip: "Reminder",
+            onClick: openColorPicker,
+            disabled: false,
+            tooltip: "Select color",
         },
         {
             icon: "fa-regular fa-bell cursor-pointer",
@@ -53,15 +78,18 @@ const TaskMenu = ({date, name, done}) => {
                         <p className="text-sm">{getDate(date)}</p>
                     </div>
 
+
                     <div className="flex gap-3 items-center ">
                         {
-                            taskMenuBtns.map(btn => (
-                                <TaskMenuBtn {...btn} />
+                            taskMenuBtns.map((btn, ind) => (
+                                <TaskMenuBtn key={ind} {...btn} />
                             ))
                         }
-
+                        <TaskMenuColorPicker />
                     </div>
                 </div>
+
+
 
                 <div className="my-12">
                     <div className="relative w-full">
