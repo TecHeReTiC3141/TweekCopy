@@ -3,10 +3,11 @@ import React from 'react'
 export default function TaskMenuBtn({icon, onClick, disabled, tooltip = null}) {
     return (
         <div
-            className="inline px-1.5 py-0.5 rounded-full border border-transparent hover:border-gray-400 cursor-pointer">
+            className="inline px-1.5 py-0.5 rounded-full border border-transparent hover:border-gray-400 cursor-pointer"
+            onClick={onClick}>
             <button
                 className={`relative group/task-btn`}
-                onClick={onClick}
+
                 disabled={disabled}
             >
                 <i className={`${icon} lg:text-sm ${disabled && "opacity-50"}`}></i>

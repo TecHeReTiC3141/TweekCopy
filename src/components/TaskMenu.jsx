@@ -1,9 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Blur from "./Blur.jsx";
 import TaskMenuBtn from "./TaskMenuBtn.jsx";
 import {TaskMenuColorPicker} from "./TaskMenuColorPicker.jsx";
+import {Form} from "react-router-dom";
 
 const TaskMenu = ({date, name, done}) => {
+
+    const [taskColor, setTaskColor] = useState("white");
+    const [taskDone, setTaskDone] = useState(done);
 
     function openColorPicker(ev) {
         ev.stopPropagation();
@@ -13,21 +17,18 @@ const TaskMenu = ({date, name, done}) => {
             let taskMenuColorPicker = ev.target.parentElement.parentElement
                 .querySelector(".task-menu-color-picker");
         }
-        console.log(ev.target.parentElement.parentElement);
-        taskMenuColorPicker.classList.add("active");
+        taskMenuColorPicker.classList.toggle("active");
         const buttonPos = ev.target.getBoundingClientRect();
         taskMenuColorPicker.style.left = `${Math.round(buttonPos.left + buttonPos.width / 2)}px`;
         taskMenuColorPicker.style.top = `${Math.round(buttonPos.bottom) + 12}px`;
     }
 
-    useEffect(() => {
-        window.addEventListener("click", () => {
-            const taskMenuColorPicker = document.querySelector(".task-menu-color-picker.active");
-            if (taskMenuColorPicker) {
-                taskMenuColorPicker.classList.remove("active");
-            }
-        })
-    }, [])
+    function closeColorPicker(ev) {
+        const taskMenuColorPicker = ev.target.querySelector(".task-menu-color-picker");
+        if (taskMenuColorPicker) {
+            taskMenuColorPicker.classList.remove("active");
+        }
+    }
 
     const taskMenuBtns = [
         {
@@ -43,7 +44,7 @@ const TaskMenu = ({date, name, done}) => {
             tooltip: "Repeat",
         },
         {
-            icon: "cursor-pointer inline-block rounded-full w-3 h-3 bg-amber-500",
+            icon: `cursor-pointer inline-block rounded-full w-3 h-3 bg-${taskColor}`,
             onClick: openColorPicker,
             disabled: false,
             tooltip: "Select color",
@@ -71,7 +72,10 @@ const TaskMenu = ({date, name, done}) => {
             <div className="task-menu relative top-40 bg-[#DDE1FB] rounded-xl
             py-4 lg:py-6 px-6 lg:px-8 w-[28rem]
              z-20 text-gray-600 transition-all duration-500 ease-linear"
-                 onClick={ev => ev.stopPropagation()}>
+                 onClick={ev => {
+                     ev.stopPropagation();
+                     closeColorPicker(ev);
+                 }}>
                 <div className="w-full flex justify-between text-sm">
                     <div className="flex gap-2 items-center">
                         <i className="fa-regular fa-calendar-days"></i>
@@ -85,27 +89,29 @@ const TaskMenu = ({date, name, done}) => {
                                 <TaskMenuBtn key={ind} {...btn} />
                             ))
                         }
-                        <TaskMenuColorPicker />
+                        <TaskMenuColorPicker setColor={value => setTaskColor(value)}/>
                     </div>
                 </div>
 
 
 
                 <div className="my-12">
-                    <div className="relative w-full">
+                    <Form method="POST" className="task-menu-form relative w-full">
                         <input type="text" id="task-name" name="tast-name" defaultValue={name}
-                               className="w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none"/>
-                        <button className="absolute top-1/2 -translate-y-[50%] right-4">
-                            <i className={`fa-${done ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
+                               className={"w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none "
+                                   + ((taskDone && "line-through opacity-40") || '')}
+                            />
+                        <button className="absolute top-5 -translate-y-[50%] right-4"
+                                onClick={() => setTaskDone(prevTaskDone => !prevTaskDone)}>
+                            <i className={`fa-${taskDone ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
 
                         </button>
-                    </div>
+                        <textarea name="task-description" id="task-description" cols="30" rows="3"
+                                           className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
+                                           placeholder="Write additional notes"></textarea>
+                    </Form>
                 </div>
-                <div className="w-full">
-                    <textarea name="task-description" id="task-description" cols="30" rows="1"
-                              className="w-full focus:outline-none bg-transparent resize-none overflow-visible"
-                              placeholder="Write additional notes"></textarea>
-                </div>
+
             </div>
         </Blur>
     )

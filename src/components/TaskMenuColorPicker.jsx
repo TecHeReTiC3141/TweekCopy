@@ -3,10 +3,10 @@ import TaskMenuBtn from "./TaskMenuBtn";
 export function TaskMenuColorPicker({ setColor }) {
 
     const colors = [
-        "green-500",
-        "amber-500",
-        "red-500",
         "white",
+        "amber-500",
+        "green-500",
+        "red-500",
     ]
 
     return (
@@ -16,8 +16,8 @@ export function TaskMenuColorPicker({ setColor }) {
                 {
                     colors.map((color, ind) => {
                         return (
-                            <TaskMenuBtn key={ind} icon={`cursor-pointer inline-block rounded-full w-4 h-4 bg-${color}`} disabled={false}
-                                         onClick={() => console.log(color)} />
+                            <TaskMenuBtn key={ind} icon={`cursor-pointer inline-block rounded-full w-3 h-3 bg-${color}`} disabled={false}
+                                         onClick={() => setColor(color)} />
                         )
                     })
                 }
