@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HeaderBtn = ({textColor, bgColor, icon, onClick, tooltip=null}) => {
+export default function HeaderBtn({textColor, bgColor, icon, onClick, tooltip=null}) {
   return (
     <button
         className={`bg-${bgColor} rounded-full flex justify-center 
@@ -15,4 +15,3 @@ const HeaderBtn = ({textColor, bgColor, icon, onClick, tooltip=null}) => {
   )
 }
 
-export default HeaderBtn

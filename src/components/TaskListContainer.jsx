@@ -58,13 +58,6 @@ const TaskListContainer = () => {
         newDate.setDate(newDate.getDate() + i);
         dates.push(newDate);
         tasksData[formDate(newDate)] = tasks.filter(task => formDate(task.date) === formDate(newDate));
-        // for (let j = 0; j < Math.round(6 * Math.random()); ++j) {
-        //     tasksData[newDate.getDate()].push({
-        //         task: `Task ${j}`,
-        //         done: Boolean(Math.round(Math.random())),
-        //         date: newDate,
-        //     })
-        // }
     }
     // console.log(tasksData);
 

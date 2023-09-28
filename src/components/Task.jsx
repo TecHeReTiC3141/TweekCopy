@@ -29,12 +29,6 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
                 done: false,
             })
         }
-        // await addTask({
-        //     uid: currentUser.uid,
-        //     color: date.color || "white",
-        //     name: ev.target.value,
-        //     date:
-        // })
     }
 
     function openTaskMenu(ev) {
