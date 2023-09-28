@@ -6,6 +6,7 @@ import {
     getDoc,
     getDocs,
     deleteDoc,
+    updateDoc,
 } from "firebase/firestore";
 
 const taskColRef = collection(db, "tasks");
@@ -35,6 +36,11 @@ export async function addTask(data) {
         ...newTask.data(),
         id: newTask.id,
     };
+}
+
+export async function updateTask(taskId, data) {
+    const taskRef = doc(db, "tasks", taskId);
+    await updateDoc(taskRef, data);
 }
 
 

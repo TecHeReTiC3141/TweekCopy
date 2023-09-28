@@ -2,7 +2,11 @@ import React from 'react'
 import Task from './Task';
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {useSubmit} from "react-router-dom";
-import {addTask} from "../scripts/api.js";
+import {addTask, tryCatchDecorator} from "../scripts/api.js";
+
+// function formDate(date) {
+//     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+// }
 
 const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}) => {
 
@@ -41,32 +45,19 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                 // TODO: when Enter is pressed, next input must be focused
                 if (currentUser) {
                     const formData = new FormData(curInput.parentElement);
-                    console.log("creating new task", formData.get("add-task-name"));
-                    await addTask({
+                    console.log("creating new task", formData.get("add-task-name"), date);
+                    await tryCatchDecorator(addTask)({
                         name: formData.get("add-task-name"),
                         color: "white",
-                        date: formData.get("task-date"),
+                        date,
                         uid: currentUser.uid,
                         done: false,
-                    })
+                    });
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;
                     if (thisTaskList.dataset.date == date.getDate()) {
                         console.log(curInput.value)
                         const newTask = curInput.value
-                        // setTasks(prevTasks => {
-                        //         console.log(newTask, `Prev tasks ${prevTasks}`, {
-                        //             task: newTask,
-                        //             done: false
-                        //         });
-                        //         return [...prevTasks,
-                        //             {
-                        //                 task: newTask,
-                        //                 done: false,
-                        //                 date,
-                        //             }]
-                        //     }
-                        // );
                     }
                     curInput.value = '';
                 }

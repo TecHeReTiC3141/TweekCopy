@@ -1,7 +1,16 @@
+import { updateTask, tryCatchDecorator } from "../scripts/api.js";
+
 export default function Blur({ children, type }) {
-    function handleTaskMenuClose(ev) {
+    async function handleTaskMenuClose(ev) {
         ev.stopPropagation();
         ev.target.classList.remove('active');
+        const form = ev.target.querySelector(".task-menu-form");
+        if (form) {
+            const formData = new FormData(form);
+            // TODO: implement task update + deletion
+
+            await tryCatchDecorator(updateTask)();
+        }
         document.body.style.overflowY = 'auto';
     }
 

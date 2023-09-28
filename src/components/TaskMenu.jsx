@@ -4,7 +4,7 @@ import TaskMenuBtn from "./TaskMenuBtn.jsx";
 import {TaskMenuColorPicker} from "./TaskMenuColorPicker.jsx";
 import {Form} from "react-router-dom";
 
-const TaskMenu = ({date, name, done}) => {
+const TaskMenu = ({id: taskId, date, name, done}) => {
 
     const [taskColor, setTaskColor] = useState("white");
     const [taskDone, setTaskDone] = useState(done);
@@ -60,7 +60,7 @@ const TaskMenu = ({date, name, done}) => {
     const getDate = date => {
         const dayOfWeek = days[date.getDay()].slice(0, 3);
         const month = months[date.getMonth()].slice(0, 4);
-        return `${dayOfWeek}, ${date.getDate()} ${month}.${date.getFullYear()}`;
+        return `${dayOfWeek}, ${date.getDate()} ${month}. ${date.getFullYear()}`;
     }
 
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -93,9 +93,7 @@ const TaskMenu = ({date, name, done}) => {
                     </div>
                 </div>
 
-
-
-                <div className="my-12">
+                <div className="mt-12">
                     <Form method="POST" className="task-menu-form relative w-full">
                         <input type="text" id="task-name" name="tast-name" defaultValue={name}
                                className={"w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none "
@@ -109,6 +107,8 @@ const TaskMenu = ({date, name, done}) => {
                         <textarea name="task-description" id="task-description" cols="30" rows="3"
                                            className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
                                            placeholder="Write additional notes"></textarea>
+                        <input type="checkbox" id="task-done" name="task-done" checked={taskDone} className="hidden" readOnly={true}/>
+                        <input type="text" id="task-color" name="task-color" value={taskColor} className="hidden" readOnly={true}/>
                     </Form>
                 </div>
 
