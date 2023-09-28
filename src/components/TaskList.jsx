@@ -2,6 +2,7 @@ import React from 'react'
 import Task from './Task';
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {useSubmit} from "react-router-dom";
+import {addTask} from "../scripts/api.js";
 
 const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}) => {
 
@@ -16,50 +17,56 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const day = days[date.getDay()];
 
-    const [tasks, setTasks] = React.useState(tasksData);
 
     const {currentUser} = useAuth();
 
     function handleClick(ev) {
         if (ev.target.tagName !== "INPUT") return;
-        console.log('click', ev.target);
         const thisTaskList = ev.target.parentElement.parentElement.parentElement;
         console.log(thisTaskList, thisTaskList.querySelector('.add-task'));
 
         const firstInput = thisTaskList.querySelector('.add-task > form > input[type="text"]');
-        console.log(firstInput);
         firstInput.removeAttribute("readOnly");
         firstInput.focus();
     }
 
     const submit = useSubmit();
 
-    function handleKeyDown(ev) {
+    async function handleKeyDown(ev) {
         if (ev.key === 'Enter') {
             const curInput = document.querySelector('input:focus');
 
             if (curInput.value) {
+
+                // TODO: when Enter is pressed, next input must be focused
                 if (currentUser) {
-                    const form = curInput.parentElement;
-                    submit(form);
+                    const formData = new FormData(curInput.parentElement);
+                    console.log("creating new task", formData.get("add-task-name"));
+                    await addTask({
+                        name: formData.get("add-task-name"),
+                        color: "white",
+                        date: formData.get("task-date"),
+                        uid: currentUser.uid,
+                        done: false,
+                    })
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;
                     if (thisTaskList.dataset.date == date.getDate()) {
                         console.log(curInput.value)
                         const newTask = curInput.value
-                        setTasks(prevTasks => {
-                                console.log(newTask, `Prev tasks ${prevTasks}`, {
-                                    task: newTask,
-                                    done: false
-                                });
-                                return [...prevTasks,
-                                    {
-                                        task: newTask,
-                                        done: false,
-                                        date,
-                                    }]
-                            }
-                        );
+                        // setTasks(prevTasks => {
+                        //         console.log(newTask, `Prev tasks ${prevTasks}`, {
+                        //             task: newTask,
+                        //             done: false
+                        //         });
+                        //         return [...prevTasks,
+                        //             {
+                        //                 task: newTask,
+                        //                 done: false,
+                        //                 date,
+                        //             }]
+                        //     }
+                        // );
                     }
                     curInput.value = '';
                 }
@@ -75,11 +82,11 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
             firstInput.removeAttribute('disabled');
             firstInput.focus();
         }
-    }, [tasks])
+    }, [tasksData])
 
     const tasksComponents = [];
     for (let i = 0; i < (last ? maxTasks / 2 : maxTasks); ++i) {
-        tasksComponents.push(<Task key={i} data={i < tasks.length && tasks[i]}
+        tasksComponents.push(<Task key={i} data={i < tasksData.length && tasksData[i]}
                                    taskListInd={ind} date={date}
                                    setTask={newValue => setTasks(prevTasks => {
                                        console.log([

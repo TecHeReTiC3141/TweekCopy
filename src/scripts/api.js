@@ -8,7 +8,7 @@ import {
     deleteDoc,
 } from "firebase/firestore";
 
-const taskColRef = collection(db, "Task");
+const taskColRef = collection(db, "tasks");
 
 export function tryCatchDecorator(func) {
 

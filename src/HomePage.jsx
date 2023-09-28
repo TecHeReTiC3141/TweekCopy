@@ -30,17 +30,6 @@ export const action = (AuthContext) => async ({ request }) => {
         console.log(email, password, request.url);
         return await signup(email, password);
     }
-    else if (formId === "add-task-form") {
-        const { currentUser } = AuthContext;
-
-        await addTask({
-            name: formData.get("add-task-name"),
-            color: "white",
-            date: formData.get("task-date"),
-            uid: currentUser.uid,
-            done: false,
-        })
-    }
 
     return null;
 

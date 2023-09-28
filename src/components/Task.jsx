@@ -6,11 +6,6 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 
 const Task = ({taskListInd, ind, data, setTask, date}) => {
     function handleToggleDone() {
-        // console.log('in toggle done task', data, {
-        //     ...data,
-        //     done: !data.done,
-        // });
-        // console.log(`toggled ${data.done}`);
         setTask({
             ...data,
             done: !data.done,
@@ -20,12 +15,19 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
     const { currentUser } = useAuth();
     const submit = useSubmit();
 
+
     async function handleFocusOut(ev) {
-        // TODO: there must be implementing saving tasks based on form value
         if (!ev.target.value) return;
         if (currentUser) {
-            const form = ev.target.parentElement;
-            submit(form);
+            const formData = new FormData(ev.target.parentElement);
+            console.log("creating new task", formData.get("add-task-name"));
+            await addTask({
+                name: formData.get("add-task-name"),
+                color: "white",
+                date: formData.get("task-date"),
+                uid: currentUser.uid,
+                done: false,
+            })
         }
         // await addTask({
         //     uid: currentUser.uid,
@@ -64,7 +66,7 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
                 :
                 <div className="task flex justify-between items-center py-2 px-3 cursor-grab">
                     <h5 className={"task-title flex-1 bg-red-100" + (data.done && "line-through opacity-40") || ''}
-                        onClick={openTaskMenu}>{data?.task}</h5>
+                        onClick={openTaskMenu}>{data?.name}</h5>
                     <button className="toggle-done hidden group-hover:block max-lg:block" onClick={handleToggleDone}>
                         <i className={`fa-${data?.done ? "solid" : "regular"} fa-circle-check`}></i>
                     </button>

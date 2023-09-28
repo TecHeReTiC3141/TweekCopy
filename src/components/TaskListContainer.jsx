@@ -19,10 +19,11 @@ const TaskListContainer = () => {
     const [tasks, setTasks] = useState([]);
 
     const { currentUser } = useAuth();
+    console.log(tasks.length);
 
     useEffect(() => {
 
-        const taskColRef = collection(db, "Task");
+        const taskColRef = collection(db, "tasks");
         const q = query(taskColRef,
             where("uid", "==", currentUser?.uid || "null"));
         return onSnapshot(q, snapshot => {
