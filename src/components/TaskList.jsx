@@ -2,7 +2,7 @@ import React from 'react'
 import Task from './Task';
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {useSubmit} from "react-router-dom";
-import {addTask, tryCatchDecorator} from "../scripts/api.js";
+import {createTask, tryCatchDecorator} from "../scripts/api.js";
 
 // function formDate(date) {
 //     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
@@ -48,7 +48,7 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                 if (currentUser) {
                     const formData = new FormData(curInput.parentElement);
                     console.log("creating new task", formData.get("add-task-name"), date);
-                    await tryCatchDecorator(addTask)({
+                    await tryCatchDecorator(createTask)({
                         name: formData.get("add-task-name"),
                         color: "white",
                         date,

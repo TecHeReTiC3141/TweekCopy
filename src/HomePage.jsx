@@ -3,7 +3,7 @@ import Header from './components/Header'
 import TaskListContainer from './components/TaskListContainer'
 import LoginForm from "./components/forms/LoginForm.jsx";
 import SignUpForm from "./components/forms/SignUpForm.jsx";
-import { addTask } from "./scripts/api"
+import { createTask } from "./scripts/api"
 
 export const action = (AuthContext) => async ({ request }) => {
 

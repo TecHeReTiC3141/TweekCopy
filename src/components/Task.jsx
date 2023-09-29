@@ -1,27 +1,25 @@
 import React, {useEffect} from 'react'
 import TaskMenu from "./TaskMenu.jsx";
 import {Form, useSubmit} from "react-router-dom";
-import { addTask } from "../scripts/api.js";
+import { createTask, toggleDoneTask } from "../scripts/api.js";
 import {useAuth} from "../contexts/AuthContext.jsx";
 
 const Task = ({taskListInd, ind, data, setTask, date}) => {
-    function handleToggleDone() {
-        setTask({
-            ...data,
-            done: !data.done,
-        });
+    async function handleToggleDone() {
+        await toggleDoneTask(data.id);
     }
 
     const { currentUser } = useAuth();
     const submit = useSubmit();
 
 
+    // TODO: implement toggleDoneBtn on backend
     async function handleFocusOut(ev) {
         if (!ev.target.value) return;
         if (currentUser) {
             const formData = new FormData(ev.target.parentElement);
             console.log("creating new task", formData.get("add-task-name"));
-            await addTask({
+            await createTask({
                 name: formData.get("add-task-name"),
                 color: "white",
                 date: formData.get("task-date"),
@@ -37,7 +35,7 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
         taskMenuBg.classList.add('active');
         taskMenuBg.querySelector(".task-menu").classList.add("active");
         console.log(taskMenuBg.querySelector(".task-menu"));
-        document.body.style.overflowY = "hidden";
+
     }
 
     let taskDate = date.toISOString().split("T")[0];
@@ -60,9 +58,9 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
                     <input type="date" defaultValue={taskDate} className="hidden" name="task-date" id="task-date"/>
                 </Form>
                 :
-                <div className="task flex justify-between items-center py-2 px-3 cursor-grab">
-                    <h5 className={"task-title flex-1 bg-red-100" + (data.done && "line-through opacity-40") || ''}
-                        onClick={openTaskMenu}>{data?.name}</h5>
+                <div className="task flex justify-between items-center py-2 px-3 cursor-grab" onClick={openTaskMenu}>
+                    <h5 className={`task-title px-2 py-0.5 rounded-full text-sm bg-${data.color} ` + (data.done && "opacity-40 line-through ") || ''}
+                        >{data?.name}</h5>
                     <button className="toggle-done hidden group-hover:block max-lg:block" onClick={handleToggleDone}>
                         <i className={`fa-${data?.done ? "solid" : "regular"} fa-circle-check`}></i>
                     </button>

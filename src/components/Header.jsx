@@ -3,6 +3,7 @@ import HeaderBtn from "./HeaderBtn"
 import {useSearchParams} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import ProfileMenu from "./ProfileMenu.jsx";
+import { clearUsersTasks } from "../scripts/api.js";
 
 const Header = () => {
 
@@ -48,6 +49,15 @@ const Header = () => {
             icon: `fa-${currentUser ? "solid" : "regular"} fa-user`,
             onClick: currentUser ? openProfileMenu : openLoginForm,
             tooltip: currentUser ? "Profile" : "Login",
+        },
+        {
+            textColor: "black",
+            bgColor: "blue-200",
+            icon: "fa-solid fa-xmark",
+            onClick: currentUser ? async () => {
+                await clearUsersTasks(currentUser.uid);
+            } : () => {},
+            tooltip: "Delete all tasks",
         },
         {
             textColor: "black",

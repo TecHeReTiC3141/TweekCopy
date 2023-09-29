@@ -36,6 +36,13 @@ const TaskListContainer = () => {
     }, [currentUser]);
 
     useEffect(() => {
+        setInterval(() => {
+            const openedBlur = document.querySelector(".blur-bg.active");
+            document.body.style.overflowY = openedBlur ? "hidden" : "auto";
+        }, 1000);
+    }, []);
+
+    useEffect(() => {
         if (searchParams.has("weekShift")) {
             const shift = +searchParams.get("weekShift") * 7;
             console.log(shift);
