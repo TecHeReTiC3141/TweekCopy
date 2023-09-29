@@ -28,7 +28,7 @@ export const action = (AuthContext) => async ({ request }) => {
             return "Passwords don't match";
         }
         console.log(email, password, request.url);
-        return await signup(email, password);
+        return await signup({ email, password, name });
     }
 
     return null;

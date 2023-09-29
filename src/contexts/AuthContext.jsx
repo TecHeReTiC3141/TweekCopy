@@ -8,6 +8,7 @@ import {signInWithEmailAndPassword,
     updateEmail,
     sendPasswordResetEmail,
 } from "firebase/auth"
+import { createUser, getCurrentUser, updateUserData } from "../scripts/api.js";
 
 const AuthContext = React.createContext();
 
@@ -21,14 +22,14 @@ function AuthProvider({ children }) {
 
     React.useEffect(() => {
         return auth.onAuthStateChanged(async user => {
-            setCurrentUser(user);
+            setCurrentUser(await getCurrentUser(user.uid));
         })
     }, []);
 
-    async function signup(email, password) {
+    async function signup({ email, password, name }) {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            // await createUser(auth.currentUser.uid, {email, name, age});
+            await createUser(auth.currentUser.uid, {email, name});
             return window.location.reload();
         } catch (err) {
             return err.message;
@@ -49,21 +50,21 @@ function AuthProvider({ children }) {
         return window.location.reload();
     }
 
-    // async function updateUser(email, password, data) {
-    //     try {
-    //         if (email !== currentUser.email) {
-    //             await updateEmail(auth.currentUser, email);
-    //         }
-    //         if (password && password !== currentUser.password) {
-    //             await updatePassword(auth.currentUser, password);
-    //         }
-    //         await updateUserData(currentUser.uid, data);
-    //         setCurrentUser(await getCurrentUser(currentUser.uid));
-    //         return redirect('/profile');
-    //     } catch(err) {
-    //         return err.message;
-    //     }
-    // }
+    async function updateUser(email, password, data) {
+        try {
+            if (email !== currentUser.email) {
+                await updateEmail(auth.currentUser, email);
+            }
+            if (password && password !== currentUser.password) {
+                await updatePassword(auth.currentUser, password);
+            }
+            await updateUserData(currentUser.uid, data);
+            setCurrentUser(await getCurrentUser(currentUser.uid));
+            return redirect('/profile');
+        } catch(err) {
+            return err.message;
+        }
+    }
 
     async function resetPassword(email) {
         try {

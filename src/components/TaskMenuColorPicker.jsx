@@ -5,8 +5,8 @@ export function TaskMenuColorPicker({ setColor }) {
     const colors = [
         "white",
         "amber-500",
-        "green-500",
-        "red-500",
+        "green-500 text-white",
+        "red-500 text-white",
     ]
 
     return (

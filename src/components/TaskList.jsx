@@ -12,6 +12,8 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
 
     // TODO: implement sorting tasks by dragging them using Sortable
 
+    console.log(date, tasksData);
+
     const getDate = date => {
         let day = date.getDate().toString(), month = (date.getMonth() + 1).toString();
         if (day.length < 2) day = "0" + day;
@@ -35,8 +37,6 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
         firstInput.removeAttribute("readOnly");
         firstInput.focus();
     }
-
-    const submit = useSubmit();
 
     async function handleKeyDown(ev) {
         if (ev.key === 'Enter') {

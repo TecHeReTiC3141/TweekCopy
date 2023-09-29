@@ -6,10 +6,14 @@ import {
     getDoc,
     getDocs,
     deleteDoc,
-    updateDoc, query, where, onSnapshot,
+    updateDoc,
+    query,
+    where,
+    setDoc,
 } from "firebase/firestore";
 
 const taskColRef = collection(db, "tasks");
+const userColRef = collection(db, "users");
 
 export function tryCatchDecorator(func) {
 
@@ -28,6 +32,8 @@ export function tryCatchDecorator(func) {
         }
     }
 }
+
+// Tasks CRUD
 
 export async function createTask(data) {
     const docRef = await addDoc(taskColRef, data);
@@ -74,5 +80,27 @@ export async function clearUsersTasks(userId) {
     tasks.map(async ({ id }) => {
         await deleteDoc(doc(db, "tasks", id));
     })
+}
+
+// Users CRUD
+
+export async function createUser(id, data) {
+    console.log('in create user', id, data);
+    await setDoc(doc(db, 'users', id), data);
+}
+
+export async function getCurrentUser(id) {
+    if (!id) return null;
+    const userRef = doc(db, 'users', id);
+    const userSnapshot = await getDoc(userRef);
+    return {
+        uid: userSnapshot.id,
+        ...userSnapshot.data(),
+    }
+}
+
+export async function updateUserData(id, data) {
+    const userRef = doc(db, 'users', id);
+    await updateDoc(userRef, data);
 }
 
