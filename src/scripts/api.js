@@ -32,6 +32,7 @@ export function tryCatchDecorator(func) {
 export async function createTask(data) {
     const docRef = await addDoc(taskColRef, data);
     const newTask = await getDoc(docRef);
+    console.log(`creating task ${data.name}`)
     return {
         ...newTask.data(),
         id: newTask.id,
@@ -69,6 +70,7 @@ export async function toggleDoneTask(taskId) {
 
 export async function clearUsersTasks(userId) {
     const tasks = await getUserTasks(userId);
+    console.log(`deleting ${tasks.length}`)
     tasks.map(async ({ id }) => {
         await deleteDoc(doc(db, "tasks", id));
     })

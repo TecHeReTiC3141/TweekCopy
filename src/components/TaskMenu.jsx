@@ -9,7 +9,7 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
 
     const [taskColor, setTaskColor] = useState("white");
     const [taskDone, setTaskDone] = useState(done);
-    console.log(name, done);
+    // console.log(name, done);
 
     function openColorPicker(ev) {
         ev.stopPropagation();

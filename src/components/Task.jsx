@@ -4,6 +4,10 @@ import {Form, useSubmit} from "react-router-dom";
 import { createTask, toggleDoneTask } from "../scripts/api.js";
 import {useAuth} from "../contexts/AuthContext.jsx";
 
+function formDate(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
 const Task = ({taskListInd, ind, data, setTask, date}) => {
     async function handleToggleDone() {
         await toggleDoneTask(data.id);
@@ -18,11 +22,11 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
         if (!ev.target.value) return;
         if (currentUser) {
             const formData = new FormData(ev.target.parentElement);
-            console.log("creating new task", formData.get("add-task-name"));
+            console.log("creating new task on blur", formData.get("add-task-name"));
             await createTask({
                 name: formData.get("add-task-name"),
                 color: "white",
-                date: formData.get("task-date"),
+                date: formDate(date),
                 uid: currentUser.uid,
                 done: false,
             })

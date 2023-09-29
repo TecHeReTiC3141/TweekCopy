@@ -4,9 +4,9 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 import {useSubmit} from "react-router-dom";
 import {createTask, tryCatchDecorator} from "../scripts/api.js";
 
-// function formDate(date) {
-//     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-// }
+function formDate(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
 
 const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}) => {
 
@@ -47,14 +47,16 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                 // TODO: when Enter is pressed, next input must be focused
                 if (currentUser) {
                     const formData = new FormData(curInput.parentElement);
-                    console.log("creating new task", formData.get("add-task-name"), date);
+                    console.log("creating new task on keydown", formData.get("add-task-name"), formDate(date));
+                    curInput.value = "";
                     await tryCatchDecorator(createTask)({
                         name: formData.get("add-task-name"),
                         color: "white",
-                        date,
+                        date: formDate(date),
                         uid: currentUser.uid,
                         done: false,
                     });
+
                     curInput.blur();
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;

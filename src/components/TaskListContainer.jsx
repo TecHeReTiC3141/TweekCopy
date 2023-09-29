@@ -7,7 +7,7 @@ import { db } from "../scripts/firebase";
 import { useAuth } from "../contexts/AuthContext";
 
 function formDate(date) {
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 
 const TaskListContainer = () => {
@@ -19,7 +19,7 @@ const TaskListContainer = () => {
     const [tasks, setTasks] = useState([]);
 
     const { currentUser } = useAuth();
-    console.log(tasks.length);
+    console.log(tasks.length, tasks);
 
     useEffect(() => {
 
@@ -66,7 +66,7 @@ const TaskListContainer = () => {
         dates.push(newDate);
         tasksData[formDate(newDate)] = tasks.filter(task => formDate(task.date) === formDate(newDate));
     }
-    // console.log(tasksData);
+    console.log(tasksData);
 
 
     const changeMaxTasks = (newTasks) => {
