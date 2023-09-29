@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {auth} from "../scripts/firebase.js";
-import { redirect } from "react-router-dom"
 import {signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut,
@@ -59,8 +58,7 @@ function AuthProvider({ children }) {
                 await updatePassword(auth.currentUser, password);
             }
             await updateUserData(currentUser.uid, data);
-            setCurrentUser(await getCurrentUser(currentUser.uid));
-            return redirect('/profile');
+            return setCurrentUser(await getCurrentUser(currentUser.uid));
         } catch(err) {
             return err.message;
         }
@@ -81,6 +79,7 @@ function AuthProvider({ children }) {
         login,
         logout,
         resetPassword,
+        updateUser,
     }
 
     return (
