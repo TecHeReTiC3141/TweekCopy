@@ -9,7 +9,12 @@ export default function Blur({ children, type }) {
             const formData = new FormData(form);
             // TODO: implement task update + deletion
 
-            await tryCatchDecorator(updateTask)();
+            await tryCatchDecorator(updateTask)(formData.get("task-id"), {
+                name: formData.get("task-name"),
+                done: formData.has("task-done"),
+                color: formData.get("task-color"),
+                description: formData.get("task-description"),
+            });
         }
         document.body.style.overflowY = 'auto';
     }

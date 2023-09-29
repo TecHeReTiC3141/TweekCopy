@@ -3,6 +3,8 @@ import {useEffect} from "react";
 
 export default function ProfileMenu() {
 
+    // TODO: add extended user model with also contains name + maybe other information
+
     const { currentUser, logout } = useAuth();
 
     console.log(currentUser);

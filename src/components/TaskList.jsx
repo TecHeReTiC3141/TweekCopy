@@ -10,6 +10,8 @@ import {addTask, tryCatchDecorator} from "../scripts/api.js";
 
 const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}) => {
 
+    // TODO: implement sorting tasks by dragging them using Sortable
+
     const getDate = date => {
         let day = date.getDate().toString(), month = (date.getMonth() + 1).toString();
         if (day.length < 2) day = "0" + day;
@@ -53,6 +55,7 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                         uid: currentUser.uid,
                         done: false,
                     });
+                    curInput.blur();
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;
                     if (thisTaskList.dataset.date == date.getDate()) {

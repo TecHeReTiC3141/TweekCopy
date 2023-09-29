@@ -3,6 +3,7 @@ import Blur from "./Blur.jsx";
 import TaskMenuBtn from "./TaskMenuBtn.jsx";
 import {TaskMenuColorPicker} from "./TaskMenuColorPicker.jsx";
 import {Form} from "react-router-dom";
+import { tryCatchDecorator, deleteTask } from "../scripts/api.js";
 
 const TaskMenu = ({id: taskId, date, name, done}) => {
 
@@ -30,10 +31,16 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
         }
     }
 
+    async function delTask(ev) {
+        await tryCatchDecorator(deleteTask)(taskId);
+        const bgBlur = document.querySelector(".blur-bg.active");
+        bgBlur.classList.remove("active");
+    }
+
     const taskMenuBtns = [
         {
             icon: "fa-regular fa-trash-can cursor-pointer",
-            onClick: () => {},
+            onClick: delTask,
             disabled: false,
             tooltip: "Delete",
         },
@@ -95,7 +102,7 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
 
                 <div className="mt-12">
                     <Form method="POST" className="task-menu-form relative w-full">
-                        <input type="text" id="task-name" name="tast-name" defaultValue={name}
+                        <input type="text" id="task-name" name="task-name" defaultValue={name}
                                className={"w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none "
                                    + ((taskDone && "line-through opacity-40") || '')}
                             />
@@ -109,6 +116,7 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
                                            placeholder="Write additional notes"></textarea>
                         <input type="checkbox" id="task-done" name="task-done" checked={taskDone} className="hidden" readOnly={true}/>
                         <input type="text" id="task-color" name="task-color" value={taskColor} className="hidden" readOnly={true}/>
+                        <input type="text" id="task-id" name="task-id" defaultValue={taskId} className="hidden" readOnly={true}/>
                     </Form>
                 </div>
 

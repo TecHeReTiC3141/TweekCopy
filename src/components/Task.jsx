@@ -35,6 +35,8 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
         if (document.querySelector('.blur-bg.active')) return;
         const taskMenuBg = ev.target.parentElement.querySelector('.blur-bg');
         taskMenuBg.classList.add('active');
+        taskMenuBg.querySelector(".task-menu").classList.add("active");
+        console.log(taskMenuBg.querySelector(".task-menu"));
         document.body.style.overflowY = "hidden";
     }
 
