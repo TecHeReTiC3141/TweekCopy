@@ -3,7 +3,7 @@ import HeaderBtn from "./HeaderBtn"
 import {useSearchParams} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import ProfileMenu from "./ProfileMenu.jsx";
-import { clearUsersTasks } from "../scripts/api.js";
+import {clearUsersTasks} from "../scripts/api.js";
 
 const Header = () => {
 
@@ -43,13 +43,7 @@ const Header = () => {
     const {currentUser} = useAuth();
 
     const HeaderBtns = [
-        {
-            textColor: "black",
-            bgColor: "blue-200",
-            icon: `fa-${currentUser ? "solid" : "regular"} fa-user`,
-            onClick: currentUser ? openProfileMenu : openLoginForm,
-            tooltip: currentUser ? "Profile" : "Login",
-        },
+
         {
             textColor: "black",
             bgColor: "blue-200",
@@ -63,6 +57,7 @@ const Header = () => {
             textColor: "black",
             bgColor: "purple-200",
             icon: "fa-solid fa-ellipsis-vertical",
+            tooltip: "Extras",
         },
         {
             textColor: "white",
@@ -100,6 +95,22 @@ const Header = () => {
             <h1 className={"text-xl font-[700] lg:text-4xl tracking-tighter " + (+searchParams.get("weekShift") && 'text-blue-600')}>{monthName} {new Date().getFullYear()}</h1>
 
             <div className="flex gap-3">
+
+                {currentUser ?
+                    <button className="h-8 w-8 lg:w-10 lg:h-10 lg:text-lg flex-1 hover:shadow-lg relative group
+                    bg-blue-200 rounded-full mx-auto flex justify-center items-center" onClick={openProfileMenu}>
+                        <h2>{" ".concat(...currentUser?.name.split(" ").slice(0, 2).map(w => w[0].toUpperCase()))}</h2>
+                        <p className="absolute left-1/2 -translate-x-[50%] top-[120%]
+        opacity-0 group-hover:opacity-100 transition ease-linear duration-200
+         text-white bg-gray-800 rounded text-xs p-1">Profile</p>
+                    </button>
+                    : <HeaderBtn {...{
+                        textColor: "black",
+                        bgColor: "blue-200",
+                        icon: "fa-regular fa-user",
+                        onClick: openLoginForm,
+                        tooltip: "Login",
+                    }}/>}
                 {
                     HeaderBtns.map((btn, index) => (
                         <HeaderBtn {...btn} key={index}/>
