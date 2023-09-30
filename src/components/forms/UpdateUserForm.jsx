@@ -1,8 +1,23 @@
-import {Form, useActionData, useLoaderData} from "react-router-dom";
+import {Form, redirect, useActionData, useLoaderData} from "react-router-dom";
 import Blur from "../Blur.jsx";
 
 import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useState} from "react";
+
+export const action = (AuthContext) => async ({ request }) => {
+
+    const formData = await request.formData();
+    const { updateUser } = AuthContext;
+    const name = formData.get("name"),
+        email = formData.get("email"),
+        passwordConfirm = formData.get("confirmPassword"),
+        password = formData.get("password");
+    if (passwordConfirm !== password) {
+        return "Passwords don't match";
+    }
+    await updateUser(email, password, { name })
+    return redirect("/");
+}
 
 export default function UpdateUserForm() {
 
@@ -28,7 +43,7 @@ export default function UpdateUserForm() {
                 {errorMessage && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                     {errorMessage}</h3>}
-                <Form method="POST" className="relative" >
+                <Form method="POST" className="relative" action="/update-user" >
 
                     <div className="w-full">
 

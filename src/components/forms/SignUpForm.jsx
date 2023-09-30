@@ -1,10 +1,32 @@
-import {Form, useActionData} from "react-router-dom";
+import {Form, redirect, useActionData, useLoaderData, useSearchParams} from "react-router-dom";
 import Blur from "../Blur.jsx";
-import { formTransition } from "../../scripts/utils.js";
+import {formTransition} from "../../scripts/utils.js";
+
+export const action = (AuthContext) => async ({ request }) => {
+
+    const formData = await request.formData();
+
+    const {signup} = AuthContext;
+    const name = formData.get("name"),
+        email = formData.get("email"),
+        passwordConfirm = formData.get("confirmPassword"),
+        password = formData.get("password");
+    if (passwordConfirm !== password) {
+        return redirect("/?errorMessage=Passwords don't match");
+    }
+    console.log(email, password, request.url);
+    await signup({email, password, name})
+    return redirect("/");
+}
+
+// export function loader({ request }) {
+//     return new URL(request.url).searchParams.get("errorMessage")
+// }
 
 export default function SignUpForm() {
 
-    const errorMessage = useActionData();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const errorMessage = searchParams.get("errorMessage");
 
     return (
         <Blur type="signup-form">
@@ -19,7 +41,7 @@ export default function SignUpForm() {
                 { errorMessage && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                     {errorMessage}</h3>}
-                <Form method="POST" className="relative">
+                <Form method="POST" className="relative" action="/signup">
                     <input type="text" defaultValue="signup-form" name="form-id" id="form-id" className="hidden" />
                     <input type="text" id="name" name="name" required placeholder="Name"
                            className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>

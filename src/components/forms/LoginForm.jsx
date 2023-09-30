@@ -13,6 +13,7 @@ export const action = (AuthContext) => async ({ request }) => {
     await login(email, password);
     return redirect("/");
 }
+
 export default function LoginForm() {
 
     const errorMessage = useActionData();
@@ -33,7 +34,7 @@ export default function LoginForm() {
                 {errorMessage && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                     {errorMessage}</h3>}
-                <Form method="POST" className="relative">
+                <Form method="POST" action="/login" className="relative">
                     <input type="text" defaultValue="login-form" name="form-id" id="form-id" className="hidden"/>
                     <input type="email" id="email" name="email" required placeholder="Email"
                            className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>

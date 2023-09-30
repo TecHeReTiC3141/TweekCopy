@@ -1,6 +1,15 @@
-import {Form, useActionData, useLoaderData} from "react-router-dom";
+import {Form, redirect, useActionData, useLoaderData} from "react-router-dom";
 import Blur from "../Blur.jsx";
 import { formTransition } from "../../scripts/utils.js";
+
+export const action = (AuthContext) => async ({ request }) => {
+    const { resetPassword } = AuthContext;
+
+    const formData = await request.formData();
+    const email = formData.get("email");
+    await resetPassword(email);
+    return redirect("/");
+}
 
 export default function ResetPasswordForm() {
 
@@ -20,13 +29,14 @@ export default function ResetPasswordForm() {
                 { errorMessage && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                     {errorMessage}</h3>}
-                <Form method="POST" className="relative">
+                <Form method="POST" className="relative" action="/reset-password">
                     <input type="text" defaultValue="login-form" name="form-id" id="form-id" className="hidden" />
                     <input type="email" id="email" name="email" required placeholder="Email"
                            className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>
                     <button
                         className="py-1 px-4 border border-black bg-gray-700 text-gray-100 rounded-full font-bold"
-                    >Save
+                        onClick={() => formTransition("reset-password-form", "login-form")}
+                    >Send
                     </button>
                 </Form>
 
