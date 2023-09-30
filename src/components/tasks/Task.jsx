@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
 import TaskMenu from "./TaskMenu.jsx";
 import {Form, useSubmit} from "react-router-dom";
-import { createTask, toggleDoneTask } from "../scripts/api.js";
-import {useAuth} from "../contexts/AuthContext.jsx";
+import { createTask, toggleDoneTask } from "../../scripts/api.js";
+import {useAuth} from "../../contexts/AuthContext.jsx";
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`

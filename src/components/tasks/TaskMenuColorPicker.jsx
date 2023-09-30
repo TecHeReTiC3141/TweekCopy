@@ -1,4 +1,4 @@
-import TaskMenuBtn from "./TaskMenuBtn";
+import TaskMenuBtn from "./TaskMenuBtn.jsx";
 
 export function TaskMenuColorPicker({ setColor }) {
 

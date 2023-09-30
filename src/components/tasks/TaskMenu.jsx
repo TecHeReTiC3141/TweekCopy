@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import Blur from "./Blur.jsx";
+import Blur from "../Blur.jsx";
 import TaskMenuBtn from "./TaskMenuBtn.jsx";
 import {TaskMenuColorPicker} from "./TaskMenuColorPicker.jsx";
 import {Form} from "react-router-dom";
-import { tryCatchDecorator, deleteTask } from "../scripts/api.js";
+import { tryCatchDecorator, deleteTask } from "../../scripts/api.js";
 
 const TaskMenu = ({id: taskId, date, name, done}) => {
 

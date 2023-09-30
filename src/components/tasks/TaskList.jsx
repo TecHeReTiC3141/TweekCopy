@@ -1,8 +1,8 @@
 import React from 'react'
-import Task from './Task';
-import {useAuth} from "../contexts/AuthContext.jsx";
+import Task from './Task.jsx';
+import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useSubmit} from "react-router-dom";
-import {createTask, tryCatchDecorator} from "../scripts/api.js";
+import {createTask, tryCatchDecorator} from "../../scripts/api.js";
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`

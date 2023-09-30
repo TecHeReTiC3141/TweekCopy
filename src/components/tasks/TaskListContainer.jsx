@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import TaskList from './TaskList'
-import LoginForm from "./forms/LoginForm.jsx";
+import TaskList from './TaskList.jsx'
+import LoginForm from "../forms/LoginForm.jsx";
 import { useSearchParams } from "react-router-dom";
 import { onSnapshot, collection, query, where } from "firebase/firestore";
-import { db } from "../scripts/firebase";
-import { useAuth } from "../contexts/AuthContext";
+import { db } from "../../scripts/firebase.js";
+import { useAuth } from "../../contexts/AuthContext.jsx";
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
