@@ -7,7 +7,9 @@ import UpdateUserForm from "./components/forms/UpdateUserForm";
 import { createTask } from "./scripts/api"
 import {useAuth} from "./contexts/AuthContext.jsx";
 import {redirect} from "react-router-dom";
+import ResetPasswordForm from "./components/forms/ResetPasswordForm.jsx";
 
+// TODO: fix issue when action returns null
 export const action = (AuthContext) => async ({ request }) => {
 
     const formData = await request.formData();
@@ -48,6 +50,8 @@ export const action = (AuthContext) => async ({ request }) => {
     return null;
 
 }
+
+// TODO: add component of right sidebar which appears when user is not logged in
 function HomePage() {
 
     return (
@@ -58,6 +62,7 @@ function HomePage() {
             <LoginForm/>
             <SignUpForm/>
             <UpdateUserForm/>
+            <ResetPasswordForm/>
         </main>
     )
 }

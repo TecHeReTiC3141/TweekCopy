@@ -1,16 +1,10 @@
 import {Form, useActionData} from "react-router-dom";
 import Blur from "../Blur.jsx";
+import { formTransition } from "../../scripts/utils.js";
 
 export default function SignUpForm() {
 
     const errorMessage = useActionData();
-
-    function toLoginForm(ev) {
-        const loginBlur = document.querySelector('.blur-bg[data-id="login-form"]');
-        const signupBlur = document.querySelector('.blur-bg[data-id="signup-form"]');
-        loginBlur.classList.add("active");
-        signupBlur.classList.remove("active");
-    }
 
     return (
         <Blur type="signup-form">
@@ -20,7 +14,7 @@ export default function SignUpForm() {
                 <div className="w-full flex justify-between items-center mb-12">
                     <h3 className="font-bold text-lg">Hello, nice to meet you!</h3>
                     <button className="border rounded-full border-gray-700 px-3 py-1 font-bold text-sm"
-                    onClick={toLoginForm}>Log in</button>
+                    onClick={() => formTransition("signup-form", "login-form")}>Log in</button>
                 </div>
                 { errorMessage && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
