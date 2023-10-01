@@ -12,7 +12,7 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
 
     // TODO: implement sorting tasks by dragging them using Sortable
 
-    console.log(date, tasksData);
+    // console.log(date, tasksData);
 
     const getDate = date => {
         let day = date.getDate().toString(), month = (date.getMonth() + 1).toString();

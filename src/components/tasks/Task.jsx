@@ -38,7 +38,8 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
         const taskMenuBg = ev.target.parentElement.querySelector('.blur-bg');
         taskMenuBg.classList.add('active');
         taskMenuBg.querySelector(".task-menu").classList.add("active");
-        console.log(taskMenuBg.querySelector(".task-menu"));
+        // console.log(taskMenuBg.querySelector(".task-menu"));
+        console.log(data);
 
     }
 

@@ -16,7 +16,6 @@
         @apply top-24;
     }
 
-
     .profile-menu.active, .task-menu-color-picker.active, .blur-bg.active {
         @apply fixed;
     }
