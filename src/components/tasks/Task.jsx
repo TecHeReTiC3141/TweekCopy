@@ -3,13 +3,15 @@ import TaskMenu from "./TaskMenu.jsx";
 import {Form, useSubmit} from "react-router-dom";
 import { createTask, toggleDoneTask } from "../../scripts/api.js";
 import {useAuth} from "../../contexts/AuthContext.jsx";
+import {useTaskMenu} from "../../contexts/TaskMenuContext.jsx";
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 
 const Task = ({taskListInd, ind, data, setTask, date}) => {
-    async function handleToggleDone() {
+    async function handleToggleDone(ev) {
+        ev.stopPropagation();
         await toggleDoneTask(data.id);
     }
 
@@ -33,13 +35,16 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
         }
     }
 
+    const { setTaskData } = useTaskMenu();
+
     function openTaskMenu(ev) {
         if (document.querySelector('.blur-bg.active')) return;
-        const taskMenuBg = ev.target.parentElement.querySelector('.blur-bg');
+        const taskMenuBg = document.querySelector("[data-id='task-menu']");
         taskMenuBg.classList.add('active');
         taskMenuBg.querySelector(".task-menu").classList.add("active");
-        // console.log(taskMenuBg.querySelector(".task-menu"));
         console.log(data);
+        setTaskData(data);
+
 
     }
 
@@ -69,7 +74,6 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
                     <button className="toggle-done hidden group-hover:block max-lg:block" onClick={handleToggleDone}>
                         <i className={`fa-${data?.done ? "solid" : "regular"} fa-circle-check`}></i>
                     </button>
-                    <TaskMenu {...data}/>
 
                 </div>
             }

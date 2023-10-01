@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import Header from './components/Header'
-import TaskListContainer from './components/tasks/TaskListContainer.jsx'
-import LoginForm from "./components/forms/LoginForm.jsx";
-import SignUpForm from "./components/forms/SignUpForm.jsx";
+import TaskListContainer from './components/tasks/TaskListContainer'
+import LoginForm from "./components/forms/LoginForm";
+import SignUpForm from "./components/forms/SignUpForm";
 import UpdateUserForm from "./components/forms/UpdateUserForm";
-import {useAuth} from "./contexts/AuthContext.jsx";
-import ResetPasswordForm from "./components/forms/ResetPasswordForm.jsx";
-import InvitePage from "./components/InvitePage.jsx";
+import {useAuth} from "./contexts/AuthContext";
+import ResetPasswordForm from "./components/forms/ResetPasswordForm";
+import InvitePage from "./components/InvitePage";
+import TaskMenu from "./components/tasks/TaskMenu";
 
 function HomePage() {
 
@@ -29,6 +30,7 @@ function HomePage() {
             <SignUpForm/>
             <UpdateUserForm/>
             <ResetPasswordForm/>
+            <TaskMenu/>
             {!currentUser && <InvitePage />}
         </main>
     )

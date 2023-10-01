@@ -3,13 +3,23 @@ import Blur from "../Blur.jsx";
 import TaskMenuBtn from "./TaskMenuBtn.jsx";
 import {TaskMenuColorPicker} from "./TaskMenuColorPicker.jsx";
 import {Form} from "react-router-dom";
-import { tryCatchDecorator, deleteTask } from "../../scripts/api.js";
+import {tryCatchDecorator, deleteTask} from "../../scripts/api.js";
+import {useTaskMenu} from "../../contexts/TaskMenuContext.jsx";
 
-const TaskMenu = ({id: taskId, date, name, done}) => {
+const TaskMenu = () => {
 
-    const [taskColor, setTaskColor] = useState("white");
-    const [taskDone, setTaskDone] = useState(done);
-    // console.log(name, done);
+    const {taskData, setTaskData} = useTaskMenu();
+    const {id: taskId, date, color, name, done, description} = taskData;
+
+    console.log("In task menu", taskData);
+
+    // TODO: fix bugs connected with new TaskMenu
+
+    useEffect(() => {
+        const form = document.querySelector(".task-menu-form");
+        form.querySelector("#task-name").value = taskData.name;
+        form.querySelector("#task-description").value = taskData.description || "";
+    }, [taskData]);
 
     function openColorPicker(ev) {
         ev.stopPropagation();
@@ -47,19 +57,21 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
         },
         {
             icon: "fa-solid fa-rotate cursor-pointer",
-            onClick: () => {},
+            onClick: () => {
+            },
             disabled: true,
             tooltip: "Repeat",
         },
         {
-            icon: `cursor-pointer inline-block rounded-full w-3 h-3 bg-${taskColor}`,
+            icon: `cursor-pointer inline-block rounded-full w-3 h-3 bg-${color}`,
             onClick: openColorPicker,
             disabled: false,
             tooltip: "Select color",
         },
         {
             icon: "fa-regular fa-bell cursor-pointer",
-            onClick: () => {},
+            onClick: () => {
+            },
             disabled: true,
             tooltip: "Reminder",
         },
@@ -76,7 +88,7 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
     const day = days[date.getDay()];
 
     return (
-        <Blur>
+        <Blur type="task-menu">
             <div className="task-menu relative top-40 bg-[#DDE1FB] rounded-xl
             py-4 lg:py-6 px-6 lg:px-8 w-[28rem]
              z-20 text-gray-600 transition-all duration-500 ease-linear"
@@ -97,7 +109,12 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
                                 <TaskMenuBtn key={ind} {...btn} />
                             ))
                         }
-                        <TaskMenuColorPicker setColor={value => setTaskColor(value)}/>
+                        <TaskMenuColorPicker
+                            setColor={value => setTaskData(prevData =>
+                                ({
+                                    ...prevData,
+                                    color: value,
+                                }))}/>
                     </div>
                 </div>
 
@@ -105,19 +122,29 @@ const TaskMenu = ({id: taskId, date, name, done}) => {
                     <Form method="POST" className="task-menu-form relative w-full">
                         <input type="text" id="task-name" name="task-name" defaultValue={name}
                                className={"w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none "
-                                   + ((taskDone && "line-through opacity-40") || '')}
-                            />
+                                   + ((done && "line-through opacity-40") || '')}
+                        />
                         <button className="absolute top-5 -translate-y-[50%] right-4"
-                                onClick={() => setTaskDone(prevTaskDone => !prevTaskDone)}>
-                            <i className={`fa-${taskDone ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
+                                onClick={ev => {
+                                    ev.preventDefault();
+                                    setTaskData(prevData =>
+                                        ({
+                                            ...prevData,
+                                            done: !done,
+                                        }));
+                                }}>
+                            <i className={`fa-${done ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
 
                         </button>
                         <textarea name="task-description" id="task-description" cols="30" rows="3"
-                                           className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
-                                           placeholder="Write additional notes"></textarea>
-                        <input type="checkbox" id="task-done" name="task-done" checked={taskDone} className="hidden" readOnly={true}/>
-                        <input type="text" id="task-color" name="task-color" value={taskColor} className="hidden" readOnly={true}/>
-                        <input type="text" id="task-id" name="task-id" defaultValue={taskId} className="hidden" readOnly={true}/>
+                                  className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
+                                  placeholder="Write additional notes" defaultValue={description}></textarea>
+                        <input type="checkbox" id="task-done" name="task-done" checked={done} className="hidden"
+                               readOnly={true}/>
+                        <input type="text" id="task-color" name="task-color" value={color} className="hidden"
+                               readOnly={true}/>
+                        <input type="text" id="task-id" name="task-id" value={taskId} className="hidden"
+                               readOnly={true}/>
                     </Form>
                 </div>
 
