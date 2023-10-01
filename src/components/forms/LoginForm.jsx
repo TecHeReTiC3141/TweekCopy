@@ -1,6 +1,7 @@
-import {Form, redirect, useActionData, useLoaderData} from "react-router-dom";
+import {Form, redirect, useActionData, useLoaderData, useSearchParams} from "react-router-dom";
 import Blur from "../Blur.jsx";
 import {formTransition} from "../../scripts/utils.js";
+import {useAuth} from "../../contexts/AuthContext.jsx";
 
 export const action = (AuthContext) => async ({ request }) => {
 
@@ -10,14 +11,23 @@ export const action = (AuthContext) => async ({ request }) => {
     const email = formData.get("email"),
         password = formData.get("password");
     console.log(email, password, request.url);
-    await login(email, password);
-    return redirect("/");
+    const res = await login(email, password);
+    return redirect(`/?{res.type === "error" && ("?errorMessage=" + res.errorMessage)}`);
 }
 
 export default function LoginForm() {
 
-    const errorMessage = useActionData();
-
+    function closeLoginForm() {
+        const loginBlur = document.querySelector('[data-id="login-form"]');
+        loginBlur.classList.remove("active");
+    }
+    const [searchParams, setSearchParams] = useSearchParams();
+    const errorMessage = searchParams.get("errorMessage");
+    // TODO: Close form when it's submitted
+    const { currentUser } = useAuth();
+    if (currentUser) {
+        closeLoginForm();
+    }
 
     return (
         <Blur type="login-form">

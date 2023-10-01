@@ -10,12 +10,13 @@ export const action = (AuthContext) => async ({ request }) => {
     const { updateUser } = AuthContext;
     const name = formData.get("name"),
         email = formData.get("email"),
+        password = formData.get("password"),
         passwordConfirm = formData.get("confirmPassword"),
-        password = formData.get("password");
+        darkMode = formData.get("dark-mode");
     if (passwordConfirm !== password) {
         return "Passwords don't match";
     }
-    await updateUser(email, password, { name })
+    await updateUser(email, password, { name, darkMode })
     return redirect("/");
 }
 
@@ -45,9 +46,29 @@ export default function UpdateUserForm() {
                     {errorMessage}</h3>}
                 <Form method="POST" className="relative" action="/update-user" >
 
-                    <div className="w-full">
+                    <div className="w-full flex gap-3 items-center my-4 pb-2 px-2 border-b border-black">
+                        <i className="fa-solid fa-moon text-2xl"></i>
+                        <div className="flex-1">
+                            <p className="font-bold text-xs">Dark Mode</p>
+                            <p className="leading-4 text-sm">Switch interface to dark theme</p>
+                        </div>
+                        <button className={`h-4 w-10 border border-black ${currentUser?.darkMode && "active"}
+                        rounded-full relative top-1 [&.active]:bg-black group/dark-mode
+                        `}
+                        onClick={ev => {
+                            ev.currentTarget.classList.toggle("active");
+                            document.getElementById("dark-mode").checked = ev.currentTarget.classList.contains("active");
+                            localStorage.setItem("theme", ev.currentTarget.classList.contains("active") ? "dark" : "light");
+                        }}>
 
+                            <div className="h-4 w-4 absolute rounded-full border border-black bg-black
+                         top-[-1px] left-0 group-[.active]/dark-mode:left-6 group-[.active]/dark-mode:bg-[#e5d7fa] flex justify-center items-center">
+
+                                <i className="fa-solid fa-check text-black text-xs"></i>
+                            </div>
+                        </button>
                     </div>
+                    <input type="checkbox" defaultChecked={ currentUser?.darkMode } name="dark-mode" id="dark-mode" className="hidden" />
                     <input type="text" defaultValue="update-user-form" name="form-id" id="form-id" className="hidden"/>
                     <input type="text" id="name" name="name" required placeholder="Name" defaultValue={currentUser?.name}
                            className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>

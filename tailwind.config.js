@@ -8,6 +8,7 @@ export default {
     extend: {},
   },
   plugins: [],
+  darkMode: "class",
   safelist: [
     "bg-purple-200",
     "bg-blue-200",

@@ -28,19 +28,23 @@ function AuthProvider({ children }) {
     async function signup({ email, password, name }) {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            await createUser(auth.currentUser.uid, {email, name});
-            return window.location.reload();
+            return await createUser(auth.currentUser.uid, {email, name});
         } catch (err) {
-            return err.message;
+            return {
+                type: "error",
+                errorMessage: err.message,
+            };
         }
     }
 
     async function login(email, password) {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            return window.location.reload();
+            return await signInWithEmailAndPassword(auth, email, password);
         } catch (err) {
-            return err.message;
+            return {
+                type: "error",
+                errorMessage: err.message,
+            };
         }
     }
 

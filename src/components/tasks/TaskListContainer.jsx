@@ -75,7 +75,7 @@ const TaskListContainer = () => {
 
 
     return (
-        <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10">
+        <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10 dark:bg-black dark:text-white">
             {
                 dates.slice(0, 5).map((date, index) => (
                     <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}

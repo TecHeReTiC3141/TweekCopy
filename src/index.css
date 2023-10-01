@@ -25,6 +25,22 @@
         @apply hidden;
     }
 
+    .invite.active > .invite-page {
+        @apply translate-x-0;
+    }
+
+    .invite:not(.active) > .invite-page {
+        @apply translate-x-full;
+    }
+
+    .invite.active > .invite-blur {
+        @apply fixed;
+    }
+
+    .invite:not(.active) > .invite-blur {
+        @apply hidden;
+    }
+
 }
 
 @layer utilities {
