@@ -1,16 +1,32 @@
-import {Form, useActionData} from "react-router-dom";
+import {Form, redirect, useActionData, useLoaderData, useSearchParams} from "react-router-dom";
 import Blur from "../Blur.jsx";
+import {formTransition} from "../../scripts/utils.js";
+
+export const action = (AuthContext) => async ({ request }) => {
+
+    const formData = await request.formData();
+
+    const {signup} = AuthContext;
+    const name = formData.get("name"),
+        email = formData.get("email"),
+        passwordConfirm = formData.get("confirmPassword"),
+        password = formData.get("password");
+    if (passwordConfirm !== password) {
+        return redirect("/?errorMessage=Passwords don't match");
+    }
+    console.log(email, password, request.url);
+    await signup({email, password, name})
+    return redirect("/");
+}
+
+// export function loader({ request }) {
+//     return new URL(request.url).searchParams.get("errorMessage")
+// }
 
 export default function SignUpForm() {
 
-    const errorMessage = useActionData();
-
-    function toLoginForm(ev) {
-        const loginBlur = document.querySelector('.blur-bg[data-id="login-form"]');
-        const signupBlur = document.querySelector('.blur-bg[data-id="signup-form"]');
-        loginBlur.classList.add("active");
-        signupBlur.classList.remove("active");
-    }
+    const [searchParams, setSearchParams] = useSearchParams();
+    const errorMessage = searchParams.get("errorMessage");
 
     return (
         <Blur type="signup-form">
@@ -20,12 +36,12 @@ export default function SignUpForm() {
                 <div className="w-full flex justify-between items-center mb-12">
                     <h3 className="font-bold text-lg">Hello, nice to meet you!</h3>
                     <button className="border rounded-full border-gray-700 px-3 py-1 font-bold text-sm"
-                    onClick={toLoginForm}>Log in</button>
+                    onClick={() => formTransition("signup-form", "login-form")}>Log in</button>
                 </div>
                 { errorMessage && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                     {errorMessage}</h3>}
-                <Form method="POST" className="relative">
+                <Form method="POST" className="relative" action="/signup">
                     <input type="text" defaultValue="signup-form" name="form-id" id="form-id" className="hidden" />
                     <input type="text" id="name" name="name" required placeholder="Name"
                            className="w-full my-2 py-1 border-b border-gray-600 bg-transparent indent-1 focus:outline-none"/>

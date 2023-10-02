@@ -3,9 +3,14 @@ import {useEffect} from "react";
 
 export default function ProfileMenu() {
 
+    // TODO: add extended user model with also contains name + maybe other information
+
     const { currentUser, logout } = useAuth();
 
-    console.log(currentUser);
+    function openUpdateUserForm() {
+        const updateUserBlur = document.querySelector('[data-id="update-user-form"]');
+        updateUserBlur.classList.add("active");
+    }
 
     useEffect(() => {
         window.addEventListener("click", () => {
@@ -22,14 +27,14 @@ export default function ProfileMenu() {
     return (
         <div className="profile-menu bg-white border border-black rounded-md w-28 lg:w-40 p-4 -translate-x-[50%] text-center"
              onClick={ev => ev.stopPropagation()}>
-            <div>
-
+            <div className="h-8 w-8 border border-gray-800 rounded-full mx-auto flex justify-center items-center">
+                {currentUser && <h2>{" ".concat(...currentUser?.name.split(" ").slice(0, 2).map(w => w[0].toUpperCase()))}</h2>}
             </div>
 
-            <h4>{currentUser?.email}</h4>
+            <h4>{currentUser?.name}</h4>
 
             <div className="w-full flex justify-between text-xs border-t border-gray-400 mt-2 py-1">
-                <button><i className="fa-solid fa-user-gear text-xs"></i> Account</button>
+                <button onClick={openUpdateUserForm}><i className="fa-solid fa-user-gear text-xs"></i> Account</button>
                 <button onClick={async () => await logout()}>
                     <i className="fa-solid fa-arrow-right-from-bracket text-xs"></i> Log out</button>
             </div>

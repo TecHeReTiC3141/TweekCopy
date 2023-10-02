@@ -1,35 +1,25 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Header from './components/Header'
-import TaskListContainer from './components/TaskListContainer'
-import LoginForm from "./components/forms/LoginForm.jsx";
-import SignUpForm from "./components/forms/SignUpForm.jsx";
+import TaskListContainer from './components/tasks/TaskListContainer'
+import LoginForm from "./components/forms/LoginForm";
+import SignUpForm from "./components/forms/SignUpForm";
+import UpdateUserForm from "./components/forms/UpdateUserForm";
+import {useAuth} from "./contexts/AuthContext";
+import ResetPasswordForm from "./components/forms/ResetPasswordForm";
+import InvitePage from "./components/InvitePage";
+import TaskMenu from "./components/tasks/TaskMenu";
 
-export const action = (AuthContext) => async ({ request }) => {
-    const formData = await request.formData();
-    const formId = formData.get("form-id");
-    if (formId === "login-form") {
-        const { login } = AuthContext;
-        const email = formData.get("email"),
-            password = formData.get("password");
-        console.log(email, password, request.url);
-        return await login(email, password);
-
-    } else if (formId === "signup-form") {
-        const { signup } = AuthContext;
-        const name = formData.get("name"),
-            email = formData.get("email"),
-            passwordConfirm = formData.get("confirmPassword"),
-            password = formData.get("password");
-        if (passwordConfirm !== password) {
-            return "Passwords don't match";
-        }
-        console.log(email, password, request.url);
-        return await signup(email, password);
-    }
-    return null;
-
-}
 function HomePage() {
+
+    const { currentUser } = useAuth();
+    // TODO: implement basic dark theme
+    useEffect(() => {
+        if (localStorage.theme === 'dark' || currentUser?.darkMode) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    }, [localStorage.theme]);
 
     return (
         <main className="max-container">
@@ -38,6 +28,10 @@ function HomePage() {
             <TaskListContainer/>
             <LoginForm/>
             <SignUpForm/>
+            <UpdateUserForm/>
+            <ResetPasswordForm/>
+            <TaskMenu/>
+            {!currentUser && <InvitePage />}
         </main>
     )
 }
