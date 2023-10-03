@@ -9,7 +9,6 @@ export default function Blur({ children, type }) {
         const form = ev.target.querySelector(".task-menu-form");
         if (form) {
             const formData = new FormData(form);
-            // TODO: implement task update + deletion
 
             await tryCatchDecorator(updateTask)(formData.get("task-id"), {
                 name: formData.get("task-name"),
@@ -17,6 +16,8 @@ export default function Blur({ children, type }) {
                 color: formData.get("task-color"),
                 description: formData.get("task-description"),
             });
+            const colorPicker = ev.target.querySelector(".task-menu-color-picker");
+            colorPicker.classList.remove("active");
         }
         document.body.style.overflowY = 'auto';
     }

@@ -121,6 +121,12 @@ const TaskMenu = () => {
                 <div className="mt-12">
                     <Form method="POST" className="task-menu-form relative w-full">
                         <input type="text" id="task-name" name="task-name" defaultValue={name}
+                               onChange={ev =>
+                                   setTaskData(prevTaskData => ({
+                                       ...prevTaskData,
+                                       name: ev.target.value,
+                                   }))
+                               }
                                className={"w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none "
                                    + ((done && "line-through opacity-40") || '')}
                         />
@@ -138,6 +144,12 @@ const TaskMenu = () => {
                         </button>
                         <textarea name="task-description" id="task-description" cols="30" rows="3"
                                   className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
+                                  onChange={ev =>
+                                      setTaskData(prevTaskData => ({
+                                          ...prevTaskData,
+                                          description: ev.target.value,
+                                      }))
+                                  }
                                   placeholder="Write additional notes" defaultValue={description}></textarea>
                         <input type="checkbox" id="task-done" name="task-done" checked={done} className="hidden"
                                readOnly={true}/>
