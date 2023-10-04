@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import TaskList from './TaskList.jsx'
 import LoginForm from "../forms/LoginForm.jsx";
 import { useSearchParams } from "react-router-dom";
-import { onSnapshot, collection, query, where } from "firebase/firestore";
+import { onSnapshot, collection, query, where, orderBy } from "firebase/firestore";
 import { db } from "../../scripts/firebase.js";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 
@@ -18,6 +18,12 @@ const TaskListContainer = () => {
 
     const [tasks, setTasks] = useState([]);
 
+    const [maxTasks, setMaxTasks] = React.useState(10);
+
+    const changeMaxTasks = (newTasks) => {
+        if (newTasks > maxTasks) setMaxTasks(newTasks);
+    }
+
     const { currentUser } = useAuth();
     console.log(tasks.length, tasks);
 
@@ -25,7 +31,7 @@ const TaskListContainer = () => {
 
         const taskColRef = collection(db, "tasks");
         const q = query(taskColRef,
-            where("uid", "==", currentUser?.uid || "null"));
+            where("uid", "==", currentUser?.uid || "null"), orderBy("order"));
         return onSnapshot(q, snapshot => {
             setTasks(snapshot.docs.map(doc => ({
                 ...doc.data(),
@@ -39,7 +45,7 @@ const TaskListContainer = () => {
         setInterval(() => {
             const openedBlur = document.querySelector(".blur-bg.active");
             document.body.style.overflowY = openedBlur ? "hidden" : "auto";
-        }, 1000);
+        }, 50);
     }, []);
 
     useEffect(() => {
@@ -55,8 +61,6 @@ const TaskListContainer = () => {
 
     }, [searchParams.get("weekShift")]);
 
-
-    const [maxTasks, setMaxTasks] = React.useState(10);
     const dayOfWeek = (curDate.getDay() - 1) % 7;
     const dates = [];
     const tasksData = {};
@@ -65,13 +69,9 @@ const TaskListContainer = () => {
         newDate.setDate(newDate.getDate() + i);
         dates.push(newDate);
         tasksData[formDate(newDate)] = tasks.filter(task => formDate(task.date) === formDate(newDate));
+        changeMaxTasks(tasksData[formDate(newDate)].length + 1);
     }
     console.log(tasksData);
-
-
-    const changeMaxTasks = (newTasks) => {
-        if (newTasks > maxTasks) setMaxTasks(newTasks);
-    }
 
 
     return (

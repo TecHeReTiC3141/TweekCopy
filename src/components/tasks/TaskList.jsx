@@ -8,7 +8,7 @@ function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 
-const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}) => {
+const TaskList = ({date, active, last, maxTasks, tasksData, ind}) => {
 
     // TODO: implement sorting tasks by dragging them using Sortable
 
@@ -55,8 +55,8 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                         date: formDate(date),
                         uid: currentUser.uid,
                         done: false,
+                        order: tasksData.length,
                     });
-
                     curInput.blur();
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;
@@ -84,6 +84,7 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
     for (let i = 0; i < (last ? maxTasks / 2 : maxTasks); ++i) {
         tasksComponents.push(<Task key={i} data={i < tasksData.length && tasksData[i]}
                                    taskListInd={ind} date={date}
+                                   tasksCol={tasksData.length}
                                    setTask={newValue => setTasks(prevTasks => {
                                        console.log([
                                            ...prevTasks.slice(0, i),

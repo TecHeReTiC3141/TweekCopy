@@ -38,7 +38,7 @@ export function tryCatchDecorator(func) {
 export async function createTask(data) {
     const docRef = await addDoc(taskColRef, data);
     const newTask = await getDoc(docRef);
-    console.log(`creating task ${data.name}`)
+    console.log(`creating task ${data.name} ${data.order}`)
     return {
         ...newTask.data(),
         id: newTask.id,

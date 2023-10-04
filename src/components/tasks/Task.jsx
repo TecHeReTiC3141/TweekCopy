@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import TaskMenu from "./TaskMenu.jsx";
 import {Form, useSubmit} from "react-router-dom";
-import { createTask, toggleDoneTask } from "../../scripts/api.js";
+import {createTask, toggleDoneTask, tryCatchDecorator} from "../../scripts/api.js";
 import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useTaskMenu} from "../../contexts/TaskMenuContext.jsx";
 
@@ -9,7 +9,7 @@ function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 
-const Task = ({taskListInd, ind, data, setTask, date}) => {
+const Task = ({taskListInd, ind, data, setTask, date, tasksCol}) => {
     async function handleToggleDone(ev) {
         ev.stopPropagation();
         await toggleDoneTask(data.id);
@@ -25,13 +25,14 @@ const Task = ({taskListInd, ind, data, setTask, date}) => {
         if (currentUser) {
             const formData = new FormData(ev.target.parentElement);
             console.log("creating new task on blur", formData.get("add-task-name"));
-            await createTask({
+            await tryCatchDecorator(createTask)({
                 name: formData.get("add-task-name"),
                 color: "white",
                 date: formDate(date),
                 uid: currentUser.uid,
                 done: false,
-            })
+                order: tasksCol,
+            });
         }
     }
 
