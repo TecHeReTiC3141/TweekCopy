@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import TaskList from './TaskList.jsx'
-import LoginForm from "../forms/LoginForm.jsx";
 import { useSearchParams } from "react-router-dom";
 import { onSnapshot, collection, query, where, orderBy } from "firebase/firestore";
 import { db } from "../../scripts/firebase.js";
 import { useAuth } from "../../contexts/AuthContext.jsx";
+import { reOrderTasks } from "../../scripts/api.js";
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -22,6 +22,22 @@ const TaskListContainer = () => {
 
     const changeMaxTasks = (newTasks) => {
         if (newTasks > maxTasks) setMaxTasks(newTasks);
+    }
+
+    function reorderTasks(listInd) {
+        return async ev => {
+            console.log(ev);
+            const oldIndex = ev.oldIndex, newIndex = ev.newIndex;
+
+            const curListTasks = [...tasksData[formDate(dates[listInd])]];
+            const temp = curListTasks[oldIndex];
+            curListTasks.splice(curListTasks.indexOf(curListTasks[oldIndex]), 1);
+            curListTasks.splice(newIndex, 0, temp);
+
+
+            console.log(tasksData[formDate(dates[listInd])], curListTasks);
+            await reOrderTasks(curListTasks);
+        }
     }
 
     const { currentUser } = useAuth();
@@ -79,7 +95,7 @@ const TaskListContainer = () => {
             {
                 dates.slice(0, 5).map((date, index) => (
                     <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
-                              last={false}
+                              last={false} reorderTasks={reorderTasks(index)}
                               maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
                 ))
             }
@@ -87,7 +103,7 @@ const TaskListContainer = () => {
                 {
                     dates.slice(5).map((date, index) => (
                         <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
-                                  last={true}
+                                  last={true} reorderTasks={reorderTasks(index)}
                                   maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
                     ))
                 }

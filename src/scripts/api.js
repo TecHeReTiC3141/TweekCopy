@@ -81,6 +81,16 @@ export async function deleteTask(taskId) {
     console.log("in delete 2", taskData);
     await deleteDoc(taskRef);
 }
+
+export async function reOrderTasks(reOrdered) {
+
+    reOrdered.map(async (task, index) => {
+        console.log(task.id, task.name, index);
+        await updateDoc(doc(db, "tasks", task.id), {
+            order: index,
+        });
+    })
+}
 export async function toggleDoneTask(taskId) {
     const taskRef = doc(db, "tasks", taskId);
     const taskDone = (await getDoc(taskRef)).data().done;

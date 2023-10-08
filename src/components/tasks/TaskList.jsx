@@ -1,14 +1,14 @@
 import React from 'react'
 import Task from './Task.jsx';
 import {useAuth} from "../../contexts/AuthContext.jsx";
-import {useSubmit} from "react-router-dom";
 import {createTask, tryCatchDecorator} from "../../scripts/api.js";
+import { ReactSortable } from "react-sortablejs";
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 
-const TaskList = ({date, active, last, maxTasks, tasksData, ind}) => {
+const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) => {
 
     // TODO: implement sorting tasks by dragging them using Sortable
 
@@ -81,7 +81,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind}) => {
 
     const tasksComponents = [];
     for (let i = 0; i < (last ? maxTasks / 2 : maxTasks); ++i) {
-        tasksComponents.push(<Task key={i} data={i < tasksData.length && tasksData[i]}
+        tasksComponents.push(<Task key={tasksData[i]?.id || i} data={i < tasksData.length && tasksData[i]}
                                    taskListInd={ind} date={date}
                                    tasksCol={tasksData.length}
                                    setTask={newValue => setTasks(prevTasks => {
@@ -107,9 +107,16 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind}) => {
                 <h3 className={`text-lg lg:text-xl ${active ? "text-blue-300" : "text-gray-300"}`}>{day.slice(0, 3)}</h3>
             </div>
 
-            <div>
+            <ReactSortable list={tasksData} setList={() => null}
+                           onUpdate={reorderTasks}
+                           onChoose={ev => console.log(ev.oldIndex < tasksData.length)}
+                ghostClass="sortable-ghost"
+                chosenClass="sortable-chosen"
+                dragClass="sortable-drag"
+
+            >
                 {tasksComponents}
-            </div>
+            </ReactSortable>
         </div>
     )
 }

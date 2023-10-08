@@ -13,7 +13,6 @@ const TaskMenu = () => {
 
     console.log("In task menu", taskData);
 
-    // TODO: fix bugs connected with new TaskMenu
 
     useEffect(() => {
         const form = document.querySelector(".task-menu-form");

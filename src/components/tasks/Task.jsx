@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import TaskMenu from "./TaskMenu.jsx";
-import {Form, useSubmit} from "react-router-dom";
+import {Form } from "react-router-dom";
 import {createTask, toggleDoneTask, tryCatchDecorator} from "../../scripts/api.js";
 import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useTaskMenu} from "../../contexts/TaskMenuContext.jsx";
@@ -16,7 +16,6 @@ const Task = ({taskListInd, ind, data, setTask, date, tasksCol}) => {
     }
 
     const { currentUser } = useAuth();
-    const submit = useSubmit();
 
 
     async function handleFocusOut(ev) {
