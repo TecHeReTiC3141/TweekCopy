@@ -33,7 +33,6 @@ export default function UpdateUserForm() {
         console.log(blur);
         blur.classList.remove("active");
     }
-    // TODO: add dark theme toggler + dark theme to site
     return (
         <Blur type="update-user-form">
             <div className="task-menu relative top-26 bg-[#e5d7fa] rounded-xl p-4 lg:p-8 w-[28rem]

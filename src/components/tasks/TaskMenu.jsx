@@ -43,7 +43,10 @@ const TaskMenu = () => {
     }
 
     async function delTask(ev) {
-        await tryCatchDecorator(deleteTask)(taskId);
+        const data = await tryCatchDecorator(deleteTask)(taskId);
+        if (data.success === false) {
+            console.log(`in delete error: ${data.message}`);
+        }
         const bgBlur = document.querySelector(".blur-bg.active");
         bgBlur.classList.remove("active");
     }
@@ -153,9 +156,9 @@ const TaskMenu = () => {
                                   placeholder="Write additional notes" defaultValue={description}></textarea>
                         <input type="checkbox" id="task-done" name="task-done" checked={done} className="hidden"
                                readOnly={true}/>
-                        <input type="text" id="task-color" name="task-color" value={color} className="hidden"
+                        <input type="text" id="task-color" name="task-color" value={color || "none"} className="hidden"
                                readOnly={true}/>
-                        <input type="text" id="task-id" name="task-id" value={taskId} className="hidden"
+                        <input type="text" id="task-id" name="task-id" value={taskId || "none"} className="hidden"
                                readOnly={true}/>
                     </Form>
                 </div>

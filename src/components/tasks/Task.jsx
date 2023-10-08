@@ -19,7 +19,6 @@ const Task = ({taskListInd, ind, data, setTask, date, tasksCol}) => {
     const submit = useSubmit();
 
 
-    // TODO: implement toggleDoneBtn on backend
     async function handleFocusOut(ev) {
         if (!ev.target.value) return;
         if (currentUser) {
@@ -33,6 +32,7 @@ const Task = ({taskListInd, ind, data, setTask, date, tasksCol}) => {
                 done: false,
                 order: tasksCol,
             });
+            // TODO: restore tasks order when they are deleted or swapper
         }
     }
 

@@ -10,6 +10,8 @@ import {
     query,
     where,
     setDoc,
+    increment,
+
 } from "firebase/firestore";
 
 const taskColRef = collection(db, "tasks");
@@ -25,6 +27,7 @@ export function tryCatchDecorator(func) {
                 data,
             }
         } catch (err) {
+            console.log(err.message);
             return {
                 success: false,
                 message: err.message,
@@ -64,7 +67,19 @@ export async function updateTask(taskId, data) {
 }
 
 export async function deleteTask(taskId) {
-    await deleteDoc(doc(db, "tasks", taskId));
+
+    const taskRef = doc(db, "tasks", taskId);
+    const taskData = (await getDoc(taskRef)).data();
+    console.log("in delete", taskData);
+    const q = query(taskColRef, where("date", "==", taskData.date),
+        where("order", ">", taskData.order));
+    (await getDocs(q)).docs.map(async doc => {
+        await updateDoc(doc.ref, {
+            order: increment(-1),
+        })
+    });
+    console.log("in delete 2", taskData);
+    await deleteDoc(taskRef);
 }
 export async function toggleDoneTask(taskId) {
     const taskRef = doc(db, "tasks", taskId);

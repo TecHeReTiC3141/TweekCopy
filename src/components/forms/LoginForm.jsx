@@ -23,7 +23,7 @@ export default function LoginForm() {
     }
     const [searchParams, setSearchParams] = useSearchParams();
     const errorMessage = searchParams.get("errorMessage");
-    // TODO: Close form when it's submitted
+
     const { currentUser } = useAuth();
     if (currentUser) {
         closeLoginForm();
