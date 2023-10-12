@@ -1,6 +1,28 @@
+const formBlurDict = {
+    "login-form": "login-form",
+    "task-menu": "task-menu",
+    "update-user-form": "update-user-form",
+    "signup-form": "signup-form",
+}
+
 export function formTransition(from, to) {
     const fromForm = document.querySelector(`.blur-bg[data-id="${from}"]`);
-    const toForm = document.querySelector(`.blur-bg[data-id="${to}"]`);
     fromForm.classList.remove("active");
-    toForm.classList.add("active");
+    openForm(to);
+
+}
+
+export function openForm(formBlurId) {
+    const formBlur = document.querySelector(`[data-id='${formBlurId}']`);
+    formBlur.classList.add('active');
+    formBlur.querySelector(`.${formBlurId}`).animate([
+        {
+            top: "5rem",
+            opacity: .5,
+        },
+        {
+            top: "2.5rem",
+            opacity: 1,
+        },
+    ], 300);
 }

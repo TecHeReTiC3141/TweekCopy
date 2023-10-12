@@ -1,24 +1,14 @@
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {useEffect} from "react";
+import {openForm} from "../scripts/utils.js";
 
 export default function ProfileMenu() {
 
     const { currentUser, logout } = useAuth();
 
     function openUpdateUserForm() {
-        const updateUserBlur = document.querySelector('[data-id="update-user-form"]');
-        updateUserBlur.classList.add("active");
+        openForm("update-user-form");
         document.querySelector(".profile-menu ").classList.remove("active");
-        updateUserBlur.querySelector(".update-user-form").animate([
-            {
-                top: "4rem",
-                opacity: .5,
-            },
-            {
-                top: "2.5rem",
-                opacity: 1,
-            },
-        ], 200);
     }
 
     useEffect(() => {

@@ -29,6 +29,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
 
     function handleClick(ev) {
         if (ev.target.tagName !== "INPUT") return;
+        ev.target.blur();
         const thisTaskList = ev.target.parentElement.parentElement.parentElement;
         console.log(thisTaskList, thisTaskList.querySelector('.add-task'));
 
@@ -75,7 +76,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
         const firstInput = thisTaskList.querySelector('input:first-of-type');
         if (firstInput) {
             firstInput.removeAttribute('disabled');
-            firstInput.focus();
+            // firstInput.focus();
         }
     }, [tasksData])
 

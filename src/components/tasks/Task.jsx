@@ -4,6 +4,7 @@ import {Form } from "react-router-dom";
 import {createTask, toggleDoneTask, tryCatchDecorator} from "../../scripts/api.js";
 import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useTaskMenu} from "../../contexts/TaskMenuContext.jsx";
+import {openForm} from "../../scripts/utils.js";
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -39,23 +40,9 @@ const Task = ({taskListInd, ind, data, setTask, date, tasksCol}) => {
 
     function openTaskMenu(ev) {
         if (document.querySelector('.blur-bg.active')) return;
-        const taskMenuBg = document.querySelector("[data-id='task-menu']");
-        taskMenuBg.classList.add('active');
-        taskMenuBg.querySelector(".task-menu").animate([
-            {
-                top: "4rem",
-                opacity: .5,
-            },
-            {
-                top: "2.5rem",
-                opacity: 1,
-            },
-        ], 200);
-
+        openForm("task-menu");
         console.log(data);
         setTaskData(data);
-
-
     }
 
     let taskDate = date.toISOString().split("T")[0];

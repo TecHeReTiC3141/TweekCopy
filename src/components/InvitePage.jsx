@@ -1,12 +1,14 @@
-import {formTransition} from "../scripts/utils.js";
+import {formTransition, openForm} from "../scripts/utils.js";
 import {useEffect} from "react";
+
 
 export default function InvitePage() {
 
     function openLoginForm() {
         closeInvitePage();
-        const loginFormBlur = document.querySelector('[data-id="login-form"]');
-        loginFormBlur.classList.add("active");
+        openForm("login-form");
+        // const loginFormBlur = document.querySelector('[data-id="login-form"]');
+        // loginFormBlur.classList.add("active");
     }
 
     function closeInvitePage() {
@@ -25,8 +27,8 @@ export default function InvitePage() {
         <div className="invite fixed w-full h-full">
 
             <div className="invite-blur bg-white bg-opacity-70 fixed top-0 left-0 h-full w-full z-15" onClick={closeInvitePage}></div>
-            <div className="invite-page fixed h-screen bg-[#dce1fd] w-[35rem] px-10 py-10 top-0 right-0
-        transition-all z-25">
+            <div className="invite-page fixed h-screen bg-[#dce1fd] w-[98%] mx-auto lg:w-[35rem] px-10 py-10 lg:top-0 top-2
+             lg:right-0 right-[1%] transition-all z-25">
                 <h1 className="text-5xl font-bold tracking-[-0.15rem] leading-[3.5rem]">
                     Tweek Calendar is a Minimal Weekly Planner & To-Do List App.</h1>
                 <div className="w-full border-b-2 border-black py-4 my-6 relative">

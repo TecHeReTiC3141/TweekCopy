@@ -4,6 +4,7 @@ import {useSearchParams} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import ProfileMenu from "./ProfileMenu.jsx";
 import {clearUsersTasks} from "../scripts/api.js";
+import {openForm} from "../scripts/utils.js";
 
 const Header = () => {
 
@@ -11,8 +12,7 @@ const Header = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     function openLoginForm() {
-        const loginFormBlur = document.querySelector('[data-id="login-form"]');
-        loginFormBlur.classList.add("active");
+        openForm("login-form");
     }
 
     function openProfileMenu(ev) {

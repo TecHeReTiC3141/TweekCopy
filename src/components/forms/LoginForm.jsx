@@ -31,7 +31,7 @@ export default function LoginForm() {
 
     return (
         <Blur type="login-form">
-            <div className="task-menu relative top-26 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem]
+            <div className="login-form relative top-10 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem]
             z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => ev.stopPropagation()}>
                 <div className="w-full flex justify-between items-center mb-12">

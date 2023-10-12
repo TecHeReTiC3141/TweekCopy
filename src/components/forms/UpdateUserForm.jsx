@@ -35,7 +35,7 @@ export default function UpdateUserForm() {
     }
     return (
         <Blur type="update-user-form">
-            <div className="update-user-form relative top-26 bg-[#e5d7fa] top-10 rounded-xl p-4 lg:p-8 w-[28rem]
+            <div className="update-user-form relative top-10 bg-[#e5d7fa] top-10 rounded-xl p-4 lg:p-8 w-[28rem]
             z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => ev.stopPropagation()}>
                 <h3 className="font-bold text-xl tracking-tight">Account</h3>
