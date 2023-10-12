@@ -74,7 +74,6 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
                         done: false,
                         order: tasksData.length,
                     });
-                    curInput.blur();
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;
                     if (thisTaskList.dataset.date == date.getDate()) {
@@ -88,36 +87,25 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
         }
     }
 
-    React.useEffect(() => {
-        const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
-        const firstInput = thisTaskList.querySelector('input:first-of-type');
-        if (firstInput) {
-            firstInput.removeAttribute('disabled');
-            // firstInput.focus();
-        }
-    }, [tasksData])
+    // React.useEffect(() => {
+    //     const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
+    //     const firstInput = thisTaskList.querySelector('input:first-of-type');
+    //     if (firstInput) {
+    //         firstInput.removeAttribute('disabled');
+    //         // firstInput.focus();
+    //     }
+    // }, [tasksData])
 
     const tasksComponents = [], emptyComponents = [];
     for (let i = 0; i < tasksData.length; ++i) {
         tasksComponents.push(<Task key={tasksData[i].id} data={tasksData[i]}
                                    taskListInd={ind} date={date}
                                    tasksCol={tasksData.length}
-                                   setTask={newValue => setTasks(prevTasks => {
-                                       console.log([
-                                           ...prevTasks.slice(0, i),
-                                           newValue,
-                                           ...prevTasks.slice(i + 1),
-                                       ])
-                                       return [
-                                           ...prevTasks.slice(0, i),
-                                           newValue,
-                                           ...prevTasks.slice(i + 1),
-                                       ]
-                                   })} ind={i}/>);
+                                   ind={i}/>);
     }
     for (let i = 0; i < Math.max(0, (last ? maxTasks / 2 : maxTasks) - 1 - tasksData.length); ++i) {
         emptyComponents.push(
-            <div className="empty-task w-full py-2 indent-1.5 border-b-2 border-gray-200 bg-white"
+            <div className="empty-task w-full py-2 border-b-2 border-gray-200 bg-white"
                  onClick={handleClick}>
                 <p className="opacity-0 cursor-default" onClick={handleClick}>sdasdfsdlk</p>
             </div>
@@ -149,7 +137,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
                        id="add-task-name"
                        className="w-full border-b
                        focus:outline-none focus:px-1.5 focus:shadow-lg focus:border
-                       py-2 indent-1.5 rounded-md border-gray-300 focus:z-5"
+                       py-2 indent-1.5 focus:rounded-md border-gray-300 focus:z-5"
                        onBlur={handleFocusOut}
                 />
                 <input type="text" defaultValue="add-task-form" name="form-id" id="form-id" className="hidden"/>
