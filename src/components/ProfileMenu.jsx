@@ -8,6 +8,17 @@ export default function ProfileMenu() {
     function openUpdateUserForm() {
         const updateUserBlur = document.querySelector('[data-id="update-user-form"]');
         updateUserBlur.classList.add("active");
+        document.querySelector(".profile-menu ").classList.remove("active");
+        updateUserBlur.querySelector(".update-user-form").animate([
+            {
+                top: "4rem",
+                opacity: .5,
+            },
+            {
+                top: "2.5rem",
+                opacity: 1,
+            },
+        ], 200);
     }
 
     useEffect(() => {

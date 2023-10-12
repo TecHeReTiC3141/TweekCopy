@@ -11,14 +11,13 @@ const TaskMenu = () => {
     const {taskData, setTaskData} = useTaskMenu();
     const {id: taskId, date, color, name, done, description} = taskData;
 
-    console.log("In task menu", taskData);
-
-
     useEffect(() => {
         const form = document.querySelector(".task-menu-form");
         form.querySelector("#task-name").value = taskData.name;
         form.querySelector("#task-description").value = taskData.description || "";
     }, [taskData]);
+
+    // TODO: add Markdown editor for notes
 
     function openColorPicker(ev) {
         ev.stopPropagation();
@@ -91,7 +90,7 @@ const TaskMenu = () => {
 
     return (
         <Blur type="task-menu">
-            <div className="task-menu relative top-40 bg-[#DDE1FB] rounded-xl
+            <div className="task-menu relative bg-[#DDE1FB] rounded-xl
             py-4 lg:py-6 px-6 lg:px-8 w-[28rem]
              z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => {

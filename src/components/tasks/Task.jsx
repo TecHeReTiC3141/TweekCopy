@@ -41,7 +41,17 @@ const Task = ({taskListInd, ind, data, setTask, date, tasksCol}) => {
         if (document.querySelector('.blur-bg.active')) return;
         const taskMenuBg = document.querySelector("[data-id='task-menu']");
         taskMenuBg.classList.add('active');
-        taskMenuBg.querySelector(".task-menu").classList.add("active");
+        taskMenuBg.querySelector(".task-menu").animate([
+            {
+                top: "4rem",
+                opacity: .5,
+            },
+            {
+                top: "2.5rem",
+                opacity: 1,
+            },
+        ], 200);
+
         console.log(data);
         setTaskData(data);
 
