@@ -16,11 +16,13 @@
         @apply top-24;
     }
 
-    .profile-menu.active, .task-menu-color-picker.active, .blur-bg.active, .invite.active > .invite-blur  {
+    .profile-menu.active, .extras-menu.active, .task-menu-color-picker.active,
+    .blur-bg.active, .invite.active > .invite-blur  {
         @apply fixed;
     }
 
-    .profile-menu:not(.active), .task-menu-color-picker:not(.active), .blur-bg:not(.active), .invite:not(.active) > .invite-blur {
+    .profile-menu:not(.active), .extras-menu:not(.active), .task-menu-color-picker:not(.active),
+    .blur-bg:not(.active), .invite:not(.active) > .invite-blur {
         @apply hidden;
     }
 

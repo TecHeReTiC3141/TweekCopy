@@ -11,7 +11,7 @@ function formDate(date) {
 
 const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) => {
 
-    // TODO: implement sorting tasks by dragging them using Sortable
+    // TODO: implement sorting tasks between task lists by dragging them
 
 
     const getDate = date => {
@@ -50,8 +50,6 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
                 done: false,
                 order: tasksData.length,
             });
-
-            // TODO: restore tasks order when they are deleted or swapper
         }
     }
 
@@ -60,8 +58,6 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
             const curInput = document.querySelector('input:focus');
 
             if (curInput.value) {
-
-                // TODO: when Enter is pressed, next input must be focused
                 if (currentUser) {
                     const formData = new FormData(curInput.parentElement);
                     console.log("creating new task on keydown", formData.get("add-task-name"), formDate(date));

@@ -2,7 +2,8 @@ import React from "react"
 import HeaderBtn from "./HeaderBtn"
 import {useSearchParams} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
-import ProfileMenu from "./ProfileMenu.jsx";
+import ProfileMenu from "./menus/ProfileMenu.jsx";
+import ExtrasMenu from "./menus/ExtrasMenu.jsx";
 import {clearUsersTasks} from "../scripts/api.js";
 import {openForm} from "../scripts/utils.js";
 
@@ -19,9 +20,20 @@ const Header = () => {
         ev.stopPropagation();
         const profileMenu = document.querySelector(".profile-menu");
         profileMenu.classList.add("active");
-        const buttonPos = ev.target.getBoundingClientRect();
+        document.querySelector(".extras-menu").classList.remove("active");
+        const buttonPos = ev.currentTarget.getBoundingClientRect();
         profileMenu.style.left = `${Math.round(buttonPos.left + buttonPos.width / 2)}px`;
-        profileMenu.style.top = `${Math.round(buttonPos.bottom) + 12}px`;
+        profileMenu.style.top = `${Math.round(buttonPos.bottom) + 8}px`;
+    }
+
+    function openExtrasMenu(ev) {
+        ev.stopPropagation();
+        const extrasMenu = document.querySelector(".extras-menu");
+        extrasMenu.classList.add("active");
+        document.querySelector(".profile-menu").classList.remove("active");
+        const buttonPos = ev.currentTarget.getBoundingClientRect();
+        extrasMenu.style.right = `${Math.round(window.innerWidth - buttonPos.right - 15)}px`;
+        extrasMenu.style.top = `${Math.round(buttonPos.bottom) + 8}px`;
     }
 
     function toPrevWeek() {
@@ -42,7 +54,7 @@ const Header = () => {
 
     const {currentUser} = useAuth();
 
-    const HeaderBtns = [
+    const headerBtns = [
 
         {
             textColor: "black",
@@ -58,6 +70,7 @@ const Header = () => {
             bgColor: "purple-200",
             icon: "fa-solid fa-ellipsis-vertical",
             tooltip: "Extras",
+            onClick: openExtrasMenu,
         },
         {
             textColor: "white",
@@ -112,12 +125,13 @@ const Header = () => {
                         tooltip: "Login",
                     }}/>}
                 {
-                    HeaderBtns.map((btn, index) => (
+                    headerBtns.map((btn, index) => (
                         <HeaderBtn {...btn} key={index}/>
                     ))
                 }
             </div>
-            <ProfileMenu/>
+            <ProfileMenu />
+            <ExtrasMenu />
         </header>
     )
 }

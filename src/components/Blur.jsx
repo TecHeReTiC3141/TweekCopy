@@ -2,7 +2,6 @@ import { updateTask, tryCatchDecorator } from "../scripts/api.js";
 
 export default function Blur({ children, type }) {
 
-    // TODO: think about adding animation of form fade in using keyframes
     async function handleTaskMenuClose(ev) {
         ev.stopPropagation();
         ev.target.classList.remove('active');
