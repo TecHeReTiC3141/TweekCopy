@@ -37,7 +37,7 @@ const Task = ({taskListInd, ind, data, date, tasksCol}) => {
             <div className="task flex justify-between items-center py-2 px-3 cursor-grab" onClick={openTaskMenu}>
                 <h5 className={`task-title px-2 py-0.5 rounded-full text-sm bg-${data.color} ` + (data.done && "opacity-40 line-through ") || ''}
                 >{ data.description && <i className="fa-regular fa-note-sticky"></i> } {data.name.slice(0, MAX_TASK_NAME_LENGTH) +
-                    (data.name.length > MAX_TASK_NAME_LENGTH && "...")}</h5>
+                    (data.name.length > MAX_TASK_NAME_LENGTH ? "..." : "")}</h5>
                 <button className="toggle-done hidden group-hover:block max-lg:block" onClick={handleToggleDone}>
                     <i className={`fa-${data.done ? "solid" : "regular"} fa-circle-check`}></i>
                 </button>

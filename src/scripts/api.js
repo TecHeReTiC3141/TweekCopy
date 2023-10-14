@@ -17,6 +17,12 @@ import {
 const taskColRef = collection(db, "tasks");
 const userColRef = collection(db, "users");
 
+export function sleep(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time);
+    });
+}
+
 export function tryCatchDecorator(func) {
 
     return async function () {
@@ -50,6 +56,7 @@ export async function createTask(data) {
 
 export async function getUserTasks(userId) {
     console.log(userId);
+    await sleep(1000);
     const q = query(taskColRef,
         where("uid", "==", userId || "null"));
     const snapshot = await getDocs(q);

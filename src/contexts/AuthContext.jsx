@@ -15,8 +15,6 @@ export function useAuth() {
     return React.useContext(AuthContext);
 }
 
-// TODO: store currentUser in localStorage
-
 function AuthProvider({ children }) {
 
     const [currentUser, setCurrentUser] = React.useState(null);

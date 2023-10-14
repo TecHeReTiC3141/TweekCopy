@@ -1,14 +1,23 @@
 import {ExtrasMenuBtn} from "./ExtrasMenuBtn.jsx";
 import {useEffect} from "react";
+import { openForm } from "../../scripts/utils.js";
 
 export default function ExtrasMenu() {
 
-    // TODO: implement "About" button which opens Invite page
     // TODO: implement "Search" button which opens Search bar to search certain tasks
+    function closeExtrasMenu() {
+        const extrasMenu = document.querySelector(".extras-menu");
+        extrasMenu.classList.remove("active");
+    }
 
     function openInvitePage() {
         const invitePage = document.querySelector(".invite");
         invitePage.classList.add("active");
+    }
+
+    function openSearchForm() {
+        openForm("search-form");
+        closeExtrasMenu();
     }
 
     const extrasBtns = [
@@ -19,8 +28,7 @@ export default function ExtrasMenu() {
         {
             text: "Search",
             icon: "fa-solid fa-magnifying-glass",
-            onClick: () => {
-            },
+            onClick: openSearchForm,
         },
         {
             text: "Print",

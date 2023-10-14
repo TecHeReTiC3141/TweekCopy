@@ -13,7 +13,6 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
 
     // TODO: implement sorting tasks between task lists by dragging them
 
-
     const getDate = date => {
         let day = date.getDate().toString(), month = (date.getMonth() + 1).toString();
         if (day.length < 2) day = "0" + day;

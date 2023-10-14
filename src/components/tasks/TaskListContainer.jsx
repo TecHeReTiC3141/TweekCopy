@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, Suspense} from 'react'
 import TaskList from './TaskList.jsx'
-import {useLoaderData, useSearchParams} from "react-router-dom";
+import {useLoaderData, useSearchParams, defer, Await} from "react-router-dom";
 import { onSnapshot, collection, query, where, orderBy } from "firebase/firestore";
 import { db } from "../../scripts/firebase.js";
-import AuthContext, { useAuth } from "../../contexts/AuthContext.jsx";
-import { reOrderTasks, getUserTasks } from "../../scripts/api.js";
+import { useAuth } from "../../contexts/AuthContext.jsx";
+import {reOrderTasks, getUserTasks, tryCatchDecorator} from "../../scripts/api.js";
+import Loading from "../Loading.jsx";
 
 
-// TODO: defer loading tasks and add spinner loading component
 export const loader = AuthContext => async () => {
     const { currentUser } = AuthContext;
     console.log(currentUser, currentUser?.uid);
-    const userTasks = await getUserTasks(currentUser?.uid);
-    console.log(userTasks);
-    return userTasks;
+
+    return defer({ tasksPromise: tryCatchDecorator(getUserTasks)(currentUser?.uid) });
 }
 
 function formDate(date) {
@@ -26,7 +25,9 @@ const TaskListContainer = () => {
 
     const [curDate, setCurDate] = useState(new Date());
 
-    const [tasks, setTasks] = useState(useLoaderData());
+    const { tasksPromise } = useLoaderData();
+
+    const [tasks, setTasks] = useState([]);
 
     const [maxTasks, setMaxTasks] = React.useState(10);
 
@@ -100,26 +101,52 @@ const TaskListContainer = () => {
     }
     // console.log(tasksData);
 
+    function renderTasks(data) {
+        const { success, data: tasksData } = data;
+        if (success) {
+            const dayOfWeek = (curDate.getDay() - 1) % 7;
+            const dates = [];
+            const tasksData = {};
+            for (let i = -dayOfWeek; i < -dayOfWeek + 7; ++i) {
+                const newDate = new Date(+curDate);
+                newDate.setDate(newDate.getDate() + i);
+                dates.push(newDate);
+                tasksData[formDate(newDate)] = tasks.filter(task => formDate(task.date) === formDate(newDate));
+                changeMaxTasks(tasksData[formDate(newDate)].length + 1);
+            }
+            return (
+                <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10 dark:bg-black dark:text-white">
+                    {
+                        dates.slice(0, 5).map((date, index) => (
+                            <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
+                                      last={false} reorderTasks={reorderTasks(index)}
+                                      maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
+                        ))
+                    }
+                    <div className="flex-1 ">
+                        {
+                            dates.slice(5).map((date, index) => (
+                                <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
+                                          last={true} reorderTasks={reorderTasks(index)}
+                                          maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
+                            ))
+                        }
+                    </div>
+                </div>
+            )
+        }
+        return (
+            <h1>Sorry, we couldn't load your tasks. Try again later</h1>
+        )
+    }
 
     return (
-        <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10 dark:bg-black dark:text-white">
-            {
-                dates.slice(0, 5).map((date, index) => (
-                    <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
-                              last={false} reorderTasks={reorderTasks(index)}
-                              maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
-                ))
-            }
-            <div className="flex-1 ">
-                {
-                    dates.slice(5).map((date, index) => (
-                        <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
-                                  last={true} reorderTasks={reorderTasks(index)}
-                                  maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
-                    ))
-                }
-            </div>
-        </div>
+
+        <Suspense fallback={<Loading text="Your tasks" />}>
+            <Await resolve={tasksPromise}>
+                {renderTasks}
+            </Await>
+        </Suspense>
     )
 }
 
