@@ -21,6 +21,7 @@ const TaskListContainer = () => {
     const [maxTasks, setMaxTasks] = React.useState(10);
 
     const changeMaxTasks = (newTasks) => {
+        // TODO: set maxTasks more precise in case of long "last" task list
         if (newTasks > maxTasks) setMaxTasks(newTasks);
     }
 

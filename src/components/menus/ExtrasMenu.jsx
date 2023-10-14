@@ -3,6 +3,9 @@ import {useEffect} from "react";
 
 export default function ExtrasMenu() {
 
+    // TODO: implement "About" button which opens Invite page
+    // TODO: implement "Search" button which opens Search bar to search certain tasks
+
     const extrasBtns = [
         {
             text: "About",
