@@ -24,12 +24,15 @@ function AuthProvider({ children }) {
     React.useEffect(() => {
         return auth.onAuthStateChanged(async user => {
             setCurrentUser(await getCurrentUser(user.uid));
+            localStorage.isLoggedIn = user ? "true" : "false";
+            console.log(localStorage.isLoggedIn);
         })
     }, []);
 
     async function signup({ email, password, name }) {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
+            localStorage.isLoggedIn = "true";
             return await createUser(auth.currentUser.uid, {email, name});
         } catch (err) {
             return {
@@ -41,6 +44,7 @@ function AuthProvider({ children }) {
 
     async function login(email, password) {
         try {
+            localStorage.isLoggedIn = "true";
             return await signInWithEmailAndPassword(auth, email, password);
         } catch (err) {
             return {
@@ -52,6 +56,7 @@ function AuthProvider({ children }) {
 
     async function logout() {
         await signOut(auth);
+        localStorage.isLoggedIn = "false";
         return window.location.reload();
     }
 

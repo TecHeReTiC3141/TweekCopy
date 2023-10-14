@@ -1,10 +1,20 @@
 import React, {useEffect, useState} from 'react'
 import TaskList from './TaskList.jsx'
-import { useSearchParams } from "react-router-dom";
+import {useLoaderData, useSearchParams} from "react-router-dom";
 import { onSnapshot, collection, query, where, orderBy } from "firebase/firestore";
 import { db } from "../../scripts/firebase.js";
-import { useAuth } from "../../contexts/AuthContext.jsx";
-import { reOrderTasks } from "../../scripts/api.js";
+import AuthContext, { useAuth } from "../../contexts/AuthContext.jsx";
+import { reOrderTasks, getUserTasks } from "../../scripts/api.js";
+
+
+// TODO: defer loading tasks and add spinner loading component
+export const loader = AuthContext => async () => {
+    const { currentUser } = AuthContext;
+    console.log(currentUser, currentUser?.uid);
+    const userTasks = await getUserTasks(currentUser?.uid);
+    console.log(userTasks);
+    return userTasks;
+}
 
 function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -16,7 +26,7 @@ const TaskListContainer = () => {
 
     const [curDate, setCurDate] = useState(new Date());
 
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState(useLoaderData());
 
     const [maxTasks, setMaxTasks] = React.useState(10);
 
@@ -42,7 +52,7 @@ const TaskListContainer = () => {
     }
 
     const { currentUser } = useAuth();
-    console.log(tasks.length, tasks);
+    // console.log(tasks.length, tasks);
 
     useEffect(() => {
 
@@ -88,7 +98,7 @@ const TaskListContainer = () => {
         tasksData[formDate(newDate)] = tasks.filter(task => formDate(task.date) === formDate(newDate));
         changeMaxTasks(tasksData[formDate(newDate)].length + 1);
     }
-    console.log(tasksData);
+    // console.log(tasksData);
 
 
     return (

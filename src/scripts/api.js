@@ -49,6 +49,7 @@ export async function createTask(data) {
 }
 
 export async function getUserTasks(userId) {
+    console.log(userId);
     const q = query(taskColRef,
         where("uid", "==", userId || "null"));
     const snapshot = await getDocs(q);

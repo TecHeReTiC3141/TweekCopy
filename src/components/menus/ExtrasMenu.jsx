@@ -6,11 +6,15 @@ export default function ExtrasMenu() {
     // TODO: implement "About" button which opens Invite page
     // TODO: implement "Search" button which opens Search bar to search certain tasks
 
+    function openInvitePage() {
+        const invitePage = document.querySelector(".invite");
+        invitePage.classList.add("active");
+    }
+
     const extrasBtns = [
         {
             text: "About",
-            onClick: () => {
-            },
+            onClick: openInvitePage,
         },
         {
             text: "Search",

@@ -19,6 +19,9 @@ export default function LoginForm() {
 
     function closeLoginForm() {
         const loginBlur = document.querySelector('[data-id="login-form"]');
+        if (!loginBlur) {
+            return;
+        }
         loginBlur.classList.remove("active");
     }
     const [searchParams, setSearchParams] = useSearchParams();

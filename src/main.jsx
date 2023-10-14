@@ -10,6 +10,7 @@ import {action as loginAction} from "./components/forms/LoginForm";
 import {action as signupAction} from "./components/forms/SignUpForm";
 import {action as resetPasswordAction} from "./components/forms/ResetPasswordForm";
 import {action as updateUserAction} from "./components/forms/UpdateUserForm";
+import { loader as taskLoader } from "./components/tasks/TaskListContainer.jsx";
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
 
     const router = createBrowserRouter(createRoutesFromElements(
         <>
-            <Route path="/" element={<HomePage/>}/>
+            <Route path="/" element={<HomePage/>} loader={taskLoader(authContext)}/>
             <Route path="/login" action={loginAction(authContext)}/>
             <Route path="/signup" action={signupAction(authContext)}/>
             <Route path="/reset-password" action={resetPasswordAction(authContext)}/>
