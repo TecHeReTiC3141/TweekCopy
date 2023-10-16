@@ -4,7 +4,6 @@ import { openForm } from "../../scripts/utils.js";
 
 export default function ExtrasMenu() {
 
-    // TODO: implement "Search" button which opens Search bar to search certain tasks
     function closeExtrasMenu() {
         const extrasMenu = document.querySelector(".extras-menu");
         extrasMenu.classList.remove("active");

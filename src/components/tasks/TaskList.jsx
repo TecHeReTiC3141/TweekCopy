@@ -101,6 +101,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
     for (let i = 0; i < Math.max(0, (last ? maxTasks / 2 : maxTasks) - 1 - tasksData.length); ++i) {
         emptyComponents.push(
             <div className="empty-task w-full py-2 border-b-2 border-gray-200 bg-white"
+                 key={i}
                  onClick={handleClick}>
                 <p className="opacity-0 cursor-default" onClick={handleClick}>sdasdfsdlk</p>
             </div>
