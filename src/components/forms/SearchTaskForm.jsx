@@ -11,9 +11,7 @@ export const action = AuthContext => async ({ request }) => {
     const search = formData.get("search-task-name");
     console.log(search, search.length);
     if (!search) return [];
-    const searchedTasks = await getSearchedTasks(currentUser.uid, search);
-    return searchedTasks;
-    // return redirect(`/?searchResults=${JSON.stringify(searchedTasks)}`);
+    return  await getSearchedTasks(currentUser.uid, search);
 }
 
 export default function SearchTaskForm() {

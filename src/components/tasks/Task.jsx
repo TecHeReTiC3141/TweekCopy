@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import TaskMenu from "./TaskMenu.jsx";
-import {Form } from "react-router-dom";
+import {Form, useSearchParams } from "react-router-dom";
 import {createTask, toggleDoneTask, tryCatchDecorator} from "../../scripts/api.js";
 import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useTaskMenu} from "../../contexts/TaskMenuContext.jsx";
@@ -13,6 +13,8 @@ function formDate(date) {
 export default function Task({taskListInd, ind, data, date, tasksCol}) {
 
     const MAX_TASK_NAME_LENGTH = 20;
+
+    const [searchParams, setSearchParams] = useSearchParams();
 
     async function handleToggleDone(ev) {
         ev.stopPropagation();
@@ -29,6 +31,14 @@ export default function Task({taskListInd, ind, data, date, tasksCol}) {
         console.log(data);
         setTaskData(data);
     }
+
+    useEffect(() => {
+        const openedTask = searchParams.get("openedTask");
+        if (openedTask && openedTask === data.id) {
+            openForm("task-menu");
+            setTaskData(data);
+        }
+    }, [searchParams]);
 
 
     return (

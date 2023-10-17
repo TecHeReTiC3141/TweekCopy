@@ -12,6 +12,7 @@ import {action as resetPasswordAction} from "./components/forms/ResetPasswordFor
 import {action as updateUserAction} from "./components/forms/UpdateUserForm";
 import {action as searchTaskAction} from "./components/forms/SearchTaskForm.jsx";
 import { loader as taskLoader } from "./components/tasks/TaskListContainer.jsx";
+import Error from "./components/Error.jsx";
 
 function App() {
 
@@ -19,7 +20,8 @@ function App() {
 
     const router = createBrowserRouter(createRoutesFromElements(
         <>
-            <Route path="/" element={<HomePage/>} loader={taskLoader(authContext)} action={searchTaskAction(authContext)}/>
+            <Route path="/" element={<HomePage/>} errorElement={<Error />}
+                   loader={taskLoader(authContext)} action={searchTaskAction(authContext)}/>
             <Route path="/login" action={loginAction(authContext)}/>
             <Route path="/signup" action={signupAction(authContext)}/>
             <Route path="/reset-password" action={resetPasswordAction(authContext)}/>
