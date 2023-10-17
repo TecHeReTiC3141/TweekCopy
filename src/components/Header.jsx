@@ -10,7 +10,12 @@ import {openForm} from "../scripts/utils.js";
 const Header = () => {
 
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const newDate = new Date();
+    if (searchParams.get("weekShift")) {
+        newDate.setDate(newDate.getDate() + (+searchParams.get("weekShift") * 7));
+    }
 
     function openLoginForm() {
         openForm("login-form");
@@ -99,13 +104,13 @@ const Header = () => {
             window.removeEventListener("resize", handleResize)
         }
     }, [])
-
-    let monthName = months[new Date().getMonth()];
+    console.log(newDate);
+    let monthName = months[newDate.getMonth()];
     if (isSmall) monthName = monthName.slice(0, 4) + '.';
     return (
         <header
             className="max-container flex justify-between max-lg:border-b max-lg:border-gray-200 items-center w-full gap-12 padding-x py-3 lg:py-6 bg-white max-lg:fixed top-0 left-0">
-            <h1 className={"text-xl font-[700] lg:text-4xl tracking-tighter " + (+searchParams.get("weekShift") && 'text-blue-600')}>{monthName} {new Date().getFullYear()}</h1>
+            <h1 className={"text-xl font-[700] lg:text-4xl tracking-tighter " + (+searchParams.get("weekShift") && 'text-blue-600')}>{monthName} {newDate.getFullYear()}</h1>
 
             <div className="flex gap-3">
 
