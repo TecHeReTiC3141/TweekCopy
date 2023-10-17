@@ -13,8 +13,7 @@ const formBlurDict = {
 }
 
 export function formTransition(from, to) {
-    const fromForm = document.querySelector(`.blur-bg[data-id="${from}"]`);
-    fromForm.classList.remove("active");
+    closeForm(from);
     openForm(to);
 }
 
@@ -34,4 +33,9 @@ export function openForm(formBlurId) {
         duration: 300,
         fill: "forwards",
     });
+}
+
+export function closeForm(formBlurId) {
+    const fromForm = document.querySelector(`.blur-bg[data-id="${formBlurId}"]`);
+    fromForm.classList.remove("active");
 }

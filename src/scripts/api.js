@@ -18,7 +18,7 @@ import levenshtein from "js-levenshtein";
 const taskColRef = collection(db, "tasks");
 const userColRef = collection(db, "users");
 
-const MAX_LEVENSHTEIN_DISTANCE = 5;
+const MAX_LEVENSHTEIN_DISTANCE = 3;
 
 export function sleep(time) {
     return new Promise(resolve => {

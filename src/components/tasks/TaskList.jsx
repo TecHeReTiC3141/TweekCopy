@@ -4,6 +4,7 @@ import {useAuth} from "../../contexts/AuthContext.jsx";
 import {createTask, tryCatchDecorator} from "../../scripts/api.js";
 import {ReactSortable} from "react-sortablejs";
 import {Form} from "react-router-dom";
+import {formDate} from "../../scripts/utils.js";
 
 const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) => {
 
