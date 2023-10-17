@@ -5,10 +5,6 @@ import {createTask, tryCatchDecorator} from "../../scripts/api.js";
 import {ReactSortable} from "react-sortablejs";
 import {Form} from "react-router-dom";
 
-function formDate(date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-}
-
 const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) => {
 
     // TODO: implement sorting tasks between task lists by dragging them
@@ -81,15 +77,6 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
             }
         }
     }
-
-    // React.useEffect(() => {
-    //     const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
-    //     const firstInput = thisTaskList.querySelector('input:first-of-type');
-    //     if (firstInput) {
-    //         firstInput.removeAttribute('disabled');
-    //         // firstInput.focus();
-    //     }
-    // }, [tasksData])
 
     const tasksComponents = [], emptyComponents = [];
     for (let i = 0; i < tasksData.length; ++i) {

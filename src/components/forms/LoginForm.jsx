@@ -1,4 +1,4 @@
-import {Form, redirect, useActionData, useLoaderData, useSearchParams} from "react-router-dom";
+import {Form, redirect, useSearchParams} from "react-router-dom";
 import Blur from "../Blur.jsx";
 import {formTransition} from "../../scripts/utils.js";
 import {useAuth} from "../../contexts/AuthContext.jsx";
@@ -12,7 +12,7 @@ export const action = (AuthContext) => async ({ request }) => {
         password = formData.get("password");
     console.log(email, password, request.url);
     const res = await login(email, password);
-    return redirect(`/?{res.type === "error" && ("?errorMessage=" + res.errorMessage)}`);
+    return redirect(`/?${res.type === "error" && ("?errorMessage=" + res.errorMessage)}`);
 }
 
 export default function LoginForm() {
@@ -31,7 +31,7 @@ export default function LoginForm() {
     if (currentUser) {
         closeLoginForm();
     }
-
+    // TODO: implement authentication via Google
     return (
         <Blur type="login-form">
             <div className="login-form relative top-10 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem]

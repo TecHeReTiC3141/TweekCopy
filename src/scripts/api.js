@@ -13,9 +13,12 @@ import {
     increment,
 
 } from "firebase/firestore";
+import levenshtein from "js-levenshtein";
 
 const taskColRef = collection(db, "tasks");
 const userColRef = collection(db, "users");
+
+const MAX_LEVENSHTEIN_DISTANCE = 5;
 
 export function sleep(time) {
     return new Promise(resolve => {
@@ -56,7 +59,7 @@ export async function createTask(data) {
 
 export async function getUserTasks(userId) {
     console.log(userId);
-    await sleep(1000);
+    // await sleep(1000);
     const q = query(taskColRef,
         where("uid", "==", userId || "null"));
     const snapshot = await getDocs(q);
@@ -65,6 +68,11 @@ export async function getUserTasks(userId) {
         id: doc.id,
         date: new Date(doc.data().date),
     }))
+}
+
+export async function getSearchedTasks(userId, query) {
+    const tasks = await getUserTasks(userId);
+    return tasks.filter(task => levenshtein(task.name, query) <= MAX_LEVENSHTEIN_DISTANCE).slice(0, 10);
 }
 
 export async function updateTask(taskId, data) {
@@ -99,6 +107,7 @@ export async function reOrderTasks(reOrdered) {
         });
     })
 }
+
 export async function toggleDoneTask(taskId) {
     const taskRef = doc(db, "tasks", taskId);
     const taskDone = (await getDoc(taskRef)).data().done;

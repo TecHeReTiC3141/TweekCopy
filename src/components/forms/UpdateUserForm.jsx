@@ -40,7 +40,7 @@ export default function UpdateUserForm() {
                  onClick={ev => ev.stopPropagation()}>
                 <h3 className="font-bold text-xl tracking-tight">Account</h3>
 
-                {errorMessage && <h3
+                {errorMessage && typeof errorMessage === "string" && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                     {errorMessage}</h3>}
                 <Form method="POST" className="relative" action="/update-user" >

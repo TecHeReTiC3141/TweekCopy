@@ -1,26 +1,37 @@
 import Blur from "../Blur.jsx";
 import {formTransition} from "../../scripts/utils.js";
 import React from "react";
-import {Form, redirect, useSubmit} from "react-router-dom";
+import {Form, useSubmit, useActionData} from "react-router-dom";
+import {getSearchedTasks} from "../../scripts/api.js";
+import SearchTask from "../tasks/SearchTask.jsx";
 
 export const action = AuthContext => async ({ request }) => {
     const { currentUser } = AuthContext;
     const formData = await request.formData();
-    console.log(formData.get("search-task-name"));
-    return redirect("/");
+    const search = formData.get("search-task-name");
+    console.log(search, search.length);
+    if (!search) return [];
+    const searchedTasks = await getSearchedTasks(currentUser.uid, search);
+    return searchedTasks;
+    // return redirect(`/?searchResults=${JSON.stringify(searchedTasks)}`);
 }
 
 export default function SearchTaskForm() {
 
     const submit = useSubmit();
 
+    const tasks = useActionData();
+    console.log("action in search", tasks);
+
     function handleSearch(ev) {
         if (ev.currentTarget.value) {
             const clearSearchBtn = document.querySelector(".clear-search");
             clearSearchBtn.classList.remove("hidden");
             console.log(ev.currentTarget.parentElement);
-            submit(ev.currentTarget.parentElement);
+        } else {
+            document.querySelector(".clear-search").classList.add("hidden");
         }
+        submit(ev.currentTarget.parentElement);
     }
 
     return (
@@ -29,11 +40,11 @@ export default function SearchTaskForm() {
             z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => ev.stopPropagation()}>
                 <h3 className="font-bold text-xl tracking-tight">Search</h3>
-                <Form method="POST" action="/search-task" className="relative">
+                <Form method="POST" className="relative">
                     <input  className="my-6 border-b border-gray-500 w-full py-1 focus:outline-none focus:border-gray-400"
                             type="text" name="search-task-name" id="search-task-name" onChange={handleSearch}/>
 
-                    <button className="clear-search absolute top-10 -translate-y-[50%] right-2"
+                    <button className="clear-search absolute top-10 -translate-y-[50%] right-2 hidden"
                     onClick={ev => {
                         document.getElementById("search-task-name").value = "";
                         ev.currentTarget.classList.add("hidden");
@@ -45,7 +56,12 @@ export default function SearchTaskForm() {
 
 
                 <div className="search-results">
-
+                    {
+                        tasks &&
+                        tasks.map(task =>
+                            <SearchTask key={task.id} data={task} date={new Date(task.date)}/>
+                        )
+                    }
                 </div>
             </div>
 

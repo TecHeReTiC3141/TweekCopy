@@ -6,6 +6,7 @@ import { db } from "../../scripts/firebase.js";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import {reOrderTasks, getUserTasks, tryCatchDecorator} from "../../scripts/api.js";
 import Loading from "../Loading.jsx";
+import { formDate } from "../../scripts/utils.js";
 
 
 export const loader = AuthContext => async () => {
@@ -13,10 +14,6 @@ export const loader = AuthContext => async () => {
     console.log(currentUser, currentUser?.uid);
 
     return defer({ tasksPromise: tryCatchDecorator(getUserTasks)(currentUser?.uid) });
-}
-
-function formDate(date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 
 const TaskListContainer = () => {
@@ -53,7 +50,6 @@ const TaskListContainer = () => {
     }
 
     const { currentUser } = useAuth();
-    // console.log(tasks.length, tasks);
 
     useEffect(() => {
 

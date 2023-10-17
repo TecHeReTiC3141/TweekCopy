@@ -10,7 +10,7 @@ function formDate(date) {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 
-const Task = ({taskListInd, ind, data, date, tasksCol}) => {
+export default function Task({taskListInd, ind, data, date, tasksCol}) {
 
     const MAX_TASK_NAME_LENGTH = 20;
 
@@ -46,5 +46,3 @@ const Task = ({taskListInd, ind, data, date, tasksCol}) => {
         </div>
     )
 }
-
-export default Task

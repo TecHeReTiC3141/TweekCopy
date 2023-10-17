@@ -19,12 +19,12 @@ function App() {
 
     const router = createBrowserRouter(createRoutesFromElements(
         <>
-            <Route path="/" element={<HomePage/>} loader={taskLoader(authContext)} />
+            <Route path="/" element={<HomePage/>} loader={taskLoader(authContext)} action={searchTaskAction(authContext)}/>
             <Route path="/login" action={loginAction(authContext)}/>
             <Route path="/signup" action={signupAction(authContext)}/>
             <Route path="/reset-password" action={resetPasswordAction(authContext)}/>
             <Route path="/update-user" action={updateUserAction(authContext)}/>
-            <Route path="/search-task" action={searchTaskAction(authContext)}/>
+            <Route path="/search-task" />
             <Route path="*" element={<NotFound/>}/>
         </>
     ))

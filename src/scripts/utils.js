@@ -1,3 +1,10 @@
+export function formDate(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
+export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+
 const formBlurDict = {
     "login-form": "login-form",
     "task-menu": "task-menu",
