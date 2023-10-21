@@ -91,7 +91,7 @@ const TaskMenu = () => {
 
     useEffect(() => {
         let easyMDE = new EasyMDE({
-            toolbar: ["bold", "italic", "preview", "|", "unordered-list", "ordered-list"],
+            toolbar: ["bold", "italic", "strikethrough", "preview", "|", "unordered-list", "ordered-list", "link"],
             status: false,
             minHeight: "50px",
         });
@@ -168,7 +168,7 @@ const TaskMenu = () => {
                                           description: ev.target.value,
                                       }))
                                   }
-                                  placeholder="Write additional notes" defaultValue={description}></textarea>
+                                  placeholder="Write some additional notes here..." defaultValue={description}></textarea>
                         <textarea name="task-description" id="task-description" className="hidden" value={description || ""}
                                   cols="30" rows="10"></textarea>
                         <input type="checkbox" id="task-done" name="task-done" checked={done} className="hidden"
