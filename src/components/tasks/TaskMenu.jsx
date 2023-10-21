@@ -18,8 +18,6 @@ const TaskMenu = () => {
         form.querySelector("#task-menu-description").value = taskData.description || "";
     }, [taskData]);
 
-    // TODO: add Markdown editor for notes
-
     function openColorPicker(ev) {
         ev.stopPropagation();
         let taskMenuColorPicker = ev.target.parentElement.parentElement.parentElement

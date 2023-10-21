@@ -34,7 +34,6 @@ export default function LoginForm() {
     if (currentUser) {
         closeLoginForm();
     }
-    // TODO: implement authentication via Google
     return (
         <Blur type="login-form">
             <div className="login-form relative top-10 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem]
