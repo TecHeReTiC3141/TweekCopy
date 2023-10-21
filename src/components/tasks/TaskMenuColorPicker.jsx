@@ -3,8 +3,8 @@ import TaskMenuBtn from "./TaskMenuBtn.jsx";
 export function TaskMenuColorPicker({ setColor }) {
 
     const colors = [
-        "white",
-        "amber-500",
+        "white text-black dark:text-white dark:bg-black",
+        "amber-500 text-black",
         "green-500 text-white",
         "red-500 text-white",
     ]

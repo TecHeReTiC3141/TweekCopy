@@ -24,16 +24,19 @@ function HomePage() {
     }, [localStorage.theme]);
 
     return (
-        <main className="max-container">
-            <TaskListContainer/>
-            <LoginForm/>
-            <SearchTaskForm/>
-            <SignUpForm/>
-            <UpdateUserForm/>
-            <ResetPasswordForm/>
-            <TaskMenu/>
-            <InvitePage />
-        </main>
+        <div className="min-w-screen min-h-screen bg-white dark:bg-black">
+            <main className="max-container">
+                <TaskListContainer/>
+                <LoginForm/>
+                <SearchTaskForm/>
+                <SignUpForm/>
+                <UpdateUserForm/>
+                <ResetPasswordForm/>
+                <TaskMenu/>
+                <InvitePage />
+            </main>
+        </div>
+
     )
 }
 

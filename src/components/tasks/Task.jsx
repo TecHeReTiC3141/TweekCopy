@@ -49,7 +49,7 @@ export default function Task({taskListInd, ind, data, date, tasksCol}) {
                 >{ data.description && <i className="fa-regular fa-note-sticky"></i> } {data.name.slice(0, MAX_TASK_NAME_LENGTH) +
                     (data.name.length > MAX_TASK_NAME_LENGTH ? "..." : "")}</h5>
                 <button className="toggle-done hidden group-hover:block max-lg:block" onClick={handleToggleDone}>
-                    <i className={`fa-${data.done ? "solid" : "regular"} fa-circle-check`}></i>
+                    <i className={`fa-${data.done ? "solid" : "regular"} ${data.done && "opacity-50"} fa-circle-check`}></i>
                 </button>
 
             </div>

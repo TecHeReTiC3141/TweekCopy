@@ -62,7 +62,8 @@ export default function ExtrasMenu() {
 
     return (
         <div
-            className="extras-menu bg-white border border-black rounded-md w-28 py-2 text-center"
+            className="extras-menu text-black bg-white dark:bg-stone-800 dark:text-white
+             border border-black rounded-md w-28 py-2 text-center"
             onClick={ev => ev.stopPropagation()}>
             <ul>
                 {

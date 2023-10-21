@@ -29,7 +29,7 @@ export default function InvitePage() {
     return (
         <div className="invite fixed w-full h-full">
 
-            <div className="invite-blur bg-white bg-opacity-70 fixed top-0 left-0 h-full w-full z-15"
+            <div className="invite-blur bg-white bg-opacity-70 dark:bg-opacity-0 fixed top-0 left-0 h-full w-full z-15"
                  onClick={closeInvitePage}></div>
             <div className="invite-page fixed h-screen bg-[#dce1fd] w-[98%] mx-auto lg:w-[35rem] px-10 py-10 lg:top-0 top-2
              lg:right-0 right-[1%] transition-all z-25">

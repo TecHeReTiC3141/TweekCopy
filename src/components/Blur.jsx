@@ -28,7 +28,7 @@ export default function Blur({ children, type, bgColor="bg-white" }) {
     }
 
     return (
-        <div data-id={type} className={`blur-bg ${bgColor} bg-opacity-70 fixed top-0 left-0 h-full w-full z-10
+        <div data-id={type} className={`blur-bg ${bgColor} bg-opacity-70 dark:bg-opacity-0 fixed top-0 left-0 h-full w-full z-10
         transition-all duration-300 ease-linear cursor-default flex justify-center items-start`} onClick={handleTaskMenuClose} >
             { children }
         </div>
