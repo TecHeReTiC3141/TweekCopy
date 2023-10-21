@@ -33,7 +33,7 @@ export default function InvitePage() {
                  onClick={closeInvitePage}></div>
             <div className="invite-page fixed h-screen bg-[#dce1fd] w-[98%] mx-auto lg:w-[35rem] px-10 py-10 lg:top-0 top-2
              lg:right-0 right-[1%] transition-all z-25">
-                <h1 className="text-5xl font-bold tracking-[-0.15rem] leading-[3.5rem]">
+                <h1 className="text-3xl lg:text-5xl font-bold tracking-[-0.15rem] leading-[3.5rem]">
                     Tweek Calendar is a Minimal Weekly Planner & To-Do List App.</h1>
                 <div className="w-full border-b-2 border-black py-4 my-6 relative">
                     <p className="text-[0.9rem]">Plan for yourself, your family <br/>
@@ -46,7 +46,7 @@ export default function InvitePage() {
                         </svg>
                     </div>
                 </div>
-                <p className="text-[1.4rem] font-[600] leading-8 tracking-tight py-4">To enhance your productivity,
+                <p className="md:text-[1.4rem] font-[600] leading-8 tracking-tight py-4">To enhance your productivity,
                     Tweek is built around a week calendar view without any hourly scheduling.
                     We’d say it’s the best view to organize your life and work without stress.
                 </p>
