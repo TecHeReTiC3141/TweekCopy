@@ -19,10 +19,6 @@ export const action = (AuthContext) => async ({ request }) => {
     return redirect("/");
 }
 
-// export function loader({ request }) {
-//     return new URL(request.url).searchParams.get("errorMessage")
-// }
-
 export default function SignUpForm() {
 
     const [searchParams, setSearchParams] = useSearchParams();

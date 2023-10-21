@@ -12,7 +12,7 @@ export const action = (AuthContext) => async ({ request }) => {
         password = formData.get("password");
     console.log(email, password, request.url);
     const res = await login(email, password);
-    return redirect(`/?${res.type === "error" && ("?errorMessage=" + res.errorMessage)}`);
+    return redirect(`/?${res.type === "error" && ("errorMessage=" + res.errorMessage)}`);
 }
 
 export default function LoginForm() {
