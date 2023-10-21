@@ -26,7 +26,7 @@ export default function ResetPasswordForm() {
                             onClick={() => formTransition("reset-password-form", "login-form")}>Log in</button>
                 </div>
                 <p className="mb-4 text-sm">Please enter your email to receive instructions on how to reset your password.</p>
-                { errorMessage && <h3
+                { errorMessage && typeof errorMessage === "string" && <h3
                     className="rounded-md px-2 text-sm bg-red-500 text-black py-3 my-1">
                     {errorMessage}</h3>}
                 <Form method="POST" className="relative" action="/reset-password">

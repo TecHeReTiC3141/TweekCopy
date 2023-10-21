@@ -1,4 +1,4 @@
-import {Form, redirect, useActionData, useLoaderData, useSearchParams} from "react-router-dom";
+import {Form, redirect, useSearchParams} from "react-router-dom";
 import Blur from "../Blur.jsx";
 import {formTransition} from "../../scripts/utils.js";
 import {useAuth} from "../../contexts/AuthContext.jsx";
@@ -12,26 +12,29 @@ export const action = (AuthContext) => async ({ request }) => {
         password = formData.get("password");
     console.log(email, password, request.url);
     const res = await login(email, password);
-    return redirect(`/?{res.type === "error" && ("?errorMessage=" + res.errorMessage)}`);
+    return redirect(`/?${res.type === "error" && ("?errorMessage=" + res.errorMessage)}`);
 }
 
 export default function LoginForm() {
 
     function closeLoginForm() {
         const loginBlur = document.querySelector('[data-id="login-form"]');
+        if (!loginBlur) {
+            return;
+        }
         loginBlur.classList.remove("active");
     }
     const [searchParams, setSearchParams] = useSearchParams();
     const errorMessage = searchParams.get("errorMessage");
-    // TODO: Close form when it's submitted
+
     const { currentUser } = useAuth();
     if (currentUser) {
         closeLoginForm();
     }
-
+    // TODO: implement authentication via Google
     return (
         <Blur type="login-form">
-            <div className="task-menu relative top-26 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem]
+            <div className="login-form relative top-10 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem]
             z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => ev.stopPropagation()}>
                 <div className="w-full flex justify-between items-center mb-12">

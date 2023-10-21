@@ -1,15 +1,14 @@
-import {useAuth} from "../contexts/AuthContext.jsx";
+import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useEffect} from "react";
+import {openForm} from "../../scripts/utils.js";
 
 export default function ProfileMenu() {
-
-    // TODO: add extended user model with also contains name + maybe other information
 
     const { currentUser, logout } = useAuth();
 
     function openUpdateUserForm() {
-        const updateUserBlur = document.querySelector('[data-id="update-user-form"]');
-        updateUserBlur.classList.add("active");
+        openForm("update-user-form");
+        document.querySelector(".profile-menu ").classList.remove("active");
     }
 
     useEffect(() => {
@@ -22,7 +21,7 @@ export default function ProfileMenu() {
             const profileMenu = document.querySelector(".profile-menu");
             profileMenu.classList.remove("active");
         })
-    }, [])
+    }, []);
 
     return (
         <div className="profile-menu bg-white border border-black rounded-md w-28 lg:w-40 p-4 -translate-x-[50%] text-center"

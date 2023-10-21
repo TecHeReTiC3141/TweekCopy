@@ -16,11 +16,13 @@
         @apply top-24;
     }
 
-    .profile-menu.active, .task-menu-color-picker.active, .blur-bg.active {
+    .profile-menu.active, .extras-menu.active, .task-menu-color-picker.active,
+    .blur-bg.active, .invite.active > .invite-blur  {
         @apply fixed;
     }
 
-    .profile-menu:not(.active), .task-menu-color-picker:not(.active), .blur-bg:not(.active) {
+    .profile-menu:not(.active), .extras-menu:not(.active), .task-menu-color-picker:not(.active),
+    .blur-bg:not(.active), .invite:not(.active) > .invite-blur {
         @apply hidden;
     }
 
@@ -32,13 +34,18 @@
         @apply translate-x-full;
     }
 
-    .invite.active > .invite-blur {
-        @apply fixed;
+    .sortable-drag {
+        @apply bg-indigo-400 opacity-50 rounded-md;
     }
 
-    .invite:not(.active) > .invite-blur {
+    .sortable-drag .toggle-done {
         @apply hidden;
     }
+
+     .sortable-ghost {
+        @apply opacity-0;
+    }
+
 
 }
 

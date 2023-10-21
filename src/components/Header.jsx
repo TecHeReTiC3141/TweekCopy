@@ -2,26 +2,43 @@ import React from "react"
 import HeaderBtn from "./HeaderBtn"
 import {useSearchParams} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
-import ProfileMenu from "./ProfileMenu.jsx";
+import ProfileMenu from "./menus/ProfileMenu.jsx";
+import ExtrasMenu from "./menus/ExtrasMenu.jsx";
 import {clearUsersTasks} from "../scripts/api.js";
+import {openForm} from "../scripts/utils.js";
 
 const Header = () => {
 
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const newDate = new Date();
+    if (searchParams.get("weekShift")) {
+        newDate.setDate(newDate.getDate() + (+searchParams.get("weekShift") * 7));
+    }
 
     function openLoginForm() {
-        const loginFormBlur = document.querySelector('[data-id="login-form"]');
-        loginFormBlur.classList.add("active");
+        openForm("login-form");
     }
 
     function openProfileMenu(ev) {
         ev.stopPropagation();
         const profileMenu = document.querySelector(".profile-menu");
         profileMenu.classList.add("active");
-        const buttonPos = ev.target.getBoundingClientRect();
+        document.querySelector(".extras-menu").classList.remove("active");
+        const buttonPos = ev.currentTarget.getBoundingClientRect();
         profileMenu.style.left = `${Math.round(buttonPos.left + buttonPos.width / 2)}px`;
-        profileMenu.style.top = `${Math.round(buttonPos.bottom) + 12}px`;
+        profileMenu.style.top = `${Math.round(buttonPos.bottom) + 8}px`;
+    }
+
+    function openExtrasMenu(ev) {
+        ev.stopPropagation();
+        const extrasMenu = document.querySelector(".extras-menu");
+        extrasMenu.classList.add("active");
+        document.querySelector(".profile-menu").classList.remove("active");
+        const buttonPos = ev.currentTarget.getBoundingClientRect();
+        extrasMenu.style.right = `${Math.round(window.innerWidth - buttonPos.right - 15)}px`;
+        extrasMenu.style.top = `${Math.round(buttonPos.bottom) + 8}px`;
     }
 
     function toPrevWeek() {
@@ -42,7 +59,7 @@ const Header = () => {
 
     const {currentUser} = useAuth();
 
-    const HeaderBtns = [
+    const headerBtns = [
 
         {
             textColor: "black",
@@ -58,6 +75,7 @@ const Header = () => {
             bgColor: "purple-200",
             icon: "fa-solid fa-ellipsis-vertical",
             tooltip: "Extras",
+            onClick: openExtrasMenu,
         },
         {
             textColor: "white",
@@ -86,13 +104,13 @@ const Header = () => {
             window.removeEventListener("resize", handleResize)
         }
     }, [])
-
-    let monthName = months[new Date().getMonth()];
+    console.log(newDate);
+    let monthName = months[newDate.getMonth()];
     if (isSmall) monthName = monthName.slice(0, 4) + '.';
     return (
         <header
             className="max-container flex justify-between max-lg:border-b max-lg:border-gray-200 items-center w-full gap-12 padding-x py-3 lg:py-6 bg-white max-lg:fixed top-0 left-0">
-            <h1 className={"text-xl font-[700] lg:text-4xl tracking-tighter " + (+searchParams.get("weekShift") && 'text-blue-600')}>{monthName} {new Date().getFullYear()}</h1>
+            <h1 className={"text-xl font-[700] lg:text-4xl tracking-tighter " + (+searchParams.get("weekShift") && 'text-blue-600')}>{monthName} {newDate.getFullYear()}</h1>
 
             <div className="flex gap-3">
 
@@ -112,12 +130,13 @@ const Header = () => {
                         tooltip: "Login",
                     }}/>}
                 {
-                    HeaderBtns.map((btn, index) => (
+                    headerBtns.map((btn, index) => (
                         <HeaderBtn {...btn} key={index}/>
                     ))
                 }
             </div>
-            <ProfileMenu/>
+            <ProfileMenu />
+            <ExtrasMenu />
         </header>
     )
 }

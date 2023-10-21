@@ -8,6 +8,7 @@ import {useAuth} from "./contexts/AuthContext";
 import ResetPasswordForm from "./components/forms/ResetPasswordForm";
 import InvitePage from "./components/InvitePage";
 import TaskMenu from "./components/tasks/TaskMenu";
+import SearchTaskForm from "./components/forms/SearchTaskForm.jsx";
 
 function HomePage() {
 
@@ -23,15 +24,14 @@ function HomePage() {
 
     return (
         <main className="max-container">
-
-            <Header/>
             <TaskListContainer/>
             <LoginForm/>
+            <SearchTaskForm/>
             <SignUpForm/>
             <UpdateUserForm/>
             <ResetPasswordForm/>
             <TaskMenu/>
-            {!currentUser && <InvitePage />}
+            <InvitePage />
         </main>
     )
 }

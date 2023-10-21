@@ -1,18 +1,14 @@
 import React from 'react'
 import Task from './Task.jsx';
 import {useAuth} from "../../contexts/AuthContext.jsx";
-import {useSubmit} from "react-router-dom";
 import {createTask, tryCatchDecorator} from "../../scripts/api.js";
+import {ReactSortable} from "react-sortablejs";
+import {Form} from "react-router-dom";
+import {formDate} from "../../scripts/utils.js";
 
-function formDate(date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-}
+const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) => {
 
-const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}) => {
-
-    // TODO: implement sorting tasks by dragging them using Sortable
-
-    // console.log(date, tasksData);
+    // TODO: implement sorting tasks between task lists by dragging them
 
     const getDate = date => {
         let day = date.getDate().toString(), month = (date.getMonth() + 1).toString();
@@ -29,13 +25,28 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
     const {currentUser} = useAuth();
 
     function handleClick(ev) {
-        if (ev.target.tagName !== "INPUT") return;
-        const thisTaskList = ev.target.parentElement.parentElement.parentElement;
+        const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
         console.log(thisTaskList, thisTaskList.querySelector('.add-task'));
 
-        const firstInput = thisTaskList.querySelector('.add-task > form > input[type="text"]');
-        firstInput.removeAttribute("readOnly");
+        const firstInput = thisTaskList.querySelector('.add-task #add-task-name');
         firstInput.focus();
+    }
+
+    async function handleFocusOut(ev) {
+        if (!ev.target.value) return;
+        if (currentUser) {
+            const formData = new FormData(ev.target.parentElement);
+            console.log("creating new task on blur", formData.get("add-task-name"));
+            ev.target.value = "";
+            await tryCatchDecorator(createTask)({
+                name: formData.get("add-task-name"),
+                color: "white",
+                date: formDate(date),
+                uid: currentUser.uid,
+                done: false,
+                order: tasksData.length,
+            });
+        }
     }
 
     async function handleKeyDown(ev) {
@@ -43,8 +54,6 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
             const curInput = document.querySelector('input:focus');
 
             if (curInput.value) {
-
-                // TODO: when Enter is pressed, next input must be focused
                 if (currentUser) {
                     const formData = new FormData(curInput.parentElement);
                     console.log("creating new task on keydown", formData.get("add-task-name"), formDate(date));
@@ -55,9 +64,8 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                         date: formDate(date),
                         uid: currentUser.uid,
                         done: false,
+                        order: tasksData.length,
                     });
-
-                    curInput.blur();
                 } else {
                     const thisTaskList = curInput.parentElement.parentElement.parentElement;
                     if (thisTaskList.dataset.date == date.getDate()) {
@@ -71,35 +79,25 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
         }
     }
 
-    React.useEffect(() => {
-        const thisTaskList = document.querySelector(`.task-list[data-date="${date.getDate()}"]`);
-        const firstInput = thisTaskList.querySelector('input:first-of-type');
-        if (firstInput) {
-            firstInput.removeAttribute('disabled');
-            firstInput.focus();
-        }
-    }, [tasksData])
-
-    const tasksComponents = [];
-    for (let i = 0; i < (last ? maxTasks / 2 : maxTasks); ++i) {
-        tasksComponents.push(<Task key={i} data={i < tasksData.length && tasksData[i]}
+    const tasksComponents = [], emptyComponents = [];
+    for (let i = 0; i < tasksData.length; ++i) {
+        tasksComponents.push(<Task key={tasksData[i].id} data={tasksData[i]}
                                    taskListInd={ind} date={date}
-                                   setTask={newValue => setTasks(prevTasks => {
-                                       console.log([
-                                           ...prevTasks.slice(0, i),
-                                           newValue,
-                                           ...prevTasks.slice(i + 1),
-                                       ])
-                                       return [
-                                           ...prevTasks.slice(0, i),
-                                           newValue,
-                                           ...prevTasks.slice(i + 1),
-                                       ]
-                                   })} ind={i}/>);
+                                   tasksCol={tasksData.length}
+                                   ind={i}/>);
+    }
+    for (let i = 0; i < Math.max(0, (last ? maxTasks / 2 : maxTasks) - 1 - tasksData.length); ++i) {
+        emptyComponents.push(
+            <div className="empty-task w-full py-2 border-b-2 border-gray-200 bg-white"
+                 key={i}
+                 onClick={handleClick}>
+                <p className="opacity-0 cursor-default" onClick={handleClick}>sdasdfsdlk</p>
+            </div>
+        )
     }
 
     return (
-        <div className="task-list flex flex-1 flex-col" data-date={date.getDate()} onClick={handleClick}
+        <div className="task-list flex flex-1 flex-col" data-date={date.getDate()}
              onKeyDown={handleKeyDown}>
             <div
                 className={`flex justify-between items-center py-3 border-b-2 ${active ? "border-blue-600" : "border-black"}`}>
@@ -107,9 +105,32 @@ const TaskList = ({date, active, last, maxTasks, changeMaxTasks, tasksData, ind}
                 <h3 className={`text-lg lg:text-xl ${active ? "text-blue-300" : "text-gray-300"}`}>{day.slice(0, 3)}</h3>
             </div>
 
-            <div>
+            <ReactSortable list={tasksData} setList={() => null}
+                           onUpdate={reorderTasks}
+                           onChoose={ev => console.log(ev.oldIndex < tasksData.length)}
+                           ghostClass="sortable-ghost"
+                           chosenClass="sortable-chosen"
+                           dragClass="sortable-drag"
+
+            >
                 {tasksComponents}
-            </div>
+            </ReactSortable>
+            <Form method="POST" className="add-task"> { /* For adding new tasks */}
+                <input type="text"
+                       name="add-task-name"
+                       id="add-task-name"
+                       className="w-full border-b
+                       focus:outline-none focus:px-1.5 focus:shadow-lg focus:border
+                       py-2 indent-1.5 focus:rounded-md border-gray-300 focus:z-5"
+                       onBlur={handleFocusOut}
+                />
+                <input type="text" defaultValue="add-task-form" name="form-id" id="form-id" className="hidden"/>
+
+
+                <input type="date" defaultValue={date.toISOString().split("T")[0]} className="hidden" name="task-date"
+                       id="task-date"/>
+            </Form>
+            {emptyComponents}
         </div>
     )
 }

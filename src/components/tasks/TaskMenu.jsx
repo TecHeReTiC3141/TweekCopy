@@ -11,15 +11,13 @@ const TaskMenu = () => {
     const {taskData, setTaskData} = useTaskMenu();
     const {id: taskId, date, color, name, done, description} = taskData;
 
-    console.log("In task menu", taskData);
-
-    // TODO: fix bugs connected with new TaskMenu
-
     useEffect(() => {
         const form = document.querySelector(".task-menu-form");
         form.querySelector("#task-name").value = taskData.name;
         form.querySelector("#task-description").value = taskData.description || "";
     }, [taskData]);
+
+    // TODO: add Markdown editor for notes
 
     function openColorPicker(ev) {
         ev.stopPropagation();
@@ -43,7 +41,10 @@ const TaskMenu = () => {
     }
 
     async function delTask(ev) {
-        await tryCatchDecorator(deleteTask)(taskId);
+        const data = await tryCatchDecorator(deleteTask)(taskId);
+        if (data.success === false) {
+            console.log(`in delete error: ${data.message}`);
+        }
         const bgBlur = document.querySelector(".blur-bg.active");
         bgBlur.classList.remove("active");
     }
@@ -89,7 +90,7 @@ const TaskMenu = () => {
 
     return (
         <Blur type="task-menu">
-            <div className="task-menu relative top-40 bg-[#DDE1FB] rounded-xl
+            <div className="task-menu relative bg-[#DDE1FB] rounded-xl
             py-4 lg:py-6 px-6 lg:px-8 w-[28rem]
              z-20 text-gray-600 transition-all duration-500 ease-linear"
                  onClick={ev => {
@@ -121,6 +122,12 @@ const TaskMenu = () => {
                 <div className="mt-12">
                     <Form method="POST" className="task-menu-form relative w-full">
                         <input type="text" id="task-name" name="task-name" defaultValue={name}
+                               onChange={ev =>
+                                   setTaskData(prevTaskData => ({
+                                       ...prevTaskData,
+                                       name: ev.target.value,
+                                   }))
+                               }
                                className={"w-full border-b border-gray-400 indent-2 py-1 text-xl bg-transparent focus:outline-none "
                                    + ((done && "line-through opacity-40") || '')}
                         />
@@ -138,12 +145,18 @@ const TaskMenu = () => {
                         </button>
                         <textarea name="task-description" id="task-description" cols="30" rows="3"
                                   className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
+                                  onChange={ev =>
+                                      setTaskData(prevTaskData => ({
+                                          ...prevTaskData,
+                                          description: ev.target.value,
+                                      }))
+                                  }
                                   placeholder="Write additional notes" defaultValue={description}></textarea>
                         <input type="checkbox" id="task-done" name="task-done" checked={done} className="hidden"
                                readOnly={true}/>
-                        <input type="text" id="task-color" name="task-color" value={color} className="hidden"
+                        <input type="text" id="task-color" name="task-color" value={color || "none"} className="hidden"
                                readOnly={true}/>
-                        <input type="text" id="task-id" name="task-id" value={taskId} className="hidden"
+                        <input type="text" id="task-id" name="task-id" value={taskId || "none"} className="hidden"
                                readOnly={true}/>
                     </Form>
                 </div>
