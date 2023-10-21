@@ -8,12 +8,18 @@ export default function Blur({ children, type, bgColor="bg-white" }) {
         const form = ev.target.querySelector(".task-menu-form");
         if (form) {
             const formData = new FormData(form);
+            console.log({
+                name: formData.get("task-name"),
+                done: formData.has("task-done"),
+                color: formData.get("task-color"),
+                description: formData.get("task-menu-description"),
+            });
 
             await tryCatchDecorator(updateTask)(formData.get("task-id"), {
                 name: formData.get("task-name"),
                 done: formData.has("task-done"),
                 color: formData.get("task-color"),
-                description: formData.get("task-description"),
+                description: formData.get("task-menu-description"),
             });
             const colorPicker = ev.target.querySelector(".task-menu-color-picker");
             colorPicker.classList.remove("active");

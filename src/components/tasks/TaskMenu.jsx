@@ -5,6 +5,7 @@ import {TaskMenuColorPicker} from "./TaskMenuColorPicker.jsx";
 import {Form} from "react-router-dom";
 import {tryCatchDecorator, deleteTask} from "../../scripts/api.js";
 import {useTaskMenu} from "../../contexts/TaskMenuContext.jsx";
+import EasyMDE from "easymde";
 
 const TaskMenu = () => {
 
@@ -14,7 +15,7 @@ const TaskMenu = () => {
     useEffect(() => {
         const form = document.querySelector(".task-menu-form");
         form.querySelector("#task-name").value = taskData.name;
-        form.querySelector("#task-description").value = taskData.description || "";
+        form.querySelector("#task-menu-description").value = taskData.description || "";
     }, [taskData]);
 
     // TODO: add Markdown editor for notes
@@ -88,6 +89,17 @@ const TaskMenu = () => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const day = days[date.getDay()];
 
+    useEffect(() => {
+        let easyMDE = new EasyMDE({
+            toolbar: ["bold", "italic", "heading", "|", "unordered-list", "ordered-list"],
+            status: false,
+            minHeight: "50px",
+        });
+        const secondEasyMDE = document.querySelector(".EasyMDEContainer:nth-of-type(2)");
+        if (secondEasyMDE) secondEasyMDE.classList.add("hidden");
+        easyMDE.value(taskData.description);
+    }, [taskData]);
+
     return (
         <Blur type="task-menu">
             <div className="task-menu relative bg-[#DDE1FB] rounded-xl
@@ -143,7 +155,7 @@ const TaskMenu = () => {
                             <i className={`fa-${done ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
 
                         </button>
-                        <textarea name="task-description" id="task-description" cols="30" rows="3"
+                        <textarea name="task-description" id="task-menu-description" cols="30" rows="3"
                                   className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
                                   onChange={ev =>
                                       setTaskData(prevTaskData => ({
