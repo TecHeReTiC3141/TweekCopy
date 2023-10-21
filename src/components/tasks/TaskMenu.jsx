@@ -91,13 +91,18 @@ const TaskMenu = () => {
 
     useEffect(() => {
         let easyMDE = new EasyMDE({
-            toolbar: ["bold", "italic", "heading", "|", "unordered-list", "ordered-list"],
+            toolbar: ["bold", "italic", "preview", "|", "unordered-list", "ordered-list"],
             status: false,
             minHeight: "50px",
         });
+        easyMDE.codemirror.on("change", () => {
+            document.getElementById("task-description").value = easyMDE.value();
+            console.log(document.getElementById("task-description").value);
+        })
         const secondEasyMDE = document.querySelector(".EasyMDEContainer:nth-of-type(2)");
         if (secondEasyMDE) secondEasyMDE.classList.add("hidden");
-        easyMDE.value(taskData.description);
+        console.log(description);
+        if (description) easyMDE.value(description);
     }, [taskData]);
 
     return (
@@ -155,7 +160,7 @@ const TaskMenu = () => {
                             <i className={`fa-${done ? "solid" : "regular"} fa-circle-check fa-lg`}></i>
 
                         </button>
-                        <textarea name="task-description" id="task-menu-description" cols="30" rows="3"
+                        <textarea name="task-menu-description" id="task-menu-description" cols="30" rows="3"
                                   className="w-full mt-12 focus:outline-none bg-transparent resize-none overflow-y-visible"
                                   onChange={ev =>
                                       setTaskData(prevTaskData => ({
@@ -164,6 +169,8 @@ const TaskMenu = () => {
                                       }))
                                   }
                                   placeholder="Write additional notes" defaultValue={description}></textarea>
+                        <textarea name="task-description" id="task-description" className="hidden" value={description || ""}
+                                  cols="30" rows="10"></textarea>
                         <input type="checkbox" id="task-done" name="task-done" checked={done} className="hidden"
                                readOnly={true}/>
                         <input type="text" id="task-color" name="task-color" value={color || "none"} className="hidden"
