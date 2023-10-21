@@ -125,8 +125,8 @@ const TaskListContainer = () => {
                         <div className="flex-1 ">
                             {
                                 dates.slice(5).map((date, index) => (
-                                    <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
-                                              last={true} reorderTasks={reorderTasks(index)}
+                                    <TaskList date={date} key={index} ind={index + 5} active={formDate(new Date()) === formDate(date)}
+                                              last={true} reorderTasks={reorderTasks(index + 5)}
                                               maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
                                 ))
                             }
