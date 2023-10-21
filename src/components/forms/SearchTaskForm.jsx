@@ -20,7 +20,7 @@ export default function SearchTaskForm() {
 
     const tasks = useActionData();
     console.log("action in search", tasks);
-
+    // TODO: think about search optimization
     function handleSearch(ev) {
         if (ev.currentTarget.value) {
             const clearSearchBtn = document.querySelector(".clear-search");

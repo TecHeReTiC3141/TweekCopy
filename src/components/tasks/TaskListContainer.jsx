@@ -7,6 +7,7 @@ import { useAuth } from "../../contexts/AuthContext.jsx";
 import {reOrderTasks, getUserTasks, tryCatchDecorator} from "../../scripts/api.js";
 import Loading from "../Loading.jsx";
 import { formDate } from "../../scripts/utils.js";
+import Header from "../Header.jsx";
 
 
 export const loader = AuthContext => async () => {
@@ -111,28 +112,34 @@ const TaskListContainer = () => {
                 changeMaxTasks(tasksData[formDate(newDate)].length + 1);
             }
             return (
-                <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10 dark:bg-black dark:text-white">
-                    {
-                        dates.slice(0, 5).map((date, index) => (
-                            <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
-                                      last={false} reorderTasks={reorderTasks(index)}
-                                      maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
-                        ))
-                    }
-                    <div className="flex-1 ">
+                <>
+                    <Header/>
+                    <div className="w-full padding-x flex flex-col lg:flex-row gap-6 py-4 max-lg:mt-10 dark:bg-black dark:text-white">
                         {
-                            dates.slice(5).map((date, index) => (
+                            dates.slice(0, 5).map((date, index) => (
                                 <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
-                                          last={true} reorderTasks={reorderTasks(index)}
+                                          last={false} reorderTasks={reorderTasks(index)}
                                           maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
                             ))
                         }
+                        <div className="flex-1 ">
+                            {
+                                dates.slice(5).map((date, index) => (
+                                    <TaskList date={date} key={index} ind={index} active={formDate(new Date()) === formDate(date)}
+                                              last={true} reorderTasks={reorderTasks(index)}
+                                              maxTasks={maxTasks} changeMaxTasks={changeMaxTasks} tasksData={tasksData[formDate(date)]}/>
+                                ))
+                            }
+                        </div>
                     </div>
-                </div>
+                </>
             )
         }
         return (
-            <h1>Sorry, we couldn't load your tasks. Try again later</h1>
+            <>
+                <Header/>
+                <h1>Sorry, we couldn't load your tasks. Try again later</h1>
+            </>
         )
     }
 

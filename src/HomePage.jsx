@@ -24,8 +24,6 @@ function HomePage() {
 
     return (
         <main className="max-container">
-
-            <Header/>
             <TaskListContainer/>
             <LoginForm/>
             <SearchTaskForm/>
