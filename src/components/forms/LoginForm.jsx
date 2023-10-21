@@ -12,6 +12,9 @@ export const action = (AuthContext) => async ({ request }) => {
         password = formData.get("password");
     console.log(email, password, request.url);
     const res = await login(email, password);
+    if (res?.type !== "error") {
+        localStorage.theme = res.darkMode ? "dark" : "light";
+    }
     return redirect(`/?${res.type === "error" && ("errorMessage=" + res.errorMessage)}`);
 }
 
@@ -27,11 +30,10 @@ export default function LoginForm() {
     const [searchParams, setSearchParams] = useSearchParams();
     const errorMessage = searchParams.get("errorMessage");
 
-    const { currentUser } = useAuth();
+    const { currentUser, googleSignIn, } = useAuth();
     if (currentUser) {
         closeLoginForm();
     }
-    // TODO: implement authentication via Google
     return (
         <Blur type="login-form">
             <div className="login-form relative top-10 bg-[#f8e8e2] rounded-xl p-4 lg:p-8 w-[28rem]
@@ -66,8 +68,11 @@ export default function LoginForm() {
                     >Let me in
                     </button>
                     <button
-                        className="w-full my-2 py-1 border border-black  rounded-full font-bold bg-white"
-                        onClick={ev => ev.preventDefault()}>
+                        className="w-full my-2 py-1 border border-black rounded-full bg-white"
+                        onClick={async ev => {
+                            ev.preventDefault();
+                            await googleSignIn();
+                        }}>
                         <i className="fa-brands fa-google"></i> Log in with Google
                     </button>
                 </Form>

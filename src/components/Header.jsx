@@ -62,8 +62,8 @@ const Header = () => {
     const headerBtns = [
 
         {
-            textColor: "black",
-            bgColor: "blue-200",
+            textColor: "black dark:text-white",
+            bgColor: "blue-200 dark:bg-blue-800",
             icon: "fa-solid fa-xmark",
             onClick: currentUser ? async () => {
                 await clearUsersTasks(currentUser.uid);
@@ -79,13 +79,13 @@ const Header = () => {
         },
         {
             textColor: "white",
-            bgColor: "black",
+            bgColor: "black dark:bg-stone-800",
             icon: "fa-solid fa-chevron-left",
             onClick: toPrevWeek,
         },
         {
             textColor: "white",
-            bgColor: "black",
+            bgColor: "black dark:bg-stone-800",
             icon: "fa-solid fa-chevron-right",
             onClick: toNextWeek,
         },
@@ -109,13 +109,16 @@ const Header = () => {
     if (isSmall) monthName = monthName.slice(0, 4) + '.';
     return (
         <header
-            className="max-container flex justify-between max-lg:border-b max-lg:border-gray-200 items-center w-full gap-12 padding-x py-3 lg:py-6 bg-white max-lg:fixed top-0 left-0">
+            className="max-container flex justify-between max-lg:border-b max-lg:border-gray-200
+            items-center w-full gap-12 padding-x py-3 lg:py-6 bg-white max-lg:fixed top-0 left-0
+            dark:bg-black dark:text-white">
             <h1 className={"text-xl font-[700] lg:text-4xl tracking-tighter " + (+searchParams.get("weekShift") && 'text-blue-600')}>{monthName} {newDate.getFullYear()}</h1>
 
             <div className="flex gap-3">
 
                 {currentUser ?
                     <button className="h-8 w-8 lg:w-10 lg:h-10 lg:text-lg flex-1 hover:shadow-lg relative group
+                    dark:border dark:border-gray-200 dark:bg-black dark:bg-stone-800
                     bg-blue-200 rounded-full mx-auto flex justify-center items-center" onClick={openProfileMenu}>
                         <h2>{" ".concat(...currentUser?.name.split(" ").slice(0, 2).map(w => w[0].toUpperCase()))}</h2>
                         <p className="absolute left-1/2 -translate-x-[50%] top-[120%]
@@ -123,8 +126,8 @@ const Header = () => {
          text-white bg-gray-800 rounded text-xs p-1">Profile</p>
                     </button>
                     : <HeaderBtn {...{
-                        textColor: "black",
-                        bgColor: "blue-200",
+                        textColor: "black dark:text-white",
+                        bgColor: "blue-200 dark:bg-black",
                         icon: "fa-regular fa-user",
                         onClick: openLoginForm,
                         tooltip: "Login",

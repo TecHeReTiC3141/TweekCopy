@@ -13,7 +13,6 @@ import SearchTaskForm from "./components/forms/SearchTaskForm.jsx";
 function HomePage() {
 
     const { currentUser } = useAuth();
-    // TODO: implement basic dark theme
     useEffect(() => {
         if (localStorage.theme === 'dark' || currentUser?.darkMode) {
             document.documentElement.classList.add('dark')
@@ -23,16 +22,19 @@ function HomePage() {
     }, [localStorage.theme]);
 
     return (
-        <main className="max-container">
-            <TaskListContainer/>
-            <LoginForm/>
-            <SearchTaskForm/>
-            <SignUpForm/>
-            <UpdateUserForm/>
-            <ResetPasswordForm/>
-            <TaskMenu/>
-            <InvitePage />
-        </main>
+        <div className="min-w-screen min-h-screen bg-white dark:bg-black">
+            <main className="max-container">
+                <TaskListContainer/>
+                <LoginForm/>
+                <SearchTaskForm/>
+                <SignUpForm/>
+                <UpdateUserForm/>
+                <ResetPasswordForm/>
+                <TaskMenu/>
+                <InvitePage />
+            </main>
+        </div>
+
     )
 }
 

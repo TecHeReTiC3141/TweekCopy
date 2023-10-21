@@ -12,7 +12,7 @@ export const action = (AuthContext) => async ({ request }) => {
         email = formData.get("email"),
         password = formData.get("password"),
         passwordConfirm = formData.get("confirmPassword"),
-        darkMode = formData.get("dark-mode");
+        darkMode = formData.get("dark-mode") === "on";
     if (passwordConfirm !== password) {
         return "Passwords don't match";
     }

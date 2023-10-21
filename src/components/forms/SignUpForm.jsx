@@ -1,6 +1,7 @@
 import {Form, redirect, useActionData, useLoaderData, useSearchParams} from "react-router-dom";
 import Blur from "../Blur.jsx";
 import {formTransition} from "../../scripts/utils.js";
+import {useAuth} from "../../contexts/AuthContext.jsx";
 
 export const action = (AuthContext) => async ({ request }) => {
 
@@ -23,6 +24,8 @@ export default function SignUpForm() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const errorMessage = searchParams.get("errorMessage");
+
+    const { googleSignUp } = useAuth();
 
     return (
         <Blur type="signup-form">
@@ -54,8 +57,11 @@ export default function SignUpForm() {
                         className="w-full my-2 py-1 border border-black bg-gray-700 text-gray-100 rounded-full  font-bold "
                     >Create account</button>
                     <button
-                        className="w-full my-2 py-1 border border-black  rounded-full font-bold bg-white"
-                        onClick={ev => ev.preventDefault()}><i className="fa-brands fa-google"></i> Sign in with Google</button>
+                        className="w-full my-2 py-1 border border-black  rounded-full bg-white"
+                        onClick={async ev => {
+                            ev.preventDefault();
+                            await googleSignUp();
+                        }}><i className="fa-brands fa-google"></i> Sign in with Google</button>
                 </Form>
 
             </div>

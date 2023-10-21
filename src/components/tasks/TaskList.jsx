@@ -40,7 +40,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
             ev.target.value = "";
             await tryCatchDecorator(createTask)({
                 name: formData.get("add-task-name"),
-                color: "white",
+                color: "white text-black dark:text-white dark:bg-black",
                 date: formDate(date),
                 uid: currentUser.uid,
                 done: false,
@@ -60,7 +60,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
                     curInput.value = "";
                     await tryCatchDecorator(createTask)({
                         name: formData.get("add-task-name"),
-                        color: "white",
+                        color: "white text-black dark:text-white dark:bg-black",
                         date: formDate(date),
                         uid: currentUser.uid,
                         done: false,
@@ -88,7 +88,7 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
     }
     for (let i = 0; i < Math.max(0, (last ? maxTasks / 2 : maxTasks) - 1 - tasksData.length); ++i) {
         emptyComponents.push(
-            <div className="empty-task w-full py-2 border-b-2 border-gray-200 bg-white"
+            <div className="empty-task w-full py-2 border-b-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-black"
                  key={i}
                  onClick={handleClick}>
                 <p className="opacity-0 cursor-default" onClick={handleClick}>sdasdfsdlk</p>
@@ -100,7 +100,8 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
         <div className="task-list flex flex-1 flex-col" data-date={date.getDate()}
              onKeyDown={handleKeyDown}>
             <div
-                className={`flex justify-between items-center py-3 border-b-2 ${active ? "border-blue-600" : "border-black"}`}>
+                className={`flex justify-between items-center py-3 border-b-2 
+                ${active ? "border-blue-600" : "border-black dark:border-white"}`}>
                 <h2 className={`text-lg lg:text-xl font-bold  ${active ? "text-blue-600" : "text-gray-600"}`}>{getDate(date)}</h2>
                 <h3 className={`text-lg lg:text-xl ${active ? "text-blue-300" : "text-gray-300"}`}>{day.slice(0, 3)}</h3>
             </div>
@@ -119,9 +120,9 @@ const TaskList = ({date, active, last, maxTasks, tasksData, ind, reorderTasks}) 
                 <input type="text"
                        name="add-task-name"
                        id="add-task-name"
-                       className="w-full border-b
-                       focus:outline-none focus:px-1.5 focus:shadow-lg focus:border
-                       py-2 indent-1.5 focus:rounded-md border-gray-300 focus:z-5"
+                       className="w-full border-b dark:bg-black
+                       focus:outline-none focus:px-1.5 focus:shadow-lg focus:border dark:focus:border-none dark:focus:bg-stone-800
+                       py-2 indent-1.5 focus:rounded-md border-gray-300 dark:border-gray-700 focus:z-5"
                        onBlur={handleFocusOut}
                 />
                 <input type="text" defaultValue="add-task-form" name="form-id" id="form-id" className="hidden"/>

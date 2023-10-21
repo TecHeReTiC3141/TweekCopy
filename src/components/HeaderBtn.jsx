@@ -3,7 +3,7 @@ import React from 'react'
 export default function HeaderBtn({textColor, bgColor, icon, onClick, tooltip=null}) {
   return (
     <button
-        className={`bg-${bgColor} rounded-full flex justify-center 
+        className={`bg-${bgColor} rounded-full flex justify-center
         items-center w-8 h-8 lg:w-10 lg:h-10 flex-1 hover:shadow-lg relative group`}
         onClick={onClick}
         >

@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {auth} from "../scripts/firebase.js";
+import {auth, googleProvider} from "../scripts/firebase.js";
 import {signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
     signOut,
     updatePassword,
     updateEmail,
     sendPasswordResetEmail,
+    createUserWithEmailAndPassword,
+    signInWithPopup,
 } from "firebase/auth"
 import { createUser, getCurrentUser, updateUserData } from "../scripts/api.js";
 
@@ -52,9 +53,41 @@ function AuthProvider({ children }) {
         }
     }
 
+    async function googleSignIn() {
+        try {
+            const res = await signInWithPopup(auth, googleProvider);
+            const {displayName:name, email, } = res.user;
+            console.log(res.user);
+            const user = await getCurrentUser(res.user.uid);
+            localStorage.theme = user.darkMode ? "dark" : "light";
+            return res.user;
+        } catch (err) {
+            return {
+                type: "error",
+                errorMessage: err.message,
+            };
+        }
+    }
+
+    async function googleSignUp() {
+        try {
+            const res = await signInWithPopup(auth, googleProvider);
+            const {uid, displayName:name, email, } = res.user;
+            console.log(uid, name, email);
+            console.log(res.user);
+            return await createUser(uid, {email, name});
+        } catch (err) {
+            return {
+                type: "error",
+                errorMessage: err.message,
+            };
+        }
+    }
+
     async function logout() {
         await signOut(auth);
         localStorage.isLoggedIn = "false";
+        localStorage.theme = "light";
         return window.location.reload();
     }
 
@@ -86,6 +119,8 @@ function AuthProvider({ children }) {
         currentUser,
         signup,
         login,
+        googleSignIn,
+        googleSignUp,
         logout,
         resetPassword,
         updateUser,
