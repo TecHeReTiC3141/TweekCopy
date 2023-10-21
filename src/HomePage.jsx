@@ -14,6 +14,7 @@ function HomePage() {
 
     const { currentUser } = useAuth();
     // TODO: implement basic dark theme
+    console.log(currentUser);
     useEffect(() => {
         if (localStorage.theme === 'dark' || currentUser?.darkMode) {
             document.documentElement.classList.add('dark')
